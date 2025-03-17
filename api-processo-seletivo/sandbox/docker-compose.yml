@@ -1,0 +1,55 @@
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    tty: true
+    volumes:
+      - ./Docker-Compose/PostgreSQL:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: pg_isready
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=seletivo
+    networks:
+      - mynetwork
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: admin123
+      MINIO_ROOT_PASSWORD: strongpassword123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    entrypoint: >
+      /bin/sh -c "minio server /data --console-address ':9001' & 
+        until mc alias set myminio http://localhost:9000 admin123 strongpassword123; do
+          echo 'Waiting for MinIO...';
+          sleep 2;
+        done;
+        mc mb myminio/testebucket;
+        echo 'Bucket testebucket created';
+        wait"
+
+    restart: always
+    networks:
+      - mynetwork
+
+volumes:
+  minio_data:
+    driver: local
+
+networks:
+  mynetwork:
+    driver: bridge
