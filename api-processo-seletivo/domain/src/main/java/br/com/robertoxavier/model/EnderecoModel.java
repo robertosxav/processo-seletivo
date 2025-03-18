@@ -74,6 +74,14 @@ public class EnderecoModel {
         this.cidade = cidade;
     }
 
+    public EnderecoModel(String endTipoLogradouro, String endLogradouro, Integer endNumero, String endBairro, CidadeModel cidade) {
+        this.endTipoLogradouro = endTipoLogradouro;
+        this.endLogradouro = endLogradouro;
+        this.endNumero = endNumero;
+        this.endBairro = endBairro;
+        this.cidade = cidade;
+    }
+
     public EnderecoModel(Long endId, String endTipoLogradouro, String endLogradouro, Integer endNumero, String endBairro) {
         this.endId = endId;
         this.endTipoLogradouro = endTipoLogradouro;

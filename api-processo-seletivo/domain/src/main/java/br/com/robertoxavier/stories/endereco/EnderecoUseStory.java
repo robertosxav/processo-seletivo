@@ -1,5 +1,7 @@
 package br.com.robertoxavier.stories.endereco;
 
+import br.com.robertoxavier.PageQuery;
+import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.ports.endereco.EnderecoPort;
 
@@ -17,11 +19,12 @@ public class EnderecoUseStory {
         return enderecoPort.buscarPorId(endId);
     }
 
-    public List<EnderecoModel> listaCidadesPaginado(){
-        return enderecoPort.listaCidadesPaginado();
+    public PageResponse<EnderecoModel> listaEnderecosPaginado(PageQuery pageQuery){
+        return enderecoPort.listaEnderecosPaginado(pageQuery);
     }
 
     public EnderecoModel criar(EnderecoModel EnderecoModel){
+        System.out.println("entrou na useStory");
         return enderecoPort.criar(EnderecoModel);
     }
 

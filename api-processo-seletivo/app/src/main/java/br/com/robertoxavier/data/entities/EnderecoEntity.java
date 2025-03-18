@@ -86,6 +86,14 @@ public class EnderecoEntity {
         this.cidade = cidade;
     }
 
+    public EnderecoEntity(String endTipoLogradouro, String endLogradouro, Integer endNumero, String endBairro, CidadeEntity cidade) {
+        this.endTipoLogradouro = endTipoLogradouro;
+        this.endLogradouro = endLogradouro;
+        this.endNumero = endNumero;
+        this.endBairro = endBairro;
+        this.cidade = cidade;
+    }
+
     public EnderecoEntity(String endTipoLogradouro, String endLogradouro, Integer endNumero,
                           String endBairro/*, CidadeEntity cidade*/) {
         this.endTipoLogradouro = endTipoLogradouro;

@@ -1,8 +1,13 @@
 package br.com.robertoxavier.api.controllers;
 
+import br.com.robertoxavier.PageQuery;
+import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
+import br.com.robertoxavier.dto.cidade.CidadeResponse;
 import br.com.robertoxavier.dto.endereco.EnderecoRequest;
 import br.com.robertoxavier.dto.endereco.EnderecoResponse;
+import br.com.robertoxavier.model.CidadeModel;
+import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.stories.endereco.EnderecoUseStory;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -28,6 +33,7 @@ public class EnderecoController {
     })
     @PostMapping()
     public EnderecoResponse criarEndereco(@RequestBody EnderecoRequest enderecoRequest) {
+        System.out.println("entrou no controller");
         return enderecoMapper.enderecoModelToResponse(enderecoUseStory
                 .criar(enderecoMapper.enderecoRequestToModel(enderecoRequest)));
     }
@@ -45,9 +51,12 @@ public class EnderecoController {
             @ApiResponse(responseCode  = "200", description  = "Listar todos enderecos - paginado"),
     })
     @GetMapping("/paginado/all")
-    public List<EnderecoResponse> listaCidadesPaginado() {
-        return enderecoMapper.enderecoModelListToEnderecoResponseList(enderecoUseStory
-                .listaCidadesPaginado());
+    public PageResponse<EnderecoResponse> listaEnderecosPaginado(@RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "10") int sizePage) {
+        PageQuery pageQuery = new PageQuery(page, sizePage);
+        PageResponse<EnderecoModel> enderecoPage = enderecoUseStory.listaEnderecosPaginado(pageQuery);
+
+        return enderecoPage.map(enderecoMapper::enderecoModelToResponse);
     }
 
     @ApiResponses(value = {

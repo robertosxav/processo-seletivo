@@ -30,10 +30,10 @@ seletivo:
   swagger:
     url: http://localhost:8083
   s3:
-      url: ${S3_URL:http://localhost:9000}
-      access-key: ${S3_ACCESS_KEY:RV9G1Oa2u2by73ZE2cAd}
-      access-secret: ${S3_ACCESS_SECRET:IO5XgYxJHCyYI37DpCNpUDR1c1csdooPx6UXDpng}
-      bucket-name: ${S3_BUCKET_NAME:testebucket
+    url: ${S3_URL:http://localhost:9000}
+    access-key: ${S3_ACCESS_KEY:admin123}
+    access-secret: ${S3_ACCESS_SECRET:strongpassword123}
+    bucket-name: ${S3_BUCKET_NAME:testebucket}
 server:
   port: 8083
   servlet:

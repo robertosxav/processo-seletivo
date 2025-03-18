@@ -1,5 +1,7 @@
 package br.com.robertoxavier.ports.endereco;
 
+import br.com.robertoxavier.PageQuery;
+import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.model.EnderecoModel;
 
 import java.util.List;
@@ -12,6 +14,6 @@ public interface EnderecoPort {
 
     EnderecoModel atualizar(Long cidId, EnderecoModel EnderecoModel);
 
-    List<EnderecoModel> listaCidadesPaginado();
+    PageResponse<EnderecoModel> listaEnderecosPaginado(PageQuery pageQuery);
 
 }
