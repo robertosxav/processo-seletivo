@@ -8,6 +8,7 @@ import br.com.robertoxavier.data.entities.EnderecoEntity;
 import br.com.robertoxavier.data.repositories.EnderecoRepository;
 import br.com.robertoxavier.model.CidadeModel;
 import br.com.robertoxavier.model.EnderecoModel;
+import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.ports.endereco.EnderecoPort;
 import br.com.robertoxavier.stories.cidade.CidadeUseStory;
 import org.springframework.data.domain.Page;
@@ -61,8 +62,29 @@ public class EnderecoPortImp implements EnderecoPort {
     }
 
     @Override
-    public EnderecoModel atualizar(Long cidId, EnderecoModel EnderecoModel) {
-        return null;
+    public EnderecoModel atualizar(Long cidId, EnderecoModel enderecoModel) {
+        EnderecoModel enderecoModelBanco = buscarPorId(cidId);
+
+        CidadeModel cidadeModelBanco = null;
+
+        if(enderecoModel.getCidade().getCidId()== null){
+             cidadeModelBanco = cidadeUseStory.criar(enderecoModel.getCidade());
+        }else{
+            cidadeModelBanco= cidadeUseStory.atualizar(enderecoModel.getCidade().getCidId()
+                    ,enderecoModel.getCidade());
+        }
+
+        enderecoModelBanco.setEndTipoLogradouro(enderecoModel.getEndTipoLogradouro());
+        enderecoModelBanco.setEndLogradouro(enderecoModel.getEndLogradouro());
+        enderecoModelBanco.setEndNumero(enderecoModel.getEndNumero());
+        enderecoModelBanco.setEndBairro(enderecoModel.getEndBairro());
+        enderecoModelBanco.setCidade(cidadeModelBanco);
+
+        return enderecoMapper.enderecoEntityToModel(
+                enderecoRepository.save(
+                        enderecoMapper.enderecoModelToEntity(enderecoModelBanco)
+                )
+        );
     }
 
     @Override

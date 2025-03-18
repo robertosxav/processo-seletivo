@@ -21,7 +21,6 @@ public class EnderecoMapper {
             return null;
         }
 
-        // Mapeia a cidade de CidadeModel para CidadeResponse
         CidadeResponse cidadeResponse = (enderecoModel.getCidade() != null)
                 ? new CidadeResponse(
                 enderecoModel.getCidade().getCidId(),
@@ -96,11 +95,12 @@ public class EnderecoMapper {
                 : null;
 
         return new EnderecoEntity(
+                enderecoModel.getEndId(),
                 enderecoModel.getEndTipoLogradouro(),
                 enderecoModel.getEndLogradouro(),
                 enderecoModel.getEndNumero(),
                 enderecoModel.getEndBairro(),
-                cidadeEntity // Agora passando o CidadeEntity
+                cidadeEntity
         );
     }
 
