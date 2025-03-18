@@ -2,9 +2,16 @@ package br.com.robertoxavier.api.ports.unidade;
 
 import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
+import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.unidade.UnidadeMapper;
+import br.com.robertoxavier.data.entities.EnderecoEntity;
+import br.com.robertoxavier.data.entities.UnidadeEnderecoEntity;
+import br.com.robertoxavier.data.entities.UnidadeEnderecoId;
 import br.com.robertoxavier.data.entities.UnidadeEntity;
+import br.com.robertoxavier.data.repositories.EnderecoRepository;
+import br.com.robertoxavier.data.repositories.UnidadeEnderecoRepository;
 import br.com.robertoxavier.data.repositories.UnidadeRepository;
+import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.model.UnidadeModel;
 import br.com.robertoxavier.ports.unidade.UnidadePort;
 import org.springframework.data.domain.Page;
@@ -18,9 +25,22 @@ public class UnidadePortImp implements UnidadePort {
 
     private final UnidadeMapper unidadeMapper;
 
-    public UnidadePortImp(UnidadeRepository unidadeRepository, UnidadeMapper unidadeMapper) {
+    private final EnderecoRepository enderecoRepository;
+
+    private final EnderecoMapper enderecoMapper;
+
+    private final UnidadeEnderecoRepository unidadeEnderecoRepository;
+
+    public UnidadePortImp(UnidadeRepository unidadeRepository,
+                          UnidadeMapper unidadeMapper,
+                          EnderecoRepository enderecoRepository,
+                          EnderecoMapper enderecoMapper,
+                          UnidadeEnderecoRepository unidadeEnderecoRepository) {
         this.unidadeRepository = unidadeRepository;
         this.unidadeMapper = unidadeMapper;
+        this.enderecoRepository = enderecoRepository;
+        this.enderecoMapper = enderecoMapper;
+        this.unidadeEnderecoRepository = unidadeEnderecoRepository;
     }
 
     @Override
@@ -42,11 +62,30 @@ public class UnidadePortImp implements UnidadePort {
             throw new RuntimeException("Nome da unidade não pode ser vazio e deve ter no máximo 200 caracteres");
         }
 
-        return unidadeMapper.unidadeEntityToModel(
+        UnidadeModel unidadeModelBanco =  unidadeMapper.unidadeEntityToModel(
                 unidadeRepository.save(
                         unidadeMapper.unidadeModelToEntity(unidadeModel)
                 )
         );
+
+        unidadeModel.getEnderecoIdList().forEach(e->{
+            EnderecoModel enderecoModelBanco= enderecoMapper
+                    .enderecoEntityToModel(enderecoRepository.findById(e)
+                    .orElseThrow(() -> new RuntimeException("Endereco não encontrado")));
+
+            UnidadeEnderecoId unidadeEnderecoId = new UnidadeEnderecoId();
+            unidadeEnderecoId.setUnidade(unidadeModelBanco.getUnidId());
+            unidadeEnderecoId.setEndereco(enderecoModelBanco.getEndId());
+
+            UnidadeEnderecoEntity unidadeEnderecoEntity = new UnidadeEnderecoEntity();
+            unidadeEnderecoEntity.setUnidEndId(unidadeEnderecoId);
+            unidadeEnderecoEntity.setUnidade(unidadeMapper.unidadeModelToEntity(unidadeModelBanco));
+            unidadeEnderecoEntity.setEndereco(enderecoMapper.enderecoModelToEntity(enderecoModelBanco));
+
+            unidadeEnderecoRepository.save(unidadeEnderecoEntity);
+        });
+        return null;
+
     }
 
     @Override

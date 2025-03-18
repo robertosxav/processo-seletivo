@@ -32,7 +32,8 @@ public class UnidadeMapper {
 
         return new UnidadeModel(
                 unidadeRequest.unidNome(),
-                unidadeRequest.unidSigla()
+                unidadeRequest.unidSigla(),
+                unidadeRequest.enderecoIdList()
         );
     }
 

@@ -7,6 +7,7 @@ import br.com.robertoxavier.data.entities.CidadeEntity;
 import br.com.robertoxavier.data.repositories.CidadeRepository;
 import br.com.robertoxavier.model.CidadeModel;
 import br.com.robertoxavier.ports.cidade.CidadePort;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,7 @@ public class CidadePortImp implements CidadePort {
                         .orElseThrow(() -> new RuntimeException("Cidade não encontrada")));
     }
 
+    @Transactional
     @Override
     public CidadeModel criar(CidadeModel cidadeModel) {
         if(cidadeModel.getCidUf().length() !=2){
@@ -41,7 +43,7 @@ public class CidadePortImp implements CidadePort {
             throw new RuntimeException("Nome da cidade não pode ser vazio e deve ter no máximo 200 caracteres");
         }
         return cidadeMapper.cidadeEntityToModel(
-                cidadeRepository.save(
+                cidadeRepository.saveAndFlush(
                         cidadeMapper.cidadeModelToEntity(cidadeModel)
                 )
         );

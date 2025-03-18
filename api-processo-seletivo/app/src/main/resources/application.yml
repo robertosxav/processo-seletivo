@@ -41,5 +41,5 @@ server:
 application:
   titulo: API Seletivo
   autor: Roberto de Souza Xavier Junior
-  minio: Console minio - localhost:9001
+  minio: Console minio - http://localhost:9001
   swagger: Endereco do Swagger - http://localhost:8083/apiseletivo/swagger-ui/index.html#/
