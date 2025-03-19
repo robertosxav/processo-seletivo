@@ -1,6 +1,8 @@
 package br.com.robertoxavier.data.entities;
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "unidade")
 public class UnidadeEntity {
@@ -16,6 +18,9 @@ public class UnidadeEntity {
 
     @Column(name = "unid_sigla", length = 20, nullable = false)
     private String unidSigla;
+
+    @Transient
+    Set<EnderecoEntity> enderecoList;
 
     public Long getUnidId() {
         return unidId;
@@ -37,6 +42,14 @@ public class UnidadeEntity {
         return unidSigla;
     }
 
+    public Set<EnderecoEntity> getEnderecoList() {
+        return enderecoList;
+    }
+
+    public void setEnderecoList(Set<EnderecoEntity> enderecoList) {
+        this.enderecoList = enderecoList;
+    }
+
     public void setUnidSigla(String unidSigla) {
         this.unidSigla = unidSigla;
     }
@@ -54,5 +67,20 @@ public class UnidadeEntity {
         this.unidNome = unidNome;
         this.unidSigla = unidSigla;
     }
+
+    public UnidadeEntity(Long unidId, String unidNome, String unidSigla,Set<EnderecoEntity> enderecoList) {
+        this.unidId = unidId;
+        this.unidNome = unidNome;
+        this.unidSigla = unidSigla;
+        this.enderecoList = enderecoList;
+    }
+
+    public UnidadeEntity(String unidNome, String unidSigla,Set<EnderecoEntity> enderecoList) {
+        this.unidId = unidId;
+        this.unidNome = unidNome;
+        this.unidSigla = unidSigla;
+        this.enderecoList = enderecoList;
+    }
+
 }
 

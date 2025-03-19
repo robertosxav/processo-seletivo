@@ -10,7 +10,8 @@ import br.com.robertoxavier.model.CidadeModel;
 import br.com.robertoxavier.model.EnderecoModel;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Set;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -129,23 +130,23 @@ public class EnderecoMapper {
     }
 
 
-    public List<EnderecoModel> enderecoEntityListToEnderecoModelList(List<EnderecoEntity>enderecoEntityList){
-        if (enderecoEntityList == null) {
+    public Set<EnderecoModel> enderecoEntityListToEnderecoModelList(Set<EnderecoEntity> enderecoEntitySet){
+        if (enderecoEntitySet == null) {
             return null;
         }
 
-        return enderecoEntityList.stream()
+        return enderecoEntitySet.stream()
                 .map(this::enderecoEntityToModel)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
-    public List<EnderecoResponse> enderecoModelListToEnderecoResponseList(List<EnderecoModel>enderecoModelList){
-        if (enderecoModelList == null) {
+    public Set<EnderecoResponse> enderecoModelListToEnderecoResponseList(Set<EnderecoModel>enderecoModelSet){
+        if (enderecoModelSet == null) {
             return null;
         }
 
-        return enderecoModelList.stream()
+        return enderecoModelSet.stream()
                 .map(this::enderecoModelToResponse)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }
