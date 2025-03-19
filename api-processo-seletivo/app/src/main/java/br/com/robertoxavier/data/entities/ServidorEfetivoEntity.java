@@ -7,11 +7,15 @@ import jakarta.persistence.*;
 public class ServidorEfetivoEntity {
 
     @Id
+    @Column(name = "pes_id")
+    private Long id;
+
     @OneToOne
+    @MapsId
     @JoinColumn(name = "pes_id")
     private PessoaEntity pessoa;
 
-    @Column(name = "st_matricula")
+    @Column(name = "se_matricula")
     private String seMatricula;
 
 
@@ -29,5 +33,22 @@ public class ServidorEfetivoEntity {
 
     public void setSeMatricula(String seMatricula) {
         this.seMatricula = seMatricula;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ServidorEfetivoEntity() {
+    }
+
+    public ServidorEfetivoEntity(Long id, String seMatricula, PessoaEntity pessoa) {
+        this.id = id;
+        this.seMatricula = seMatricula;
+        this.pessoa = pessoa;
     }
 }

@@ -95,7 +95,6 @@ public class UnidadePortImp implements UnidadePort {
         unidadeModelBanco.setEnderecoList(enderecoMapper
                 .enderecoEntityListToEnderecoModelList(enderecoEntityList));
 
-        System.out.println("enderecoEntityList.size(): "+enderecoEntityList.size());
         return unidadeModelBanco;
 
     }
@@ -129,7 +128,6 @@ public class UnidadePortImp implements UnidadePort {
         unidadeEnderecosExistentes.forEach(unidadeEnderecoEntity -> {
             Long enderecoId = unidadeEnderecoEntity.getEndereco().getEndId();
             if (!enderecoIdsAtualizados.contains(enderecoId)) {
-                // Excluindo a relação
                 unidadeEnderecoRepository.delete(unidadeEnderecoEntity);
             }
         });

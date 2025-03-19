@@ -75,4 +75,35 @@ public class PessoaModel {
     public void setEnderecoList(Set<EnderecoModel> enderecoList) {
         this.enderecoList = enderecoList;
     }
+
+    public PessoaModel() {
+
+    }
+
+    public PessoaModel(Long pesId, String pesNome, LocalDate pesDataNascimento, Set<EnderecoModel> enderecoList, String pesSexo, String pesMae, String pesPai) {
+        this.pesId = pesId;
+        this.pesNome = pesNome;
+        this.pesDataNascimento = pesDataNascimento;
+        this.enderecoList = enderecoList;
+        this.pesSexo = pesSexo;
+        this.pesMae = pesMae;
+        this.pesPai = pesPai;
+    }
+
+    public PessoaModel(String pesNome, LocalDate pesDataNascimento, Set<EnderecoModel> enderecoList, String pesSexo, String pesMae, String pesPai) {
+        this.pesNome = pesNome;
+        this.pesDataNascimento = pesDataNascimento;
+        this.enderecoList = enderecoList;
+        this.pesSexo = pesSexo;
+        this.pesMae = pesMae;
+        this.pesPai = pesPai;
+    }
+
+    public PessoaModel(String pesNome, LocalDate pesDataNascimento, String pesSexo, String pesMae, String pesPai) {
+        this.pesNome = pesNome;
+        this.pesDataNascimento = pesDataNascimento;
+        this.pesSexo = pesSexo;
+        this.pesMae = pesMae;
+        this.pesPai = pesPai;
+    }
 }

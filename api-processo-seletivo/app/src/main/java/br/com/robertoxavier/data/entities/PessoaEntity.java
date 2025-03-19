@@ -10,7 +10,8 @@ import java.time.LocalDate;
 public class PessoaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "pessoa_seq")
+    @SequenceGenerator( name = "pessoa_seq", sequenceName = "pessoa_pes_id_seq", allocationSize = 1)
     @Column(name = "pes_id")
     private Long pesId;
 
@@ -74,6 +75,26 @@ public class PessoaEntity {
     }
 
     public void setPesPai(String pesPai) {
+        this.pesPai = pesPai;
+    }
+
+    public PessoaEntity() {
+    }
+
+    public PessoaEntity(Long pesId, String pesNome, LocalDate pesDataNascimento, String pesSexo, String pesMae, String pesPai) {
+        this.pesId = pesId;
+        this.pesNome = pesNome;
+        this.pesDataNascimento = pesDataNascimento;
+        this.pesSexo = pesSexo;
+        this.pesMae = pesMae;
+        this.pesPai = pesPai;
+    }
+
+    public PessoaEntity(String pesNome, LocalDate pesDataNascimento, String pesSexo, String pesMae, String pesPai) {
+        this.pesNome = pesNome;
+        this.pesDataNascimento = pesDataNascimento;
+        this.pesSexo = pesSexo;
+        this.pesMae = pesMae;
         this.pesPai = pesPai;
     }
 }
