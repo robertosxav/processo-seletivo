@@ -3,6 +3,7 @@ package br.com.robertoxavier.data.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 
 @Entity
@@ -29,6 +30,9 @@ public class PessoaEntity {
 
     @Column(name = "pes_pai", length = 200, nullable = false)
     private String pesPai;
+
+    @Transient
+    Set<EnderecoEntity> enderecoList;
 
     public Long getPesId() {
         return pesId;
@@ -78,6 +82,14 @@ public class PessoaEntity {
         this.pesPai = pesPai;
     }
 
+    public Set<EnderecoEntity> getEnderecoList() {
+        return enderecoList;
+    }
+
+    public void setEnderecoList(Set<EnderecoEntity> enderecoList) {
+        this.enderecoList = enderecoList;
+    }
+
     public PessoaEntity() {
     }
 
@@ -90,11 +102,29 @@ public class PessoaEntity {
         this.pesPai = pesPai;
     }
 
+    public PessoaEntity(Long pesId, String pesNome, LocalDate pesDataNascimento, String pesSexo, String pesMae, String pesPai, Set<EnderecoEntity> enderecoList) {
+        this.pesId = pesId;
+        this.pesNome = pesNome;
+        this.pesDataNascimento = pesDataNascimento;
+        this.pesSexo = pesSexo;
+        this.pesMae = pesMae;
+        this.pesPai = pesPai;
+        this.enderecoList = enderecoList;
+    }
+
     public PessoaEntity(String pesNome, LocalDate pesDataNascimento, String pesSexo, String pesMae, String pesPai) {
         this.pesNome = pesNome;
         this.pesDataNascimento = pesDataNascimento;
         this.pesSexo = pesSexo;
         this.pesMae = pesMae;
         this.pesPai = pesPai;
+    }
+    public PessoaEntity(String pesNome, LocalDate pesDataNascimento, String pesSexo, String pesMae, String pesPai, Set<EnderecoEntity> enderecoList) {
+        this.pesNome = pesNome;
+        this.pesDataNascimento = pesDataNascimento;
+        this.pesSexo = pesSexo;
+        this.pesMae = pesMae;
+        this.pesPai = pesPai;
+        this.enderecoList = enderecoList;
     }
 }

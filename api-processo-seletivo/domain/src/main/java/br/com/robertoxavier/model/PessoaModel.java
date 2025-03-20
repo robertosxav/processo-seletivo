@@ -14,6 +14,8 @@ public class PessoaModel {
 
     private Set<EnderecoModel> enderecoList;
 
+    private Set<Long>enderecoIdList;
+
     private String pesSexo;
 
     private String pesMae;
@@ -76,6 +78,14 @@ public class PessoaModel {
         this.enderecoList = enderecoList;
     }
 
+    public Set<Long> getEnderecoIdList() {
+        return enderecoIdList;
+    }
+
+    public void setEnderecoIdList(Set<Long> enderecoIdList) {
+        this.enderecoIdList = enderecoIdList;
+    }
+
     public PessoaModel() {
 
     }
@@ -90,14 +100,17 @@ public class PessoaModel {
         this.pesPai = pesPai;
     }
 
-    public PessoaModel(String pesNome, LocalDate pesDataNascimento, Set<EnderecoModel> enderecoList, String pesSexo, String pesMae, String pesPai) {
+
+    public PessoaModel(String pesNome, LocalDate pesDataNascimento, Set<Long> enderecoIdList, String pesSexo, String pesMae, String pesPai) {
         this.pesNome = pesNome;
         this.pesDataNascimento = pesDataNascimento;
-        this.enderecoList = enderecoList;
+        this.enderecoIdList = enderecoIdList;
         this.pesSexo = pesSexo;
         this.pesMae = pesMae;
         this.pesPai = pesPai;
     }
+
+
 
     public PessoaModel(String pesNome, LocalDate pesDataNascimento, String pesSexo, String pesMae, String pesPai) {
         this.pesNome = pesNome;

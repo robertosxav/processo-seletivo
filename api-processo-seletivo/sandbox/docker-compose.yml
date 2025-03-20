@@ -14,6 +14,11 @@ services:
       - POSTGRES_DB=seletivo
     networks:
       - mynetwork
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
 
   minio:
     image: minio/minio:latest
@@ -40,6 +45,33 @@ services:
       - ./init_minio.sh:/app/init_minio.sh
       - .:/app
     entrypoint: ["/bin/sh", "-c", "sleep 5 && /app/init_minio.sh"]
+    networks:
+      - mynetwork
+#    restart: always
+
+  api:
+    build: ../app
+#      context: "C:/projetos/seletivoSEPLAG2025/apiProcessoSeletivo/app"
+#      context: ../apiProcessoSeletivo/app
+#      dockerfile: Dockerfile
+    container_name: api-processo-seletivo
+    restart: always
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/seletivo
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      MINIO_URL: http://minio:9000
+      MINIO_ACCESS_KEY: admin123
+      MINIO_SECRET_KEY: strongpassword123
+    depends_on:
+      db:
+        condition: service_healthy
+      minio:
+        condition: service_started
+      minio-init:
+        condition: service_completed_successfully
     networks:
       - mynetwork
 

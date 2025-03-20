@@ -1,6 +1,9 @@
 package br.com.robertoxavier.dto.pessoa;
 
+import br.com.robertoxavier.dto.endereco.EnderecoResponse;
+
 import java.time.LocalDate;
+import java.util.Set;
 
 public record PessoaResponse(
         Long pesId,
@@ -13,6 +16,8 @@ public record PessoaResponse(
 
         String pesMae,
 
-        String pesPai
+        String pesPai,
+
+        Set<EnderecoResponse> enderecoList
 ){
 }

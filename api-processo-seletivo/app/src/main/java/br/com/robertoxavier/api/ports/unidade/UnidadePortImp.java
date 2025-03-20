@@ -76,7 +76,7 @@ public class UnidadePortImp implements UnidadePort {
                 )
         );
         Set<EnderecoEntity> enderecoEntityList = new HashSet<>();
-                unidadeModel.getEnderecoIdList().forEach(e->{
+        unidadeModel.getEnderecoIdList().forEach(e->{
             EnderecoModel enderecoModelBanco= enderecoMapper
                     .enderecoEntityToModel(enderecoRepository.findById(e)
                     .orElseThrow(() -> new RuntimeException("Endereco não encontrado")));

@@ -11,10 +11,13 @@ public class PessoaEnderecoEntity {
 
     @ManyToOne
     @MapsId("pessoa")
+    @JoinColumn(name = "pes_id")
     private PessoaEntity pessoa;
+
 
     @ManyToOne
     @MapsId("endereco")
+    @JoinColumn(name = "end_id")
     private EnderecoEntity endereco;
 
     public PessoaEnderecoId getPesEndId() {
@@ -38,6 +41,24 @@ public class PessoaEnderecoEntity {
     }
 
     public void setEndereco(EnderecoEntity endereco) {
+        this.endereco = endereco;
+    }
+
+    public PessoaEnderecoEntity() {
+    }
+
+    public PessoaEnderecoEntity(PessoaEnderecoId pesEndId) {
+        this.pesEndId = pesEndId;
+    }
+
+    public PessoaEnderecoEntity(PessoaEntity pessoa, EnderecoEntity endereco) {
+        this.pessoa = pessoa;
+        this.endereco = endereco;
+    }
+
+    public PessoaEnderecoEntity(PessoaEnderecoId pesEndId, PessoaEntity pessoa, EnderecoEntity endereco) {
+        this.pesEndId = pesEndId;
+        this.pessoa = pessoa;
         this.endereco = endereco;
     }
 }

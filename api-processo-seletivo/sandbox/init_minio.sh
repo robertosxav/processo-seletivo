@@ -26,27 +26,4 @@ else
   fi
 fi
 
-# Criar usuário se não existir
-if mc admin user info myminio "$ACCESS_KEY" >/dev/null 2>&1; then
-  echo "Usuário '$ACCESS_KEY' já existe no MinIO."
-else
-  echo "Criando novo usuário no MinIO..."
-  mc admin user add myminio "$ACCESS_KEY" "$SECRET_KEY"
-
-  # Verificar criação do usuário
-  if mc admin user info myminio "$ACCESS_KEY" >/dev/null 2>&1; then
-    echo "Usuário '$ACCESS_KEY' criado com sucesso!"
-  else
-    echo "Erro ao criar usuário no MinIO!"
-    exit 1
-  fi
-fi
-
-# Atribuir permissões ao usuário
-mc admin policy attach myminio readwrite --user="$ACCESS_KEY"
-
-# Salvar credenciais para a API
-echo "S3_ACCESS_KEY=$ACCESS_KEY" > /app/minio_credentials.env
-echo "S3_ACCESS_SECRET=$SECRET_KEY" >> /app/minio_credentials.env
-
 echo "Configuração do MinIO concluída com sucesso!"

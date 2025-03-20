@@ -79,6 +79,7 @@ public class UnidadeMapper {
                 enderecoModelSet
         );
     }
+
     public UnidadeEntity unidadeModelToEntity(UnidadeModel unidadeModel) {
         if (unidadeModel == null) {
             return null;
