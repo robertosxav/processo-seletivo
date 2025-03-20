@@ -1,10 +1,16 @@
 package br.com.robertoxavier.api.controllers;
 
 
+import br.com.robertoxavier.PageQuery;
+import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
+import br.com.robertoxavier.dto.cidade.CidadeResponse;
 import br.com.robertoxavier.dto.pessoa.PessoaRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoResponse;
+import br.com.robertoxavier.dto.unidade.UnidadeResponse;
+import br.com.robertoxavier.model.ServidorEfetivoModel;
+import br.com.robertoxavier.model.UnidadeModel;
 import br.com.robertoxavier.stories.servidor.ServidorEfetivoUseStory;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -30,11 +36,6 @@ public class ServidorEfetivoController {
         this.servidorEfetivoUseStory = servidorEfetivoUseStory;
     }
 
-    @GetMapping("")
-    public ResponseEntity<String> teste() {
-        return ResponseEntity.ok("Serviço teste de servidor efetivo");
-    }
-
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Criar um servidor Efetivo"),
     })
@@ -57,9 +58,26 @@ public class ServidorEfetivoController {
                 nome,dataNascimento,sexo,nomeMae,nomePai,listaEnderecosId);
         ServidorEfetivoRequest servidorEfetivoRequest = new ServidorEfetivoRequest(
                 matricula,pessoaRequest);
-        return servidorEfetivoMapper.servidorModelToResponse(servidorEfetivoUseStory
+        return servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
                 .criar(servidorEfetivoMapper.servidorEfetivoRequestToModel(servidorEfetivoRequest)));
 
+    }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Buscar um servidor efetivo"),
+    })
+    @GetMapping("/{pesId}")
+    public ServidorEfetivoResponse buscarCidadePorId(@PathVariable Long pesId) {
+        return servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
+                .buscarPorId(pesId));
+    }
+
+    @GetMapping("/paginado/all")
+    public PageResponse<ServidorEfetivoResponse>servidorEfetivoUseStory(@RequestParam(defaultValue = "0") int page,
+                                                                             @RequestParam(defaultValue = "10") int sizePage) {
+        PageQuery pageQuery = new PageQuery(page, sizePage);
+        PageResponse<ServidorEfetivoModel> unidadePage = servidorEfetivoUseStory.listaServidoresEfetivosPaginado(pageQuery);
+
+        return unidadePage.map(servidorEfetivoMapper::servidorEfetivoModelToResponse);
     }
 }

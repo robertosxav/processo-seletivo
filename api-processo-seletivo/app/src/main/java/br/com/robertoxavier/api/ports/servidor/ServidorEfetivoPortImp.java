@@ -59,10 +59,15 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
     @Override
     public ServidorEfetivoModel buscarPorId(Long cidId) {
 
-       return servidorEfetivoMapper
+       ServidorEfetivoModel servidorEfetivoModelBd =  servidorEfetivoMapper
                 .servidorEfetivoEntityToModel( servidorEfetivoRepository.findById(cidId)
                         .orElseThrow(() -> new RuntimeException("ServidorEfetivo não encontrado")));
 
+        Set<EnderecoEntity> enderecoEntityList = pessoaEnderecoRepository
+                .listaEnderecosPessoa(servidorEfetivoModelBd.getPessoa().getPesId());
+        servidorEfetivoModelBd.getPessoa().setEnderecoList(enderecoMapper.enderecoEntityListToEnderecoModelList(
+                enderecoEntityList));
+        return servidorEfetivoModelBd;
     }
 
     @Transactional
@@ -128,6 +133,12 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
         Page<ServidorEfetivoEntity> page = servidorEfetivoRepository.findAll(
                 PageRequest.of(pageQuery.getPage(), pageQuery.getSizePage())
         );
+        page.getContent().forEach((p)->{
+            Set<EnderecoEntity> enderecoEntityList = pessoaEnderecoRepository
+                    .listaEnderecosPessoa(p.getPessoa().getPesId());
+            p.getPessoa().setEnderecoList(
+                    enderecoEntityList);
+        });
 
         Page<ServidorEfetivoModel> servidorEfetivoModelPage = page.map(servidorEfetivoMapper::servidorEfetivoEntityToModel);
 

@@ -19,7 +19,7 @@ public class ServidorEfetivoMapper {
         this.pessoaMapper = pessoaMapper;
     }
 
-    public ServidorEfetivoResponse servidorModelToResponse(ServidorEfetivoModel servidorEfetivoModel){
+    public ServidorEfetivoResponse servidorEfetivoModelToResponse(ServidorEfetivoModel servidorEfetivoModel){
 
 
         if (servidorEfetivoModel == null) {
@@ -84,7 +84,7 @@ public class ServidorEfetivoMapper {
         }
 
         return servidorModelList.stream()
-                .map(this::servidorModelToResponse)
+                .map(this::servidorEfetivoModelToResponse)
                 .collect(Collectors.toList());
     }
 
