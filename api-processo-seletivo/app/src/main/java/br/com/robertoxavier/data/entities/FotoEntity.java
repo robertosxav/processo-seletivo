@@ -4,10 +4,13 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "foto_pessoa")
 public class FotoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "foto_pessoa_seq")
+    @SequenceGenerator( name = "foto_pessoa_seq", sequenceName = "foto_pessoa_fp_id_seq", allocationSize = 1)
     @Column(name = "fp_id")
     private Long fpId;
 

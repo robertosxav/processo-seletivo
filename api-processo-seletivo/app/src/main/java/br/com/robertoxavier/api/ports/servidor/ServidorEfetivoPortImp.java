@@ -110,16 +110,7 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
     @Override
     public ServidorEfetivoModel atualizar(Long cidId, ServidorEfetivoModel servidorEfetivoModel) {
 
-       /* if(servidorEfetivoModel.getCidUf().length() !=2){
-            throw new RuntimeException("UF deve ter dois caracteres");
-        }*/
-
-      
-
         ServidorEfetivoModel servidorEfetivoModelBanco = buscarPorId(cidId);
-
-       // servidorEfetivoModelBanco.setCidNome(servidorEfetivoModel.getCidNome());
-        //servidorEfetivoModelBanco.setCidUf(servidorEfetivoModel.getCidUf());
 
         return servidorEfetivoMapper.servidorEfetivoEntityToModel(
                 servidorEfetivoRepository.save(

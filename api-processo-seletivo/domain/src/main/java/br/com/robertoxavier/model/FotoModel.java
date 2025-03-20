@@ -53,4 +53,6 @@ public class FotoModel {
     public void setFpId(Long fpId) {
         this.fpId = fpId;
     }
+
+
 }

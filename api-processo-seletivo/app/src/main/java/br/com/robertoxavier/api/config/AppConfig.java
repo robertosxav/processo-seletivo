@@ -3,11 +3,13 @@ package br.com.robertoxavier.api.config;
 import br.com.robertoxavier.data.repositories.ServidorEfetivoRepository;
 import br.com.robertoxavier.ports.cidade.CidadePort;
 import br.com.robertoxavier.ports.endereco.EnderecoPort;
+import br.com.robertoxavier.ports.fotoModel.FotoPort;
 import br.com.robertoxavier.ports.lotacao.LotacaoPort;
 import br.com.robertoxavier.ports.servidor.ServidorEfetivoPort;
 import br.com.robertoxavier.ports.unidade.UnidadePort;
 import br.com.robertoxavier.stories.cidade.CidadeUseStory;
 import br.com.robertoxavier.stories.endereco.EnderecoUseStory;
+import br.com.robertoxavier.stories.fotoPessoa.FotoPessoaUseStory;
 import br.com.robertoxavier.stories.lotacao.LotacaoUseStory;
 import br.com.robertoxavier.stories.servidor.ServidorEfetivoUseStory;
 import br.com.robertoxavier.stories.unidade.UnidadeUseStory;
@@ -39,5 +41,10 @@ public class AppConfig {
     @Bean
     public ServidorEfetivoUseStory servidorEfetivoUseStory(ServidorEfetivoPort servidorEfetivoPort) {
         return new ServidorEfetivoUseStory (servidorEfetivoPort) ;
+    }
+
+    @Bean
+    public FotoPessoaUseStory fotoPessoaUseStory(FotoPort fotoPort) {
+        return new FotoPessoaUseStory (fotoPort);
     }
 }
