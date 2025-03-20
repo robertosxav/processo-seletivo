@@ -12,6 +12,12 @@ public class LotacaoEntity {
     @Column(name = "lot_id")
     private Long lotId;
 
+    @Column(name = "lot_data_lotacao", nullable = false)
+    private LocalDate lotDataLotacao;
+
+    @Column(name = "lot_data_remocao", nullable = false)
+    private LocalDate lotDataRemocao;
+
     @ManyToOne
     @JoinColumn(name = "pes_id")
     private PessoaEntity pessoa;
@@ -19,12 +25,6 @@ public class LotacaoEntity {
     @ManyToOne
     @JoinColumn(name = "unid_id")
     private UnidadeEntity unidade;
-
-    @Column(name = "lot_data_lotacao", nullable = false)
-    private LocalDate lotDataLotacao;
-
-    @Column(name = "lot_data_remocao", nullable = false)
-    private LocalDate lotDataRemocao;
 
     public Long getLotId() {
         return lotId;
@@ -66,4 +66,21 @@ public class LotacaoEntity {
         this.lotDataRemocao = lotDataRemocao;
     }
 
+    public LotacaoEntity() {
+    }
+
+    public LotacaoEntity(Long lotId, LocalDate lotDataLotacao, LocalDate lotDataRemocao, PessoaEntity pessoa, UnidadeEntity unidade) {
+        this.lotId = lotId;
+        this.lotDataLotacao = lotDataLotacao;
+        this.lotDataRemocao = lotDataRemocao;
+        this.pessoa = pessoa;
+        this.unidade = unidade;
+    }
+
+    public LotacaoEntity(LocalDate lotDataLotacao, LocalDate lotDataRemocao, PessoaEntity pessoa, UnidadeEntity unidade) {
+        this.lotDataLotacao = lotDataLotacao;
+        this.lotDataRemocao = lotDataRemocao;
+        this.pessoa = pessoa;
+        this.unidade = unidade;
+    }
 }

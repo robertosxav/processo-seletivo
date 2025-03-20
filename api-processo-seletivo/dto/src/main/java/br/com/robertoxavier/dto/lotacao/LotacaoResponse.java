@@ -1,4 +1,16 @@
 package br.com.robertoxavier.dto.lotacao;
 
-public record LotacaoResponse() {
+import java.time.LocalDate;
+
+public record LotacaoResponse(
+        Long lotId,
+
+        LocalDate lotDataLotacao,
+
+        LocalDate lotDataRemocao,
+
+        Long pesId,
+
+        Long unidId
+) {
 }
