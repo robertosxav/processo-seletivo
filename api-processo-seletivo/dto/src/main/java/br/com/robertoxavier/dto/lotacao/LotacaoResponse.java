@@ -1,5 +1,8 @@
 package br.com.robertoxavier.dto.lotacao;
 
+import br.com.robertoxavier.dto.pessoa.PessoaResponse;
+import br.com.robertoxavier.dto.unidade.UnidadeResponse;
+
 import java.time.LocalDate;
 
 public record LotacaoResponse(
@@ -9,8 +12,10 @@ public record LotacaoResponse(
 
         LocalDate lotDataRemocao,
 
-        Long pesId,
+        String lotPortaria,
 
-        Long unidId
+        PessoaResponse pessoa,
+
+        UnidadeResponse unidadeResponse
 ) {
 }

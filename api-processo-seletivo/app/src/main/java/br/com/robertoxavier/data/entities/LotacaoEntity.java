@@ -18,6 +18,9 @@ public class LotacaoEntity {
     @Column(name = "lot_data_remocao", nullable = false)
     private LocalDate lotDataRemocao;
 
+    @Column(name= "lot_portaria", nullable = false)
+    private String lotPortaria;
+
     @ManyToOne
     @JoinColumn(name = "pes_id")
     private PessoaEntity pessoa;
@@ -66,20 +69,32 @@ public class LotacaoEntity {
         this.lotDataRemocao = lotDataRemocao;
     }
 
+    public String getLotPortaria() {
+        return lotPortaria;
+    }
+
+    public void setLotPortaria(String lotPortaria) {
+        this.lotPortaria = lotPortaria;
+    }
+
     public LotacaoEntity() {
     }
 
-    public LotacaoEntity(Long lotId, LocalDate lotDataLotacao, LocalDate lotDataRemocao, PessoaEntity pessoa, UnidadeEntity unidade) {
+    public LotacaoEntity(Long lotId, LocalDate lotDataLotacao, LocalDate lotDataRemocao,
+                         String lotPortaria,PessoaEntity pessoa, UnidadeEntity unidade) {
         this.lotId = lotId;
         this.lotDataLotacao = lotDataLotacao;
         this.lotDataRemocao = lotDataRemocao;
+        this.lotPortaria = lotPortaria;
         this.pessoa = pessoa;
         this.unidade = unidade;
     }
 
-    public LotacaoEntity(LocalDate lotDataLotacao, LocalDate lotDataRemocao, PessoaEntity pessoa, UnidadeEntity unidade) {
+    public LotacaoEntity(LocalDate lotDataLotacao, LocalDate lotDataRemocao,
+                         String lotPortaria,PessoaEntity pessoa, UnidadeEntity unidade) {
         this.lotDataLotacao = lotDataLotacao;
         this.lotDataRemocao = lotDataRemocao;
+        this.lotPortaria = lotPortaria;
         this.pessoa = pessoa;
         this.unidade = unidade;
     }

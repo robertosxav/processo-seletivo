@@ -58,6 +58,7 @@ public class LotacaoPortImp implements LotacaoPort {
         lotacaoModel.setPessoaModel(pessoaModelBd);
 
         lotacaoModel.setUnidadeModel(unidadeModel);
+
         return lotacaoMapper.lotacaoEntityToModel(
                 lotacaoRepository.save(
                         lotacaoMapper.lotacaoModelToEntity(lotacaoModel)
@@ -66,7 +67,7 @@ public class LotacaoPortImp implements LotacaoPort {
     }
 
     @Override
-    public LotacaoModel atualizar(Long cidId, LotacaoModel lotacaoModel) {
+    public LotacaoModel atualizar(Long lotId, LotacaoModel lotacaoModel) {
 
       /*  if(lotacaoModel.getCidUf().length() !=2){
             throw new RuntimeException("UF deve ter dois caracteres");
@@ -76,10 +77,19 @@ public class LotacaoPortImp implements LotacaoPort {
             throw new RuntimeException("Nome da cidade não pode ser vazio e deve ter no máximo 200 caracteres");
         }
 */
-        LotacaoModel lotacaoModelBanco = buscarPorId(cidId);
+        LotacaoModel lotacaoModelBanco = buscarPorId(lotId);
 
-       /* lotacaoModelBanco.setCidNome(lotacaoModel.getCidNome());
-        lotacaoModelBanco.setCidUf(lotacaoModel.getCidUf());*/
+        lotacaoModelBanco.setLotDataLotacao(lotacaoModel.getLotDataLotacao());
+        lotacaoModelBanco.setLotDataRemocao(lotacaoModel.getLotDataRemocao());
+        lotacaoModelBanco.setLotPortaria(lotacaoModel.getLotPortaria());
+
+        PessoaModel pessoaModelBanco = pessoaMapper.pessoaEntityToModel(pessoaRepository.findById(lotacaoModel.getPesId())
+                .orElseThrow(() -> new RuntimeException("pessoa não encontrada")));
+
+        UnidadeModel unidadeModelBanco = unidadeUseStory
+                .buscarPorId(lotacaoModel.getUnidId());
+        lotacaoModelBanco.setPessoaModel(pessoaModelBanco);
+        lotacaoModelBanco.setUnidadeModel(unidadeModelBanco);
 
         return lotacaoMapper.lotacaoEntityToModel(
                 lotacaoRepository.save(

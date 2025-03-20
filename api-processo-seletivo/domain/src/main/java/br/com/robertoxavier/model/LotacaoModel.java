@@ -10,6 +10,8 @@ public class LotacaoModel {
 
     private LocalDate lotDataRemocao;
 
+    private String lotPortaria;
+
     private Long pesId;
 
     private Long unidId;
@@ -40,6 +42,14 @@ public class LotacaoModel {
 
     public void setLotDataRemocao(LocalDate lotDataRemocao) {
         this.lotDataRemocao = lotDataRemocao;
+    }
+
+    public String getLotPortaria() {
+        return lotPortaria;
+    }
+
+    public void setLotPortaria(String lotPortaria) {
+        this.lotPortaria = lotPortaria;
     }
 
     public Long getPesId() {
@@ -77,33 +87,41 @@ public class LotacaoModel {
         this.unidadeModel = unidadeModel;
     }
 
-    public LotacaoModel(Long lotId, LocalDate lotDataLotacao, LocalDate lotDataRemocao, Long pesId, Long unidId) {
+    public LotacaoModel(Long lotId, LocalDate lotDataLotacao, LocalDate lotDataRemocao,
+                        String lotPortaria, Long pesId, Long unidId) {
         this.lotId = lotId;
         this.lotDataLotacao = lotDataLotacao;
         this.lotDataRemocao = lotDataRemocao;
+        this.lotPortaria = lotPortaria;
         this.pesId = pesId;
         this.unidId = unidId;
     }
 
-    public LotacaoModel(LocalDate lotDataLotacao, LocalDate lotDataRemocao, Long pesId, Long unidId) {
+    public LotacaoModel(LocalDate lotDataLotacao, LocalDate lotDataRemocao,
+                        String lotPortaria, Long pesId, Long unidId) {
         this.lotDataLotacao = lotDataLotacao;
         this.lotDataRemocao = lotDataRemocao;
+        this.lotPortaria = lotPortaria;
         this.pesId = pesId;
         this.unidId = unidId;
     }
 
-    public LotacaoModel(Long lotId, LocalDate lotDataLotacao, LocalDate lotDataRemocao, PessoaModel pessoaModel, UnidadeModel unidadeModel) {
+    public LotacaoModel(Long lotId, LocalDate lotDataLotacao, LocalDate lotDataRemocao,
+                        String lotPortaria,PessoaModel pessoaModel, UnidadeModel unidadeModel) {
         this.lotId = lotId;
         this.lotDataLotacao = lotDataLotacao;
         this.lotDataRemocao = lotDataRemocao;
+        this.lotPortaria = lotPortaria;
         this.pessoaModel = pessoaModel;
         this.unidadeModel = unidadeModel;
     }
 
-    public LotacaoModel(LocalDate lotDataLotacao, LocalDate lotDataRemocao, PessoaModel pessoaModel, UnidadeModel unidadeModel) {
+    public LotacaoModel(LocalDate lotDataLotacao, LocalDate lotDataRemocao,
+                        String lotPortaria,PessoaModel pessoaModel, UnidadeModel unidadeModel) {
 
         this.lotDataLotacao = lotDataLotacao;
         this.lotDataRemocao = lotDataRemocao;
+        this.lotPortaria = lotPortaria;
         this.pessoaModel = pessoaModel;
         this.unidadeModel = unidadeModel;
     }

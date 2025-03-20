@@ -23,32 +23,34 @@ public class LotacaoMapper {
         this.unidadeMapper = unidadeMapper;
     }
 
-    public LotacaoResponse lotacaoModelToResponse(LotacaoModel LotacaoModel){
+    public LotacaoResponse lotacaoModelToResponse(LotacaoModel lotacaoModel){
 
-        if (LotacaoModel == null) {
+        if (lotacaoModel == null) {
             return null;
         }
 
         return new LotacaoResponse(
-                LotacaoModel.getLotId(),
-                LotacaoModel.getLotDataLotacao(),
-                LotacaoModel.getLotDataRemocao(),
-                LotacaoModel.getPesId(),
-                LotacaoModel.getUnidId()
+                lotacaoModel.getLotId(),
+                lotacaoModel.getLotDataLotacao(),
+                lotacaoModel.getLotDataRemocao(),
+                lotacaoModel.getLotPortaria(),
+                pessoaMapper.pessoaModelToResponse(lotacaoModel.getPessoaModel()),
+                unidadeMapper.unidadeModelToResponse(lotacaoModel.getUnidadeModel())
         );
 
     }
 
-    public LotacaoModel lotacaoRequestToModel(LotacaoRequest LotacaoRequest){
-       if (LotacaoRequest == null) {
+    public LotacaoModel lotacaoRequestToModel(LotacaoRequest lotacaoRequest){
+       if (lotacaoRequest == null) {
             return null;
         }
 
         return new LotacaoModel(
-                LotacaoRequest.lotDataLotacao(),
-                LotacaoRequest.lotDataRemocao(),
-                LotacaoRequest.pesId(),
-                LotacaoRequest.unidId()
+                lotacaoRequest.lotDataLotacao(),
+                lotacaoRequest.lotDataRemocao(),
+                lotacaoRequest.lotPortaria(),
+                lotacaoRequest.pesId(),
+                lotacaoRequest.unidId()
         );
     }
 
@@ -61,6 +63,7 @@ public class LotacaoMapper {
                 lotacaoModel.getLotId(),
                 lotacaoModel.getLotDataLotacao(),
                 lotacaoModel.getLotDataRemocao(),
+                lotacaoModel.getLotPortaria(),
                 pessoaMapper.pessoaModelToEntity(lotacaoModel.getPessoaModel()),
                 unidadeMapper.unidadeModelToEntity(lotacaoModel.getUnidadeModel())
         );
@@ -75,6 +78,7 @@ public class LotacaoMapper {
                 lotacaoEntity.getLotId(),
                 lotacaoEntity.getLotDataLotacao(),
                 lotacaoEntity.getLotDataRemocao(),
+                lotacaoEntity.getLotPortaria(),
                 pessoaMapper.pessoaEntityToModel(lotacaoEntity.getPessoa()),
                 unidadeMapper.unidadeEntityToModel(lotacaoEntity.getUnidade())
         );
