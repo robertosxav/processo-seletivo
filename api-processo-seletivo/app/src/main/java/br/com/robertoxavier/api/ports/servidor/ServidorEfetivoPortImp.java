@@ -5,16 +5,15 @@ import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
-import br.com.robertoxavier.data.entities.EnderecoEntity;
-import br.com.robertoxavier.data.entities.ServidorEfetivoEntity;
-import br.com.robertoxavier.data.entities.PessoaEnderecoEntity;
-import br.com.robertoxavier.data.entities.PessoaEnderecoId;
+import br.com.robertoxavier.data.entities.*;
 import br.com.robertoxavier.data.repositories.EnderecoRepository;
 import br.com.robertoxavier.data.repositories.PessoaEnderecoRepository;
 import br.com.robertoxavier.data.repositories.PessoaRepository;
 import br.com.robertoxavier.data.repositories.ServidorEfetivoRepository;
 import br.com.robertoxavier.model.EnderecoModel;
+import br.com.robertoxavier.model.PessoaModel;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
+import br.com.robertoxavier.model.ServidorTemporarioModel;
 import br.com.robertoxavier.ports.servidor.ServidorEfetivoPort;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -110,13 +109,63 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
     @Override
     public ServidorEfetivoModel atualizar(Long pesId, ServidorEfetivoModel servidorEfetivoModel) {
 
-        ServidorEfetivoModel servidorEfetivoModelBanco = buscarPorId(pesId);
-
-        return servidorEfetivoMapper.servidorEfetivoEntityToModel(
-                servidorEfetivoRepository.save(
-                        servidorEfetivoMapper.servidorEfetivoModelToEntity(servidorEfetivoModelBanco)
-                )
+        ServidorEfetivoModel servidorEfetivoModelBD = servidorEfetivoMapper.servidorEfetivoEntityToModel(
+                servidorEfetivoRepository.findById(pesId)
+                        .orElseThrow(() -> new RuntimeException("Servidor Efetivo não encontrado"))
         );
+
+        servidorEfetivoModelBD.setSeMatricula(servidorEfetivoModel.getSeMatricula());
+
+        PessoaModel pessoaModel = servidorEfetivoModel.getPessoa();
+        PessoaEntity pessoaEntityBD = pessoaMapper
+                .pessoaModelToEntity(servidorEfetivoModelBD.getPessoa());
+
+        pessoaEntityBD.setPesNome(pessoaModel.getPesNome());
+        pessoaEntityBD.setPesDataNascimento(pessoaModel.getPesDataNascimento());
+        pessoaEntityBD.setPesSexo(pessoaModel.getPesSexo());
+        pessoaEntityBD.setPesMae(pessoaModel.getPesMae());
+        pessoaEntityBD.setPesPai(pessoaModel.getPesPai());
+
+
+        Set<Long> enderecoIdsNovos = new HashSet<>(pessoaModel.getEnderecoIdList());
+        Set<EnderecoModel> enderecoModelBancoList = enderecoMapper.enderecoEntityListToEnderecoModelList(
+                pessoaEnderecoRepository.listaEnderecosPessoa(pesId));
+
+        enderecoModelBancoList.forEach(endereco -> {
+            if (!enderecoIdsNovos.contains(endereco.getEndId())) {
+                PessoaEnderecoId pessoaEnderecoId = new PessoaEnderecoId(pesId, endereco.getEndId());
+                pessoaEnderecoRepository.deleteById(pessoaEnderecoId);
+            }
+        });
+
+        Set<EnderecoEntity> enderecoEntityList = new HashSet<>();
+        enderecoIdsNovos.forEach(enderecoId -> {
+            EnderecoModel enderecoModelBanco = enderecoMapper.enderecoEntityToModel(
+                    enderecoRepository.findById(enderecoId)
+                            .orElseThrow(() -> new RuntimeException("Endereco não encontrado"))
+            );
+
+            PessoaEnderecoId pessoaEnderecoId = new PessoaEnderecoId();
+            pessoaEnderecoId.setPessoa(pessoaEntityBD.getPesId());
+            pessoaEnderecoId.setEndereco(enderecoModelBanco.getEndId());
+
+            PessoaEnderecoEntity pessoaEnderecoEntity = new PessoaEnderecoEntity();
+            pessoaEnderecoEntity.setPesEndId(pessoaEnderecoId);
+            pessoaEnderecoEntity.setPessoa(pessoaEntityBD);
+            pessoaEnderecoEntity.setEndereco(enderecoMapper.enderecoModelToEntity(enderecoModelBanco));
+            enderecoEntityList.add(pessoaEnderecoRepository.save(pessoaEnderecoEntity).getEndereco());
+        });
+
+        pessoaEntityBD.setEnderecoList(enderecoEntityList);
+
+        pessoaRepository.save(pessoaEntityBD);
+
+        servidorEfetivoModelBD.setPessoa(pessoaMapper.pessoaEntityToModel(pessoaEntityBD));
+
+        servidorEfetivoRepository.save(
+                servidorEfetivoMapper.servidorEfetivoModelToEntity(servidorEfetivoModelBD));
+
+        return servidorEfetivoModelBD;
     }
 
     @Override

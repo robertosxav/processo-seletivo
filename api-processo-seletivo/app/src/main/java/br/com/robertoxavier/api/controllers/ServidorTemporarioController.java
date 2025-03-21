@@ -110,6 +110,7 @@ public class ServidorTemporarioController {
 
         return unidadePage.map(servidorTemporarioMapper::servidorTemporarioModelToResponse);
     }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Atualizar uma lotacao"),
     })

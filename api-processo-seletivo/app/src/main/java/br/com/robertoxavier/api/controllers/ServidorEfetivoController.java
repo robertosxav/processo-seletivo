@@ -92,6 +92,30 @@ public class ServidorEfetivoController {
     }
 
     @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Atualizar uma lotacao"),
+    })
+    @PutMapping("/{pesId}")
+    public ServidorEfetivoResponse atualizarUnidade(@PathVariable Long pesId,
+                                                       @RequestParam(name = "matricula", required = false) String matricula,
+                                                       @RequestParam(name = "nome", required = false) String nome,
+                                                       @RequestParam(name = "dataNascimento", required = false) LocalDate dataNascimento,
+                                                       @RequestParam(name = "sexo", required = false) String sexo,
+                                                       @RequestParam(name = "nomeMae", required = false) String nomeMae,
+                                                       @RequestParam(name = "nomePai", required = false) String nomePai,
+                                                       @RequestParam(name = "listaEnderecosId", required = false) Set<Long> listaEnderecosId
+                                                       //    @RequestParam(name = "fotos", required = false) List<MultipartFile> fotos
+    ) {
+        //List<Resource> listaResource = fotos.stream().map(this::resourceOf).toList();
+
+        PessoaRequest pessoaRequest = new PessoaRequest(
+                nome,dataNascimento,sexo,nomeMae,nomePai,listaEnderecosId);
+        ServidorEfetivoRequest servidorEfetivoRequest = new ServidorEfetivoRequest(
+                matricula,pessoaRequest);
+        return servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
+                .atualizar(pesId,servidorEfetivoMapper.servidorEfetivoRequestToModel(servidorEfetivoRequest)));
+    }
+
+    @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Buscar um servidor efetivo"),
     })
     @GetMapping("/{pesId}")
