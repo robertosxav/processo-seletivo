@@ -5,11 +5,15 @@ import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.fotoPessoa.FotoMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
+import br.com.robertoxavier.api.ports.minio.MinIOStorageService;
+import br.com.robertoxavier.dto.fotoPessoa.FotoRequest;
+import br.com.robertoxavier.dto.fotoPessoa.FotoResponse;
 import br.com.robertoxavier.dto.pessoa.PessoaRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoResponse;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
 import br.com.robertoxavier.service.Resource;
+import br.com.robertoxavier.service.StorageService;
 import br.com.robertoxavier.stories.fotoPessoa.FotoPessoaUseStory;
 import br.com.robertoxavier.stories.servidor.ServidorEfetivoUseStory;
 import br.com.robertoxavier.util.HashingUtils;
@@ -35,11 +39,17 @@ public class ServidorEfetivoController {
 
     private final FotoPessoaUseStory fotoPessoaUseStory;
 
-    public ServidorEfetivoController(ServidorEfetivoMapper servidorEfetivoMapper, ServidorEfetivoUseStory servidorEfetivoUseStory, FotoMapper fotoMapper, FotoPessoaUseStory fotoPessoaUseStory) {
+    private final StorageService storageService;
+
+    public ServidorEfetivoController(ServidorEfetivoMapper servidorEfetivoMapper,
+                                     ServidorEfetivoUseStory servidorEfetivoUseStory,
+                                     FotoMapper fotoMapper, FotoPessoaUseStory fotoPessoaUseStory,
+                                     StorageService storageService) {
         this.servidorEfetivoMapper = servidorEfetivoMapper;
         this.servidorEfetivoUseStory = servidorEfetivoUseStory;
         this.fotoMapper = fotoMapper;
         this.fotoPessoaUseStory = fotoPessoaUseStory;
+        this.storageService = storageService;
     }
 
     @ApiResponses(value = {
@@ -124,5 +134,26 @@ public class ServidorEfetivoController {
         PageResponse<ServidorEfetivoModel> unidadePage = servidorEfetivoUseStory.listaServidoresEfetivosPaginado(pageQuery);
 
         return unidadePage.map(servidorEfetivoMapper::servidorEfetivoModelToResponse);
+    }
+
+    @PostMapping(value = "/upload-fotos/{pesId}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+
+    public String uploadFotos(
+            @PathVariable Long pesId,
+            @RequestParam(name = "fotos", required = false) List<MultipartFile> fotos
+    ){
+        List<Resource> listaResource = fotos.stream().map(this::resourceOf).toList();
+
+        listaResource.forEach((f)->{
+            storageService.store(pesId.toString(),f);
+            FotoRequest fotoRequest = new FotoRequest(pesId,f);
+             FotoResponse fotoResponse =  fotoMapper.fotoModelToResponse(fotoPessoaUseStory
+                .uploadFotos(fotoMapper.fotoRequestToModel(fotoRequest)));
+        });
+
+        return "";
     }
 }

@@ -4,6 +4,8 @@ import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.model.FotoModel;
 import br.com.robertoxavier.ports.fotoModel.FotoPort;
 
+import java.util.List;
+
 public class FotoPessoaUseStory {
 
     private final FotoPort fotoPort;
@@ -12,7 +14,7 @@ public class FotoPessoaUseStory {
         this.fotoPort = fotoPort;
     }
 
-    public FotoModel criar(FotoModel fotoModel){
-        return fotoPort.criar(fotoModel);
+    public FotoModel uploadFotos(FotoModel fotoModel){
+        return fotoPort.uploadFotos(fotoModel);
     }
 }

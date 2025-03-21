@@ -6,7 +6,7 @@ public class FotoModel {
 
     private Long fpId;
 
-    private PessoaModel pessoa;
+    private Long pesId;
 
     private LocalDate fpData;
 
@@ -14,12 +14,13 @@ public class FotoModel {
 
     private String fpHash;
 
-    public PessoaModel getPessoa() {
-        return pessoa;
+
+    public Long getPesId() {
+        return pesId;
     }
 
-    public void setPessoa(PessoaModel pessoa) {
-        this.pessoa = pessoa;
+    public void setPesId(Long pesId) {
+        this.pesId = pesId;
     }
 
     public LocalDate getFpData() {
@@ -54,5 +55,21 @@ public class FotoModel {
         this.fpId = fpId;
     }
 
+    public FotoModel() {
+    }
 
+    public FotoModel(Long fpId, Long pesId, LocalDate fpData, String fpBucket, String fpHash) {
+        this.fpId = fpId;
+        this.pesId = pesId;
+        this.fpData = fpData;
+        this.fpBucket = fpBucket;
+        this.fpHash = fpHash;
+    }
+
+    public FotoModel(Long pesId, LocalDate fpData, String fpBucket, String fpHash) {
+        this.pesId = pesId;
+        this.fpData = fpData;
+        this.fpBucket = fpBucket;
+        this.fpHash = fpHash;
+    }
 }

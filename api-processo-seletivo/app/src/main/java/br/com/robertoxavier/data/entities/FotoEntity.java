@@ -27,6 +27,9 @@ public class FotoEntity {
     @Column(name = "fp_hash", length = 50, nullable = false)
     private String fpHash;
 
+    @Transient
+    private Long pesId;
+
     public PessoaEntity getPessoa() {
         return pessoa;
     }
@@ -65,5 +68,32 @@ public class FotoEntity {
 
     public void setFpId(Long fpId) {
         this.fpId = fpId;
+    }
+
+    public Long getPesId() {
+        return pesId;
+    }
+
+    public void setPesId(Long pesId) {
+        this.pesId = pesId;
+    }
+
+    public FotoEntity() {
+    }
+
+    public FotoEntity(Long fpId, PessoaEntity pessoa, LocalDate fpData, String fpBucket, String fpHash, Long pesId) {
+        this.fpId = fpId;
+        this.pessoa = pessoa;
+        this.fpData = fpData;
+        this.fpBucket = fpBucket;
+        this.fpHash = fpHash;
+        this.pesId = pesId;
+    }
+
+    public FotoEntity(LocalDate fpData, String fpBucket, String fpHash, Long pesId) {
+        this.fpData = fpData;
+        this.fpBucket = fpBucket;
+        this.fpHash = fpHash;
+        this.pesId = pesId;
     }
 }

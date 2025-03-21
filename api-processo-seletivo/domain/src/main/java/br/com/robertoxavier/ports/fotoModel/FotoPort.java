@@ -5,5 +5,5 @@ import br.com.robertoxavier.model.FotoModel;
 
 public interface FotoPort {
 
-    FotoModel criar(FotoModel fotoModel);
+    FotoModel uploadFotos(FotoModel fotoModel);
 }
