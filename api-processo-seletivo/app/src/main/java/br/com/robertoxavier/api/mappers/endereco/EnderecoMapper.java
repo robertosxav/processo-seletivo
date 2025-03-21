@@ -140,6 +140,16 @@ public class EnderecoMapper {
                 .collect(Collectors.toSet());
     }
 
+    public Set<EnderecoEntity> enderecoModelListToEnderecoEntityList(Set<EnderecoModel>enderecoModelSet){
+        if (enderecoModelSet == null) {
+            return null;
+        }
+
+        return enderecoModelSet.stream()
+                .map(this::enderecoModelToEntity)
+                .collect(Collectors.toSet());
+    }
+
     public Set<EnderecoResponse> enderecoModelListToEnderecoResponseList(Set<EnderecoModel>enderecoModelSet){
         if (enderecoModelSet == null) {
             return null;

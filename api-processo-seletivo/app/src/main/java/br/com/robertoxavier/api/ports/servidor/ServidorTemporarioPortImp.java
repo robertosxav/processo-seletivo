@@ -5,15 +5,13 @@ import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorTemporarioMapper;
-import br.com.robertoxavier.data.entities.EnderecoEntity;
-import br.com.robertoxavier.data.entities.PessoaEnderecoEntity;
-import br.com.robertoxavier.data.entities.PessoaEnderecoId;
-import br.com.robertoxavier.data.entities.ServidorTemporarioEntity;
+import br.com.robertoxavier.data.entities.*;
 import br.com.robertoxavier.data.repositories.EnderecoRepository;
 import br.com.robertoxavier.data.repositories.PessoaEnderecoRepository;
 import br.com.robertoxavier.data.repositories.PessoaRepository;
 import br.com.robertoxavier.data.repositories.ServidorTemporarioRepository;
 import br.com.robertoxavier.model.EnderecoModel;
+import br.com.robertoxavier.model.PessoaModel;
 import br.com.robertoxavier.model.ServidorTemporarioModel;
 import br.com.robertoxavier.ports.servidor.ServidorTemporarioPort;
 import jakarta.transaction.Transactional;
@@ -111,6 +109,7 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
     @Override
     public ServidorTemporarioModel atualizar(Long pesId, ServidorTemporarioModel servidorTemporarioModel) {
 
+        // Busca o servidor no banco
         ServidorTemporarioModel servidorTemporarioModeBD = servidorTemporarioMapper.servidorTemporarioEntityToModel(
                 servidorTemporarioRepository.findById(pesId)
                         .orElseThrow(() -> new RuntimeException("Servidor Temporário não encontrado"))
@@ -118,29 +117,28 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
 
         servidorTemporarioModeBD.setStDataAdmissao(servidorTemporarioModel.getStDataAdmissao());
         servidorTemporarioModeBD.setStDataDemissao(servidorTemporarioModel.getStDataDemissao());
-        servidorTemporarioModeBD.getPessoa().setPesId(pesId);
-        servidorTemporarioModeBD.getPessoa().setPesNome(servidorTemporarioModel.getPessoa().getPesNome());
-        servidorTemporarioModeBD.getPessoa().setPesDataNascimento(servidorTemporarioModel.getPessoa().getPesDataNascimento());
-        servidorTemporarioModeBD.getPessoa().setPesSexo(servidorTemporarioModel.getPessoa().getPesSexo());
-        servidorTemporarioModeBD.getPessoa().setPesMae(servidorTemporarioModel.getPessoa().getPesMae());
-        servidorTemporarioModeBD.getPessoa().setPesPai(servidorTemporarioModel.getPessoa().getPesPai());
 
-        servidorTemporarioRepository.save(
-                servidorTemporarioMapper.servidorTemporarioModelToEntity(servidorTemporarioModeBD));
+        PessoaModel pessoaModel = servidorTemporarioModel.getPessoa();
+        PessoaEntity pessoaEntityBD = pessoaMapper.pessoaModelToEntity(servidorTemporarioModeBD.getPessoa());
 
-        Set<EnderecoModel> enderecoModelBancoList = enderecoMapper.enderecoEntityListToEnderecoModelList(pessoaEnderecoRepository.listaEnderecosPessoa(pesId));
+        pessoaEntityBD.setPesNome(pessoaModel.getPesNome());
+        pessoaEntityBD.setPesDataNascimento(pessoaModel.getPesDataNascimento());
+        pessoaEntityBD.setPesSexo(pessoaModel.getPesSexo());
+        pessoaEntityBD.setPesMae(pessoaModel.getPesMae());
+        pessoaEntityBD.setPesPai(pessoaModel.getPesPai());
 
-        Set<Long> enderecoIdsNovos = new HashSet<>(servidorTemporarioModel.getPessoa().getEnderecoIdList());
 
-        // Remover endereços que estão no banco mas não estão na nova lista
+        Set<Long> enderecoIdsNovos = new HashSet<>(pessoaModel.getEnderecoIdList());
+        Set<EnderecoModel> enderecoModelBancoList = enderecoMapper.enderecoEntityListToEnderecoModelList(
+                pessoaEnderecoRepository.listaEnderecosPessoa(pesId));
+
         enderecoModelBancoList.forEach(endereco -> {
             if (!enderecoIdsNovos.contains(endereco.getEndId())) {
-                PessoaEnderecoId pessoaEnderecoId = new PessoaEnderecoId(pesId,endereco.getEndId());
+                PessoaEnderecoId pessoaEnderecoId = new PessoaEnderecoId(pesId, endereco.getEndId());
                 pessoaEnderecoRepository.deleteById(pessoaEnderecoId);
             }
         });
 
-        // Inserir ou atualizar os endereços novos
         Set<EnderecoEntity> enderecoEntityList = new HashSet<>();
         enderecoIdsNovos.forEach(enderecoId -> {
             EnderecoModel enderecoModelBanco = enderecoMapper.enderecoEntityToModel(
@@ -149,22 +147,27 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
             );
 
             PessoaEnderecoId pessoaEnderecoId = new PessoaEnderecoId();
-            pessoaEnderecoId.setPessoa(servidorTemporarioModeBD.getPessoa().getPesId());
+            pessoaEnderecoId.setPessoa(pessoaEntityBD.getPesId());
             pessoaEnderecoId.setEndereco(enderecoModelBanco.getEndId());
 
             PessoaEnderecoEntity pessoaEnderecoEntity = new PessoaEnderecoEntity();
             pessoaEnderecoEntity.setPesEndId(pessoaEnderecoId);
-            pessoaEnderecoEntity.setPessoa(pessoaMapper.pessoaModelToEntity(servidorTemporarioModeBD.getPessoa()));
+            pessoaEnderecoEntity.setPessoa(pessoaEntityBD);
             pessoaEnderecoEntity.setEndereco(enderecoMapper.enderecoModelToEntity(enderecoModelBanco));
             enderecoEntityList.add(pessoaEnderecoRepository.save(pessoaEnderecoEntity).getEndereco());
         });
 
-        // Atualizar a lista de endereços vinculados ao servidor
-        servidorTemporarioModeBD.getPessoa().setEnderecoList(enderecoMapper.enderecoEntityListToEnderecoModelList(enderecoEntityList));
+        pessoaEntityBD.setEnderecoList(enderecoEntityList);
+
+        pessoaRepository.save(pessoaEntityBD);
+
+        servidorTemporarioModeBD.setPessoa(pessoaMapper.pessoaEntityToModel(pessoaEntityBD));
+
+        servidorTemporarioRepository.save(
+                servidorTemporarioMapper.servidorTemporarioModelToEntity(servidorTemporarioModeBD));
 
         return servidorTemporarioModeBD;
     }
-
 
 
     @Override
