@@ -57,11 +57,8 @@ public class ServidorEfetivoController {
             @RequestParam(name = "sexo", required = false) String sexo,
             @RequestParam(name = "nomeMae", required = false) String nomeMae,
             @RequestParam(name = "nomePai", required = false) String nomePai,
-            @RequestParam(name = "listaEnderecosId", required = false) Set<Long> listaEnderecosId,
-            @RequestParam(name = "fotos", required = false) List<MultipartFile> fotos
+            @RequestParam(name = "listaEnderecosId", required = false) Set<Long> listaEnderecosId
     ) {
-        List<Resource> listaResource = fotos.stream().map(this::resourceOf).toList();
-
         PessoaRequest pessoaRequest = new PessoaRequest(
                 nome,dataNascimento,sexo,nomeMae,nomePai,listaEnderecosId);
         ServidorEfetivoRequest servidorEfetivoRequest = new ServidorEfetivoRequest(
@@ -69,8 +66,6 @@ public class ServidorEfetivoController {
         ServidorEfetivoResponse servidorEfetivoResponse =  servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
                 .criar(servidorEfetivoMapper.servidorEfetivoRequestToModel(servidorEfetivoRequest)));
 
-        /*FotoResponse fotoResponse =  fotoMapper.fotoModelToResponse(servidorEfetivoUseStory
-                .criar(fotoMapper.fotoRequestToModel(servidorEfetivoRequest)));*/
         return servidorEfetivoResponse;
     }
 
@@ -103,10 +98,8 @@ public class ServidorEfetivoController {
                                                        @RequestParam(name = "nomeMae", required = false) String nomeMae,
                                                        @RequestParam(name = "nomePai", required = false) String nomePai,
                                                        @RequestParam(name = "listaEnderecosId", required = false) Set<Long> listaEnderecosId
-                                                       //    @RequestParam(name = "fotos", required = false) List<MultipartFile> fotos
-    ) {
-        //List<Resource> listaResource = fotos.stream().map(this::resourceOf).toList();
 
+    ) {
         PessoaRequest pessoaRequest = new PessoaRequest(
                 nome,dataNascimento,sexo,nomeMae,nomePai,listaEnderecosId);
         ServidorEfetivoRequest servidorEfetivoRequest = new ServidorEfetivoRequest(
