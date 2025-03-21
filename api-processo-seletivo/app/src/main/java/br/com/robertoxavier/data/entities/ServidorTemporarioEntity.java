@@ -9,7 +9,11 @@ import java.time.LocalDate;
 public class ServidorTemporarioEntity {
 
     @Id
-    @ManyToOne
+    @Column(name = "pes_id")
+    private Long id;
+
+    @OneToOne
+    @MapsId
     @JoinColumn(name = "pes_id")
     private PessoaEntity pessoa;
 
@@ -41,5 +45,29 @@ public class ServidorTemporarioEntity {
 
     public void setStDataDemissao(LocalDate stDataDemissao) {
         this.stDataDemissao = stDataDemissao;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ServidorTemporarioEntity() {
+    }
+
+    public ServidorTemporarioEntity(Long id, LocalDate stDataAdmissao, LocalDate stDataDemissao, PessoaEntity pessoa) {
+        this.id = id;
+        this.stDataAdmissao = stDataAdmissao;
+        this.stDataDemissao = stDataDemissao;
+        this.pessoa = pessoa;
+    }
+
+    public ServidorTemporarioEntity(LocalDate stDataAdmissao, LocalDate stDataDemissao, PessoaEntity pessoa) {
+        this.stDataAdmissao = stDataAdmissao;
+        this.stDataDemissao = stDataDemissao;
+        this.pessoa = pessoa;
     }
 }

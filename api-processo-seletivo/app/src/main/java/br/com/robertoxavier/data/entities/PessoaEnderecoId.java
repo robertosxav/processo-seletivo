@@ -27,4 +27,12 @@ public class PessoaEnderecoId {
     public void setEndereco(Long endereco) {
         this.endereco = endereco;
     }
+
+    public PessoaEnderecoId() {
+    }
+
+    public PessoaEnderecoId(Long pessoa, Long endereco) {
+        this.pessoa = pessoa;
+        this.endereco = endereco;
+    }
 }

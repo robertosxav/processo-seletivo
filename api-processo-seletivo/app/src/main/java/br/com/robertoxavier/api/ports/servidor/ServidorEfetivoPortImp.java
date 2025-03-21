@@ -57,10 +57,10 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
     }
 
     @Override
-    public ServidorEfetivoModel buscarPorId(Long cidId) {
+    public ServidorEfetivoModel buscarPorId(Long pesId) {
 
        ServidorEfetivoModel servidorEfetivoModelBd =  servidorEfetivoMapper
-                .servidorEfetivoEntityToModel( servidorEfetivoRepository.findById(cidId)
+                .servidorEfetivoEntityToModel( servidorEfetivoRepository.findById(pesId)
                         .orElseThrow(() -> new RuntimeException("ServidorEfetivo não encontrado")));
 
         Set<EnderecoEntity> enderecoEntityList = pessoaEnderecoRepository
@@ -108,9 +108,9 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
 
 
     @Override
-    public ServidorEfetivoModel atualizar(Long cidId, ServidorEfetivoModel servidorEfetivoModel) {
+    public ServidorEfetivoModel atualizar(Long pesId, ServidorEfetivoModel servidorEfetivoModel) {
 
-        ServidorEfetivoModel servidorEfetivoModelBanco = buscarPorId(cidId);
+        ServidorEfetivoModel servidorEfetivoModelBanco = buscarPorId(pesId);
 
         return servidorEfetivoMapper.servidorEfetivoEntityToModel(
                 servidorEfetivoRepository.save(
@@ -143,8 +143,8 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
     }
 
     @Override
-    public void excluir(Long cidId) {
-        ServidorEfetivoModel servidorEfetivoModelBanco = buscarPorId(cidId);
+    public void excluir(Long pesId) {
+        ServidorEfetivoModel servidorEfetivoModelBanco = buscarPorId(pesId);
         servidorEfetivoRepository.delete(servidorEfetivoMapper.servidorEfetivoModelToEntity(servidorEfetivoModelBanco));
     }
 

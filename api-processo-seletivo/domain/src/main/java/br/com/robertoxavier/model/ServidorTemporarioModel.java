@@ -4,12 +4,14 @@ import java.time.LocalDate;
 
 
 public class ServidorTemporarioModel {
-    
-    private PessoaModel pessoa;
+
+    private Long id;
 
     private LocalDate stDataAdmissao;
 
     private LocalDate stDataDemissao;
+
+    private PessoaModel pessoa;
 
     public PessoaModel getPessoa() {
         return pessoa;
@@ -33,5 +35,29 @@ public class ServidorTemporarioModel {
 
     public void setStDataDemissao(LocalDate stDataDemissao) {
         this.stDataDemissao = stDataDemissao;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ServidorTemporarioModel() {
+    }
+
+    public ServidorTemporarioModel(Long id, LocalDate stDataAdmissao, LocalDate stDataDemissao, PessoaModel pessoa) {
+        this.id = id;
+        this.stDataAdmissao = stDataAdmissao;
+        this.stDataDemissao = stDataDemissao;
+        this.pessoa = pessoa;
+    }
+
+    public ServidorTemporarioModel(LocalDate stDataAdmissao, LocalDate stDataDemissao, PessoaModel pessoa) {
+        this.stDataAdmissao = stDataAdmissao;
+        this.stDataDemissao = stDataDemissao;
+        this.pessoa = pessoa;
     }
 }

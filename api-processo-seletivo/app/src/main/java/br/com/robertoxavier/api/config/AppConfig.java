@@ -6,12 +6,14 @@ import br.com.robertoxavier.ports.endereco.EnderecoPort;
 import br.com.robertoxavier.ports.fotoModel.FotoPort;
 import br.com.robertoxavier.ports.lotacao.LotacaoPort;
 import br.com.robertoxavier.ports.servidor.ServidorEfetivoPort;
+import br.com.robertoxavier.ports.servidor.ServidorTemporarioPort;
 import br.com.robertoxavier.ports.unidade.UnidadePort;
 import br.com.robertoxavier.stories.cidade.CidadeUseStory;
 import br.com.robertoxavier.stories.endereco.EnderecoUseStory;
 import br.com.robertoxavier.stories.fotoPessoa.FotoPessoaUseStory;
 import br.com.robertoxavier.stories.lotacao.LotacaoUseStory;
 import br.com.robertoxavier.stories.servidor.ServidorEfetivoUseStory;
+import br.com.robertoxavier.stories.servidor.ServidorTemporarioUseStory;
 import br.com.robertoxavier.stories.unidade.UnidadeUseStory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +43,11 @@ public class AppConfig {
     @Bean
     public ServidorEfetivoUseStory servidorEfetivoUseStory(ServidorEfetivoPort servidorEfetivoPort) {
         return new ServidorEfetivoUseStory (servidorEfetivoPort) ;
+    }
+
+    @Bean
+    public ServidorTemporarioUseStory servidorTemporarioUseStory(ServidorTemporarioPort servidorTemporarioPort) {
+        return new ServidorTemporarioUseStory (servidorTemporarioPort) ;
     }
 
     @Bean
