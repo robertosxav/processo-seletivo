@@ -19,8 +19,8 @@ import java.util.Date;
 @Component
 public class JwtServiceImpl implements JwtService {
 
-    private final long jwtExpirationInMs = 86400000; // tempo de expiração do token em milissegundos (1 dia)
-    private final long refreshTokenExpirationInMs = 2592000000L; // 30 dias de expiração para o refresh token
+    private final long jwtExpirationInMs = 300000L;
+    private final long refreshTokenExpirationInMs = 86400000L;
     private final SecretKey key = Jwts.SIG.HS256.key().build();
     private final SecretKey keyRefresh = Jwts.SIG.HS256.key().build();
 

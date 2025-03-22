@@ -5,6 +5,7 @@ import br.com.robertoxavier.service.Resource;
 import br.com.robertoxavier.service.StorageService;
 import br.com.robertoxavier.util.HashingUtils;
 import io.minio.http.Method;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/teste")
+@Hidden
+@RequestMapping("/minio")
 public class TesteMinIOController {
 
     private final StorageService storage;
