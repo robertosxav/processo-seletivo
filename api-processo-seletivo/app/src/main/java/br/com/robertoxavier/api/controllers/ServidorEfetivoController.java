@@ -100,7 +100,7 @@ public class ServidorEfetivoController {
             @ApiResponse(responseCode  = "200", description  = "Atualizar uma lotacao"),
     })
     @PutMapping("/{pesId}")
-    public ServidorEfetivoResponse atualizarUnidade(@PathVariable Long pesId,
+    public ServidorEfetivoResponse atualizarServidorEfetivo(@PathVariable Long pesId,
                                                        @RequestParam(name = "matricula", required = false) String matricula,
                                                        @RequestParam(name = "nome", required = false) String nome,
                                                        @RequestParam(name = "dataNascimento", required = false) LocalDate dataNascimento,

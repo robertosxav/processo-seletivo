@@ -6,6 +6,8 @@ import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.fotoPessoa.FotoMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorTemporarioMapper;
+import br.com.robertoxavier.dto.fotoPessoa.FotoRequest;
+import br.com.robertoxavier.dto.fotoPessoa.FotoResponse;
 import br.com.robertoxavier.dto.pessoa.PessoaRequest;
 import br.com.robertoxavier.dto.servidor.ServidorTemporarioRequest;
 import br.com.robertoxavier.dto.servidor.ServidorTemporarioResponse;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -62,18 +65,14 @@ public class ServidorTemporarioController {
             @RequestParam(name = "listaEnderecosId", required = false) Set<Long> listaEnderecosId,
             @RequestParam(name = "fotos", required = false) List<MultipartFile> fotos
     ) {
-        List<Resource> listaResource = fotos.stream().map(this::resourceOf).toList();
 
         PessoaRequest pessoaRequest = new PessoaRequest(
                 nome,dataNascimento,sexo,nomeMae,nomePai,listaEnderecosId);
         ServidorTemporarioRequest servidorTemporarioRequest = new ServidorTemporarioRequest(
                 dataAdmissao,dataDemissao,pessoaRequest);
-        ServidorTemporarioResponse servidorTemporarioResponse =  servidorTemporarioMapper.servidorTemporarioModelToResponse(servidorTemporarioUseStory
+        return  servidorTemporarioMapper.servidorTemporarioModelToResponse(servidorTemporarioUseStory
                 .criar(servidorTemporarioMapper.servidorTemporarioRequestToModel(servidorTemporarioRequest)));
 
-        /*FotoResponse fotoResponse =  fotoMapper.fotoModelToResponse(servidorTemporarioUseStory
-                .criar(fotoMapper.fotoRequestToModel(servidorTemporarioRequest)));*/
-        return servidorTemporarioResponse;
     }
 
     private Resource resourceOf(final MultipartFile part) {
@@ -115,7 +114,7 @@ public class ServidorTemporarioController {
             @ApiResponse(responseCode  = "200", description  = "Atualizar uma lotacao"),
     })
     @PutMapping("/{pesId}")
-    public ServidorTemporarioResponse atualizarUnidade(@PathVariable Long pesId,
+    public ServidorTemporarioResponse atualizarServidorTemporario(@PathVariable Long pesId,
                                             @RequestParam(name = "dataAdmissao", required = false) LocalDate dataAdmissao,
                                             @RequestParam(name = "dataDemissao", required = false) LocalDate dataDemissao,
                                             @RequestParam(name = "nome", required = false) String nome,
@@ -124,9 +123,7 @@ public class ServidorTemporarioController {
                                             @RequestParam(name = "nomeMae", required = false) String nomeMae,
                                             @RequestParam(name = "nomePai", required = false) String nomePai,
                                             @RequestParam(name = "listaEnderecosId", required = false) Set<Long> listaEnderecosId
-                                        //    @RequestParam(name = "fotos", required = false) List<MultipartFile> fotos
                                                           ) {
-        //List<Resource> listaResource = fotos.stream().map(this::resourceOf).toList();
 
         PessoaRequest pessoaRequest = new PessoaRequest(
                 nome,dataNascimento,sexo,nomeMae,nomePai,listaEnderecosId);
@@ -134,5 +131,29 @@ public class ServidorTemporarioController {
                 dataAdmissao,dataDemissao,pessoaRequest);
         return servidorTemporarioMapper.servidorTemporarioModelToResponse(servidorTemporarioUseStory
                 .atualizar(pesId,servidorTemporarioMapper.servidorTemporarioRequestToModel(servidorTemporarioRequest)));
+    }
+    @PostMapping(value = "/upload-fotos/{pesId}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+
+    public List<FotoResponse> uploadFotos(
+            @PathVariable Long pesId,
+            @RequestParam(name = "fotos", required = false) List<MultipartFile> fotos
+    ){
+        List<Resource> listaResource = fotos.stream().map(this::resourceOf).toList();
+        List<FotoResponse>listaFotoResponse =new ArrayList<FotoResponse>();
+        List<FotoRequest>listaFotoRequest =new ArrayList<FotoRequest>();
+
+        listaResource.forEach((f)->{
+            FotoRequest fotoRequest = new FotoRequest(pesId,f);
+            listaFotoRequest.add(fotoRequest);
+        });
+
+        listaFotoResponse =  fotoMapper.fotoModelListToFotoResponseList(fotoPessoaUseStory
+                .uploadFotos(fotoMapper.fotoRequestListToFotoModelList(listaFotoRequest)));
+
+
+        return listaFotoResponse;
     }
 }
