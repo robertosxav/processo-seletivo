@@ -1,4 +1,4 @@
-package com.agency.just.config;
+package br.com.robertoxavier.api.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +32,7 @@ public class OpenApiConfig {
                                 .name("Authorization")
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
-                                .bearerFormat("JWT")) // Especifique o formato, como JWT
+                                .bearerFormat("JWT"))
                 )
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .info(new Info()
