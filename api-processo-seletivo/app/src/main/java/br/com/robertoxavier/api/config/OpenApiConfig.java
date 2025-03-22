@@ -25,8 +25,6 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI customAopenApi() {
         String schemeName = "bearerAuth";
-        System.out.println("urlApp:"+urlApp);
-        System.out.println("apiPath:"+apiPath);
         return new OpenAPI()
                 .addServersItem(new Server().url(urlApp + apiPath))
                 .components(new Components()

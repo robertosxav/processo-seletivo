@@ -42,10 +42,7 @@ public class TesteMinIOController {
 
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> get(@PathVariable String id){
-        System.out.println("entrou aqui");
-        System.out.println("id: "+id);
         var body = storage.get(id);
-        System.out.println("body: "+body);
         if (body.isEmpty()) {
             return ResponseEntity.notFound().build(); // Retorna 404 se o recurso não for encontrado
         }

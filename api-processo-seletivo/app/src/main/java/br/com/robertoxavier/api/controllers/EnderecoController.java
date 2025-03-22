@@ -33,7 +33,6 @@ public class EnderecoController {
     })
     @PostMapping()
     public EnderecoResponse criarEndereco(@RequestBody EnderecoRequest enderecoRequest) {
-        System.out.println("entrou no controller");
         return enderecoMapper.enderecoModelToResponse(enderecoUseStory
                 .criar(enderecoMapper.enderecoRequestToModel(enderecoRequest)));
     }

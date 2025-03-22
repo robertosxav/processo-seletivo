@@ -24,7 +24,6 @@ public class EnderecoUseStory {
     }
 
     public EnderecoModel criar(EnderecoModel EnderecoModel){
-        System.out.println("entrou na useStory");
         return enderecoPort.criar(EnderecoModel);
     }
 
