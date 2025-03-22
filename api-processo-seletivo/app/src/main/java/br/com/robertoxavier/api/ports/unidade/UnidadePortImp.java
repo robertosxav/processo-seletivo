@@ -4,21 +4,21 @@ import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.unidade.UnidadeMapper;
-import br.com.robertoxavier.data.entities.EnderecoEntity;
-import br.com.robertoxavier.data.entities.UnidadeEnderecoEntity;
-import br.com.robertoxavier.data.entities.UnidadeEnderecoId;
-import br.com.robertoxavier.data.entities.UnidadeEntity;
+import br.com.robertoxavier.data.entities.*;
 import br.com.robertoxavier.data.repositories.EnderecoRepository;
+import br.com.robertoxavier.data.repositories.LotacaoRepository;
 import br.com.robertoxavier.data.repositories.UnidadeEnderecoRepository;
 import br.com.robertoxavier.data.repositories.UnidadeRepository;
 import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.model.UnidadeModel;
 import br.com.robertoxavier.ports.unidade.UnidadePort;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -35,22 +35,25 @@ public class UnidadePortImp implements UnidadePort {
 
     private final UnidadeEnderecoRepository unidadeEnderecoRepository;
 
+    private final LotacaoRepository lotacaoRepository;
+
     public UnidadePortImp(UnidadeRepository unidadeRepository,
                           UnidadeMapper unidadeMapper,
                           EnderecoRepository enderecoRepository,
                           EnderecoMapper enderecoMapper,
-                          UnidadeEnderecoRepository unidadeEnderecoRepository) {
+                          UnidadeEnderecoRepository unidadeEnderecoRepository, LotacaoRepository lotacaoRepository) {
         this.unidadeRepository = unidadeRepository;
         this.unidadeMapper = unidadeMapper;
         this.enderecoRepository = enderecoRepository;
         this.enderecoMapper = enderecoMapper;
         this.unidadeEnderecoRepository = unidadeEnderecoRepository;
+        this.lotacaoRepository = lotacaoRepository;
     }
 
     @Override
-    public UnidadeModel buscarPorId(Long cidId) {
+    public UnidadeModel buscarPorId(Long endId) {
         UnidadeModel unidadeModel = unidadeMapper
-                .unidadeEntityToModel( unidadeRepository.findById(cidId)
+                .unidadeEntityToModel( unidadeRepository.findById(endId)
                         .orElseThrow(() -> new RuntimeException("Unidade não encontrada")));
         Set<EnderecoEntity> enderecoEntityList = unidadeEnderecoRepository
                 .listaENderecosUnidade(unidadeModel.getUnidId());
@@ -193,8 +196,19 @@ public class UnidadePortImp implements UnidadePort {
     }
 
     @Override
-    public void excluir(Long cidId) {
-        UnidadeModel unidadeModelBanco = buscarPorId(cidId);
+    @Transactional
+    public void excluir(Long unidId) {
+
+        LotacaoEntity lotacaoEntity = lotacaoRepository.finByUnidadeUnidId(unidId);
+
+        if(lotacaoEntity!= null){
+            throw new RuntimeException("Não é possivel exluir a unidade pois a mesma possui lotaoes ligadas a ela");
+        }
+        UnidadeModel unidadeModelBanco = buscarPorId(unidId);
+        Set<UnidadeEnderecoEntity> listaUnidadesEnderecos = unidadeEnderecoRepository
+                .findByUnidadeId(unidId);
+
+        listaUnidadesEnderecos.forEach(unidadeEnderecoRepository::delete);
         unidadeRepository.delete(unidadeMapper.unidadeModelToEntity(unidadeModelBanco));
     }
 

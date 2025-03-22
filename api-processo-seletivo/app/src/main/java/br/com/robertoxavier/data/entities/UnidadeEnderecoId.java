@@ -12,6 +12,12 @@ public class UnidadeEnderecoId {
     @Column(name = "end_id",nullable = false)
     private Long endereco;
 
+    public UnidadeEnderecoId() {
+    }
+
+    public UnidadeEnderecoId(Long unidId, Long endId) {
+    }
+
     public Long getUnidade() {
         return unidade;
     }
