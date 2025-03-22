@@ -16,4 +16,5 @@ public interface EnderecoPort {
 
     PageResponse<EnderecoModel> listaEnderecosPaginado(PageQuery pageQuery);
 
+    void excluir(Long endId);
 }

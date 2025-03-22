@@ -101,4 +101,15 @@ public class EnderecoPortImp implements EnderecoPort {
                 enderecoModelPage.getContent()
         );
     }
+
+    @Override
+    public void excluir(Long endId) {
+        try{
+        EnderecoEntity enderecoEntity  = enderecoMapper
+                .enderecoModelToEntity(buscarPorId(endId));
+        enderecoRepository.delete(enderecoEntity);
+        }catch (Exception e){
+            throw new RuntimeException("Não foi possível excluir o endereco pois o mesmo está ligado a pessoas e/ou unidades");
+        }
+    }
 }

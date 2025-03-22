@@ -4,13 +4,17 @@ import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.cidade.CidadeMapper;
 import br.com.robertoxavier.data.entities.CidadeEntity;
+import br.com.robertoxavier.data.entities.EnderecoEntity;
 import br.com.robertoxavier.data.repositories.CidadeRepository;
+import br.com.robertoxavier.data.repositories.EnderecoRepository;
 import br.com.robertoxavier.model.CidadeModel;
 import br.com.robertoxavier.ports.cidade.CidadePort;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class CidadePortImp implements CidadePort {
@@ -19,9 +23,12 @@ public class CidadePortImp implements CidadePort {
 
     private final CidadeMapper cidadeMapper;
 
-    public CidadePortImp(CidadeRepository cidadeRepository,CidadeMapper cidadeMapper) {
+    private final EnderecoRepository enderecoRepository;
+
+    public CidadePortImp(CidadeRepository cidadeRepository, CidadeMapper cidadeMapper, EnderecoRepository enderecoRepository) {
         this.cidadeRepository = cidadeRepository;
         this.cidadeMapper = cidadeMapper;
+        this.enderecoRepository = enderecoRepository;
     }
 
     @Override
@@ -92,6 +99,10 @@ public class CidadePortImp implements CidadePort {
     @Override
     public void excluir(Long cidId) {
         CidadeModel cidadeModelBanco = buscarPorId(cidId);
+        List<EnderecoEntity> enderecoEntityList = enderecoRepository.findByCidadeCidId(cidId);
+        if(!enderecoEntityList.isEmpty()){
+            throw new RuntimeException("Não foi possível excluir a cidade pois a mesma está ligada a um ou mais enderecos");
+        }
         cidadeRepository.delete(cidadeMapper.cidadeModelToEntity(cidadeModelBanco));
     }
 

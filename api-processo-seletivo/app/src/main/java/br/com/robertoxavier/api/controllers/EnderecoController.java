@@ -11,6 +11,7 @@ import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.stories.endereco.EnderecoUseStory;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -68,12 +69,12 @@ public class EnderecoController {
                 .atualizar(endId,enderecoMapper.enderecoRequestToModel(enderecoRequest)));
     }
 
-   /* @ApiResponses(value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Excluir um endereco"),
     })
     @DeleteMapping("/{endId}")
     public ResponseEntity<String> excluir(@PathVariable Long endId) {
-        return enderecoMapper.enderecoModelToResponse(enderecoUseStory
-                .buscarPorId(endId));
-    }*/
+        enderecoUseStory.excluir(endId);
+        return ResponseEntity.ok("Enedereco excluido com sucesso");
+    }
 }

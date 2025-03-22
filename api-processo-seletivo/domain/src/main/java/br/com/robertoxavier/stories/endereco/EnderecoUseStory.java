@@ -30,4 +30,8 @@ public class EnderecoUseStory {
     public EnderecoModel atualizar(Long endId,EnderecoModel EnderecoModel){
         return enderecoPort.atualizar(endId,EnderecoModel);
     }
+
+    public void excluir(Long endId){
+        enderecoPort.excluir(endId);
+    }
 }
