@@ -5,16 +5,13 @@ import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.fotoPessoa.FotoMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
-import br.com.robertoxavier.api.ports.minio.MinIOStorageService;
 import br.com.robertoxavier.dto.fotoPessoa.FotoRequest;
 import br.com.robertoxavier.dto.fotoPessoa.FotoResponse;
 import br.com.robertoxavier.dto.pessoa.PessoaRequest;
-import br.com.robertoxavier.dto.pessoa.PessoaResponse;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoResponse;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
 import br.com.robertoxavier.service.Resource;
-import br.com.robertoxavier.service.StorageService;
 import br.com.robertoxavier.stories.fotoPessoa.FotoPessoaUseStory;
 import br.com.robertoxavier.stories.servidor.ServidorEfetivoUseStory;
 import br.com.robertoxavier.util.HashingUtils;
@@ -56,26 +53,11 @@ public class ServidorEfetivoController {
             @ApiResponse(responseCode  = "200", description  = "Criar um servidor Efetivo"),
     })
 
-    @PostMapping(
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PostMapping()
     public ServidorEfetivoResponse criarServidorEfetivo(
-            @RequestParam(name = "matricula", required = false) String matricula,
-            @RequestParam(name = "nome", required = false) String nome,
-            @RequestParam(name = "dataNascimento", required = false) LocalDate dataNascimento,
-            @RequestParam(name = "sexo", required = false) String sexo,
-            @RequestParam(name = "nomeMae", required = false) String nomeMae,
-            @RequestParam(name = "nomePai", required = false) String nomePai,
-            @RequestParam(name = "listaEnderecosId", required = false) Set<Long> listaEnderecosId
-    ) {
-        PessoaRequest pessoaRequest = new PessoaRequest(
-                nome,dataNascimento,sexo,nomeMae,nomePai,listaEnderecosId);
-        ServidorEfetivoRequest servidorEfetivoRequest = new ServidorEfetivoRequest(
-                matricula,pessoaRequest);
+            @RequestBody ServidorEfetivoRequest servidorEfetivoRequest) {
         ServidorEfetivoResponse servidorEfetivoResponse =  servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
                 .criar(servidorEfetivoMapper.servidorEfetivoRequestToModel(servidorEfetivoRequest)));
-
         return servidorEfetivoResponse;
     }
 
@@ -101,19 +83,8 @@ public class ServidorEfetivoController {
     })
     @PutMapping("/{pesId}")
     public ServidorEfetivoResponse atualizarServidorEfetivo(@PathVariable Long pesId,
-                                                       @RequestParam(name = "matricula", required = false) String matricula,
-                                                       @RequestParam(name = "nome", required = false) String nome,
-                                                       @RequestParam(name = "dataNascimento", required = false) LocalDate dataNascimento,
-                                                       @RequestParam(name = "sexo", required = false) String sexo,
-                                                       @RequestParam(name = "nomeMae", required = false) String nomeMae,
-                                                       @RequestParam(name = "nomePai", required = false) String nomePai,
-                                                       @RequestParam(name = "listaEnderecosId", required = false) Set<Long> listaEnderecosId
-
-    ) {
-        PessoaRequest pessoaRequest = new PessoaRequest(
-                nome,dataNascimento,sexo,nomeMae,nomePai,listaEnderecosId);
-        ServidorEfetivoRequest servidorEfetivoRequest = new ServidorEfetivoRequest(
-                matricula,pessoaRequest);
+                                                            @RequestBody ServidorEfetivoRequest servidorEfetivoRequest)
+    {
         return servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
                 .atualizar(pesId,servidorEfetivoMapper.servidorEfetivoRequestToModel(servidorEfetivoRequest)));
     }

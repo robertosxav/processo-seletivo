@@ -50,26 +50,12 @@ public class ServidorTemporarioController {
             @ApiResponse(responseCode  = "200", description  = "Criar um servidor Efetivo"),
     })
 
-    @PostMapping(
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PostMapping()
     public ServidorTemporarioResponse criarServidorTemporario(
             @RequestParam(name = "dataAdmissao", required = false) LocalDate dataAdmissao,
-            @RequestParam(name = "dataDemissao", required = false) LocalDate dataDemissao,
-            @RequestParam(name = "nome", required = false) String nome,
-            @RequestParam(name = "dataNascimento", required = false) LocalDate dataNascimento,
-            @RequestParam(name = "sexo", required = false) String sexo,
-            @RequestParam(name = "nomeMae", required = false) String nomeMae,
-            @RequestParam(name = "nomePai", required = false) String nomePai,
-            @RequestParam(name = "listaEnderecosId", required = false) Set<Long> listaEnderecosId,
-            @RequestParam(name = "fotos", required = false) List<MultipartFile> fotos
+            @RequestBody ServidorTemporarioRequest servidorTemporarioRequest
     ) {
 
-        PessoaRequest pessoaRequest = new PessoaRequest(
-                nome,dataNascimento,sexo,nomeMae,nomePai,listaEnderecosId);
-        ServidorTemporarioRequest servidorTemporarioRequest = new ServidorTemporarioRequest(
-                dataAdmissao,dataDemissao,pessoaRequest);
         return  servidorTemporarioMapper.servidorTemporarioModelToResponse(servidorTemporarioUseStory
                 .criar(servidorTemporarioMapper.servidorTemporarioRequestToModel(servidorTemporarioRequest)));
 
@@ -115,20 +101,9 @@ public class ServidorTemporarioController {
     })
     @PutMapping("/{pesId}")
     public ServidorTemporarioResponse atualizarServidorTemporario(@PathVariable Long pesId,
-                                            @RequestParam(name = "dataAdmissao", required = false) LocalDate dataAdmissao,
-                                            @RequestParam(name = "dataDemissao", required = false) LocalDate dataDemissao,
-                                            @RequestParam(name = "nome", required = false) String nome,
-                                            @RequestParam(name = "dataNascimento", required = false) LocalDate dataNascimento,
-                                            @RequestParam(name = "sexo", required = false) String sexo,
-                                            @RequestParam(name = "nomeMae", required = false) String nomeMae,
-                                            @RequestParam(name = "nomePai", required = false) String nomePai,
-                                            @RequestParam(name = "listaEnderecosId", required = false) Set<Long> listaEnderecosId
+                                                                  @RequestBody ServidorTemporarioRequest servidorTemporarioRequest
                                                           ) {
 
-        PessoaRequest pessoaRequest = new PessoaRequest(
-                nome,dataNascimento,sexo,nomeMae,nomePai,listaEnderecosId);
-        ServidorTemporarioRequest servidorTemporarioRequest = new ServidorTemporarioRequest(
-                dataAdmissao,dataDemissao,pessoaRequest);
         return servidorTemporarioMapper.servidorTemporarioModelToResponse(servidorTemporarioUseStory
                 .atualizar(pesId,servidorTemporarioMapper.servidorTemporarioRequestToModel(servidorTemporarioRequest)));
     }

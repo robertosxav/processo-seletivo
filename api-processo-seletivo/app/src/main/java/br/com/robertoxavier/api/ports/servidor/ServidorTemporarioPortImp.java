@@ -12,6 +12,7 @@ import br.com.robertoxavier.data.repositories.PessoaRepository;
 import br.com.robertoxavier.data.repositories.ServidorTemporarioRepository;
 import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.model.PessoaModel;
+import br.com.robertoxavier.model.ServidorEfetivoModel;
 import br.com.robertoxavier.model.ServidorTemporarioModel;
 import br.com.robertoxavier.ports.servidor.ServidorTemporarioPort;
 import jakarta.transaction.Transactional;
@@ -73,6 +74,8 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
     @Override
     public ServidorTemporarioModel criar(ServidorTemporarioModel servidorTemporarioModel) {
 
+        regrasNegocio(servidorTemporarioModel);
+
         ServidorTemporarioModel servidorTemporarioModeBD=  servidorTemporarioMapper.servidorTemporarioEntityToModel(
                 servidorTemporarioRepository.saveAndFlush(
                         servidorTemporarioMapper.servidorTemporarioModelToEntity(servidorTemporarioModel)
@@ -108,6 +111,8 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
     @Transactional
     @Override
     public ServidorTemporarioModel atualizar(Long pesId, ServidorTemporarioModel servidorTemporarioModel) {
+
+        regrasNegocio(servidorTemporarioModel);
 
         // Busca o servidor no banco
         ServidorTemporarioModel servidorTemporarioModeBD = servidorTemporarioMapper.servidorTemporarioEntityToModel(
@@ -199,4 +204,48 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
         servidorTemporarioRepository.delete(servidorTemporarioMapper.servidorTemporarioModelToEntity(servidorTemporarioModelBanco));
     }
 
+
+    private void regrasNegocio(ServidorTemporarioModel servidorTemporarioModel) {
+        if (servidorTemporarioModel.getStDataAdmissao() == null){
+            throw new RuntimeException("Data de admissao é obrigatoria");
+        }
+
+
+        if(servidorTemporarioModel.getPessoa().getPesNome().isBlank()){
+            throw new RuntimeException("Nome é obrigatorio");
+        }
+
+        if(servidorTemporarioModel.getPessoa().getPesNome().length() > 200){
+            throw new RuntimeException("Nome deve ter no maximo 200 caracteres");
+        }
+
+        if(servidorTemporarioModel.getPessoa().getPesPai().isBlank()){
+            throw new RuntimeException("Nome do Pai é obrigatorio");
+        }
+
+        if(servidorTemporarioModel.getPessoa().getPesPai().length() > 200){
+            throw new RuntimeException("Nome do Pai deve ter no maximo 200 caracteres");
+        }
+
+        if(servidorTemporarioModel.getPessoa().getPesMae().isBlank()){
+            throw new RuntimeException("Nome da Mae é obrigatorio");
+        }
+
+        if(servidorTemporarioModel.getPessoa().getPesMae().length() > 200){
+            throw new RuntimeException("Nome da Mae deve ter no maximo 200 caracteres");
+        }
+
+        if(servidorTemporarioModel.getPessoa().getPesSexo().isBlank()){
+            throw new RuntimeException("Sexo é obrigatorio");
+        }
+
+        if(servidorTemporarioModel.getPessoa().getPesSexo().length() > 200){
+            throw new RuntimeException("Sexo deve ter no maximo 09 caracteres");
+        }
+
+        if(servidorTemporarioModel.getPessoa().getPesDataNascimento() == null){
+            throw new RuntimeException("Data de Nascimento é obrigatorio");
+        }
+
+    }
 }

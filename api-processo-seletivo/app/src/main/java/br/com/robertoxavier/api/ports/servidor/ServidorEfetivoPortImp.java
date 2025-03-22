@@ -72,6 +72,7 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
     @Transactional
     @Override
     public ServidorEfetivoModel criar(ServidorEfetivoModel servidorEfetivoModel) {
+        regrasNegocio(servidorEfetivoModel);
 
         ServidorEfetivoModel servidorEfetivoModel1=  servidorEfetivoMapper.servidorEfetivoEntityToModel(
                 servidorEfetivoRepository.saveAndFlush(
@@ -105,10 +106,57 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
         return servidorEfetivoModel1;
     }
 
+    private void regrasNegocio(ServidorEfetivoModel servidorEfetivoModel) {
+        if (servidorEfetivoModel.getSeMatricula().isBlank()){
+            throw new RuntimeException("É obrigatório a matricula");
+        }
+
+        if(servidorEfetivoModel.getSeMatricula().length() >20){
+            throw new RuntimeException("Matricula deve ter no maximo 20 caracteres");
+        }
+
+        if(servidorEfetivoModel.getPessoa().getPesNome().isBlank()){
+            throw new RuntimeException("Nome é obrigatorio");
+        }
+
+        if(servidorEfetivoModel.getPessoa().getPesNome().length() > 200){
+            throw new RuntimeException("Nome deve ter no maximo 200 caracteres");
+        }
+
+        if(servidorEfetivoModel.getPessoa().getPesPai().isBlank()){
+            throw new RuntimeException("Nome do Pai é obrigatorio");
+        }
+
+        if(servidorEfetivoModel.getPessoa().getPesPai().length() > 200){
+            throw new RuntimeException("Nome do Pai deve ter no maximo 200 caracteres");
+        }
+
+        if(servidorEfetivoModel.getPessoa().getPesMae().isBlank()){
+            throw new RuntimeException("Nome da Mae é obrigatorio");
+        }
+
+        if(servidorEfetivoModel.getPessoa().getPesMae().length() > 200){
+            throw new RuntimeException("Nome da Mae deve ter no maximo 200 caracteres");
+        }
+
+        if(servidorEfetivoModel.getPessoa().getPesSexo().isBlank()){
+            throw new RuntimeException("Sexo é obrigatorio");
+        }
+
+        if(servidorEfetivoModel.getPessoa().getPesSexo().length() > 200){
+            throw new RuntimeException("Sexo deve ter no maximo 09 caracteres");
+        }
+
+        if(servidorEfetivoModel.getPessoa().getPesDataNascimento() == null){
+            throw new RuntimeException("Data de Nascimento é obrigatorio");
+        }
+
+    }
+
 
     @Override
     public ServidorEfetivoModel atualizar(Long pesId, ServidorEfetivoModel servidorEfetivoModel) {
-
+        regrasNegocio(servidorEfetivoModel);
         ServidorEfetivoModel servidorEfetivoModelBD = servidorEfetivoMapper.servidorEfetivoEntityToModel(
                 servidorEfetivoRepository.findById(pesId)
                         .orElseThrow(() -> new RuntimeException("Servidor Efetivo não encontrado"))
