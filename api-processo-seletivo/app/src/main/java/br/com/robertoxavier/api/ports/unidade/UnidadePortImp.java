@@ -73,6 +73,10 @@ public class UnidadePortImp implements UnidadePort {
             throw new RuntimeException("Nome da unidade não pode ser vazio e deve ter no máximo 200 caracteres");
         }
 
+        if(unidadeModel.getEnderecoIdList() == null || unidadeModel.getEnderecoIdList().isEmpty()){
+            throw new RuntimeException("É obrigatório passar pelo menos um endereco");
+        }
+
         UnidadeModel unidadeModelBanco =  unidadeMapper.unidadeEntityToModel(
                 unidadeRepository.save(
                         unidadeMapper.unidadeModelToEntity(unidadeModel)
