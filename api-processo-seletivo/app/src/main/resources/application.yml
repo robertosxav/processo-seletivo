@@ -46,5 +46,5 @@ application:
   swagger: Endereco do Swagger - http://localhost:8083/apiseletivo/swagger-ui/index.html#/
 springdoc:
   swagger-ui:
-    operations-sorter: alpha
-    tags-sorter: method
+    operations-sorter: method
+    tags-sorter: alpha

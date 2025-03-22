@@ -1,10 +1,8 @@
 package br.com.robertoxavier.api.controllers;
 
 import br.com.robertoxavier.api.service.JwtService;
-
 import br.com.robertoxavier.dto.login.LoginRequest;
 import br.com.robertoxavier.dto.login.LoginResponse;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

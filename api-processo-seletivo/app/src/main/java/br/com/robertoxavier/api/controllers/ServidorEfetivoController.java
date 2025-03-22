@@ -1,13 +1,11 @@
 package br.com.robertoxavier.api.controllers;
 
-
 import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.fotoPessoa.FotoMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
 import br.com.robertoxavier.dto.fotoPessoa.FotoRequest;
 import br.com.robertoxavier.dto.fotoPessoa.FotoResponse;
-import br.com.robertoxavier.dto.pessoa.PessoaRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoResponse;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
@@ -15,18 +13,18 @@ import br.com.robertoxavier.service.Resource;
 import br.com.robertoxavier.stories.fotoPessoa.FotoPessoaUseStory;
 import br.com.robertoxavier.stories.servidor.ServidorEfetivoUseStory;
 import br.com.robertoxavier.util.HashingUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
+@Tag(name = "Servidores Efetivos")
 @RequestMapping("/servidor-efetivo")
 public class ServidorEfetivoController {
 
@@ -49,10 +47,11 @@ public class ServidorEfetivoController {
         this.fotoPessoaUseStory = fotoPessoaUseStory;
     }
 
+    @Operation(summary = "Criar um novo servidor efetivo")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Criar um servidor Efetivo"),
+            @ApiResponse(responseCode  = "200", description  = "Servidor efetivo criado com sucesso"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
-
     @PostMapping()
     public ServidorEfetivoResponse criarServidorEfetivo(
             @RequestBody ServidorEfetivoRequest servidorEfetivoRequest) {
@@ -61,25 +60,11 @@ public class ServidorEfetivoController {
         return servidorEfetivoResponse;
     }
 
-    private Resource resourceOf(final MultipartFile part) {
-        if (part == null) {
-            return null;
-        }
-
-        try {
-            return Resource.with(
-                    part.getBytes(),
-                    HashingUtils.checksum(part.getBytes()),
-                    part.getContentType(),
-                    part.getOriginalFilename()
-            );
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
-        }
-    }
-
+    @Operation(summary = "Atualizar um servidor efetivo pelo Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Atualizar uma lotacao"),
+            @ApiResponse(responseCode  = "200", description  = "Servidor efetivo atualizado com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
     @PutMapping("/{pesId}")
     public ServidorEfetivoResponse atualizarServidorEfetivo(@PathVariable Long pesId,
@@ -89,24 +74,12 @@ public class ServidorEfetivoController {
                 .atualizar(pesId,servidorEfetivoMapper.servidorEfetivoRequestToModel(servidorEfetivoRequest)));
     }
 
+    @Operation(summary = "Fazer upload de fotos de um servidor efetivo")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Buscar um servidor efetivo"),
+            @ApiResponse(responseCode  = "200", description  = "Upload de fotos doServidor efetivo enviado com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
-    @GetMapping("/{pesId}")
-    public ServidorEfetivoResponse buscarCidadePorId(@PathVariable Long pesId) {
-        return servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
-                .buscarPorId(pesId));
-    }
-
-    @GetMapping("/paginado/all")
-    public PageResponse<ServidorEfetivoResponse>servidorEfetivoUseStory(@RequestParam(defaultValue = "0") int page,
-                                                                             @RequestParam(defaultValue = "10") int sizePage) {
-        PageQuery pageQuery = new PageQuery(page, sizePage);
-        PageResponse<ServidorEfetivoModel> unidadePage = servidorEfetivoUseStory.listaServidoresEfetivosPaginado(pageQuery);
-
-        return unidadePage.map(servidorEfetivoMapper::servidorEfetivoModelToResponse);
-    }
-
     @PostMapping(value = "/upload-fotos/{pesId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -128,7 +101,51 @@ public class ServidorEfetivoController {
         listaFotoResponse =  fotoMapper.fotoModelListToFotoResponseList(fotoPessoaUseStory
                 .uploadFotos(fotoMapper.fotoRequestListToFotoModelList(listaFotoRequest)));
 
-
         return listaFotoResponse;
+    }
+
+    @Operation(summary = "Buscar um servidor efetivo pelo Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Servidor efetivo buscado pelo Id com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+    })
+
+    @GetMapping("/{pesId}")
+    public ServidorEfetivoResponse buscarCidadePorId(@PathVariable Long pesId) {
+        return servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
+                .buscarPorId(pesId));
+    }
+
+    @Operation(summary = "Listar servidores efetivos de forma paginado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Servidores efetivos listadas de forma paginado"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+    })
+    @GetMapping("/paginado/all")
+    public PageResponse<ServidorEfetivoResponse>servidorEfetivoUseStory(@RequestParam(defaultValue = "0") int page,
+                                                                        @RequestParam(defaultValue = "10") int sizePage) {
+        PageQuery pageQuery = new PageQuery(page, sizePage);
+        PageResponse<ServidorEfetivoModel> servidorEfetivoPage = servidorEfetivoUseStory.listaServidoresEfetivosPaginado(pageQuery);
+
+        return servidorEfetivoPage.map(servidorEfetivoMapper::servidorEfetivoModelToResponse);
+    }
+
+    private Resource resourceOf(final MultipartFile part) {
+        if (part == null) {
+            return null;
+        }
+
+        try {
+            return Resource.with(
+                    part.getBytes(),
+                    HashingUtils.checksum(part.getBytes()),
+                    part.getContentType(),
+                    part.getOriginalFilename()
+            );
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
     }
 }

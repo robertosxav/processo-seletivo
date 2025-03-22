@@ -1,7 +1,5 @@
 package br.com.robertoxavier.api.controllers;
 
-
-
 import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.cidade.CidadeMapper;
