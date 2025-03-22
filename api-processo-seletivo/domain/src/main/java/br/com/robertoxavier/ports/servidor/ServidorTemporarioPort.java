@@ -11,7 +11,7 @@ public interface ServidorTemporarioPort {
 
     ServidorTemporarioModel atualizar(Long pesId, ServidorTemporarioModel servidorTemporarioModel);
 
-    PageResponse<ServidorTemporarioModel> listaServidoresEfetivosPaginado(PageQuery pageQuery);
+    PageResponse<ServidorTemporarioModel> listaServidoresTemporariosPaginado(PageQuery pageQuery);
 
     void excluir(Long pesId);
 }

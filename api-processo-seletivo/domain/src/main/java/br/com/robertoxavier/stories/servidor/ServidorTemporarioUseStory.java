@@ -17,8 +17,8 @@ public class ServidorTemporarioUseStory {
         return servidorTemporarioPort.buscarPorId(pesId);
     }
 
-   public PageResponse<ServidorTemporarioModel> listaServidoresEfetivosPaginado(PageQuery pageQuery){
-        return servidorTemporarioPort.listaServidoresEfetivosPaginado(pageQuery);
+   public PageResponse<ServidorTemporarioModel> listaServidoresTemporariosPaginado(PageQuery pageQuery){
+        return servidorTemporarioPort.listaServidoresTemporariosPaginado(pageQuery);
     }
 
     public ServidorTemporarioModel criar(ServidorTemporarioModel servidorTemporarioModel){

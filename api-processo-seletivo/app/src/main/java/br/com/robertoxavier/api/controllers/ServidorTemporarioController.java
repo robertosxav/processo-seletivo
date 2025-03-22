@@ -16,8 +16,10 @@ import br.com.robertoxavier.service.Resource;
 import br.com.robertoxavier.stories.fotoPessoa.FotoPessoaUseStory;
 import br.com.robertoxavier.stories.servidor.ServidorTemporarioUseStory;
 import br.com.robertoxavier.util.HashingUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
+@Tag(name = "Servidores Temporários")
 @RequestMapping("/servidor-temporario")
 public class ServidorTemporarioController {
 
@@ -46,8 +49,10 @@ public class ServidorTemporarioController {
         this.fotoPessoaUseStory = fotoPessoaUseStory;
     }
 
+    @Operation(summary = "Criar um novo servidor temporário")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Criar um servidor Efetivo"),
+            @ApiResponse(responseCode  = "200", description  = "Servidor temporário criado com sucesso"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
 
     @PostMapping()
@@ -61,52 +66,28 @@ public class ServidorTemporarioController {
 
     }
 
-    private Resource resourceOf(final MultipartFile part) {
-        if (part == null) {
-            return null;
-        }
-
-        try {
-            return Resource.with(
-                    part.getBytes(),
-                    HashingUtils.checksum(part.getBytes()),
-                    part.getContentType(),
-                    part.getOriginalFilename()
-            );
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
-        }
-    }
-
+    @Operation(summary = "Atualizar um servidor temporário pelo Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Buscar um servidor efetivo"),
-    })
-    @GetMapping("/{pesId}")
-    public ServidorTemporarioResponse buscarCidadePorId(@PathVariable Long pesId) {
-        return servidorTemporarioMapper.servidorTemporarioModelToResponse(servidorTemporarioUseStory
-                .buscarPorId(pesId));
-    }
-
-    @GetMapping("/paginado/all")
-    public PageResponse<ServidorTemporarioResponse> servidorTemporarioUseStory(@RequestParam(defaultValue = "0") int page,
-                                                                         @RequestParam(defaultValue = "10") int sizePage) {
-        PageQuery pageQuery = new PageQuery(page, sizePage);
-        PageResponse<ServidorTemporarioModel> unidadePage = servidorTemporarioUseStory.listaServidoresEfetivosPaginado(pageQuery);
-
-        return unidadePage.map(servidorTemporarioMapper::servidorTemporarioModelToResponse);
-    }
-
-    @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Atualizar uma lotacao"),
+            @ApiResponse(responseCode  = "200", description  = "Servidor temporário atualizado com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
     @PutMapping("/{pesId}")
     public ServidorTemporarioResponse atualizarServidorTemporario(@PathVariable Long pesId,
                                                                   @RequestBody ServidorTemporarioRequest servidorTemporarioRequest
-                                                          ) {
+    ) {
 
         return servidorTemporarioMapper.servidorTemporarioModelToResponse(servidorTemporarioUseStory
                 .atualizar(pesId,servidorTemporarioMapper.servidorTemporarioRequestToModel(servidorTemporarioRequest)));
     }
+
+    @Operation(summary = "Fazer upload de fotos de um servidor temporário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Upload de fotos doServidor temporário enviado com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+    })
+
     @PostMapping(value = "/upload-fotos/{pesId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -130,5 +111,50 @@ public class ServidorTemporarioController {
 
 
         return listaFotoResponse;
+    }
+
+    @Operation(summary = "Buscar um servidor temporário pelo Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Servidor temporário buscado pelo Id com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+    })
+    @GetMapping("/{pesId}")
+    public ServidorTemporarioResponse buscarCidadePorId(@PathVariable Long pesId) {
+        return servidorTemporarioMapper.servidorTemporarioModelToResponse(servidorTemporarioUseStory
+                .buscarPorId(pesId));
+    }
+
+
+    @Operation(summary = "Listar servidores temporários de forma paginado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Servidores temporários listadas de forma paginado"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+    })
+    @GetMapping("/paginado/all")
+    public PageResponse<ServidorTemporarioResponse> servidorTemporarioUseStory(@RequestParam(defaultValue = "0") int page,
+                                                                               @RequestParam(defaultValue = "10") int sizePage) {
+        PageQuery pageQuery = new PageQuery(page, sizePage);
+        PageResponse<ServidorTemporarioModel> unidadePage = servidorTemporarioUseStory.listaServidoresTemporariosPaginado(pageQuery);
+
+        return unidadePage.map(servidorTemporarioMapper::servidorTemporarioModelToResponse);
+    }
+
+    private Resource resourceOf(final MultipartFile part) {
+        if (part == null) {
+            return null;
+        }
+
+        try {
+            return Resource.with(
+                    part.getBytes(),
+                    HashingUtils.checksum(part.getBytes()),
+                    part.getContentType(),
+                    part.getOriginalFilename()
+            );
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
     }
 }

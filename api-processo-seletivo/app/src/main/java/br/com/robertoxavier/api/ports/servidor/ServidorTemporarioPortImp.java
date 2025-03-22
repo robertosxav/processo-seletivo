@@ -176,7 +176,7 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
 
 
     @Override
-    public PageResponse<ServidorTemporarioModel> listaServidoresEfetivosPaginado(PageQuery pageQuery) {
+    public PageResponse<ServidorTemporarioModel> listaServidoresTemporariosPaginado(PageQuery pageQuery) {
         Page<ServidorTemporarioEntity> page = servidorTemporarioRepository.findAll(
                 PageRequest.of(pageQuery.getPage(), pageQuery.getSizePage())
         );
