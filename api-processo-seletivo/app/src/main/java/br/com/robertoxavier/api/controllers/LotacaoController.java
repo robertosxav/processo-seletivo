@@ -10,12 +10,15 @@ import br.com.robertoxavier.dto.lotacao.LotacaoRequest;
 import br.com.robertoxavier.dto.lotacao.LotacaoResponse;
 import br.com.robertoxavier.model.LotacaoModel;
 import br.com.robertoxavier.stories.lotacao.LotacaoUseStory;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Tag(name = "Lotações")
 @RequestMapping("/lotacao")
 public class LotacaoController {
 
@@ -28,8 +31,10 @@ public class LotacaoController {
         this.lotacaoUseStory = lotacaoUseStory;
     }
 
+    @Operation(summary = "Criar uma nova lotação")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Criar uma nova lotacao"),
+            @ApiResponse(responseCode  = "200", description  = "Lotação criada com sucesso"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
     @PostMapping()
     public LotacaoResponse criarLotacao(@RequestBody LotacaoRequest lotacaoRequest) {
@@ -37,17 +42,47 @@ public class LotacaoController {
                 .criar(lotacaoMapper.lotacaoRequestToModel(lotacaoRequest)));
     }
 
+    @Operation(summary = "Atualizar uma lotação pelo Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Buscar uma lotacao"),
+            @ApiResponse(responseCode  = "200", description  = "Lotação atualizada com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
-    @GetMapping("/{lotId}")
+    @PutMapping("/{lotId}")
+    public LotacaoResponse atualizarLotacao(@PathVariable Long lotId,
+                                          @RequestBody LotacaoRequest lotacaoRequest) {
+        return lotacaoMapper.lotacaoModelToResponse(lotacaoUseStory
+                .atualizar(lotId,lotacaoMapper.lotacaoRequestToModel(lotacaoRequest)));
+    }
+
+    @Operation(summary = "Excluir uma lotação pelo Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Lotação excluida com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+    })
+    @DeleteMapping("/{lotId}")
+    public ResponseEntity<String> excluir(@PathVariable Long lotId) {
+        lotacaoUseStory.excluir(lotId);
+        return ResponseEntity.ok("Lotacao excluida com sucesso");
+    }
+
+    @Operation(summary = "Buscar uma lotação pelo Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Lotação buscada pelo Id com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+    })
     public LotacaoResponse buscarLotacaoPorId(@PathVariable Long lotId) {
         return lotacaoMapper.lotacaoModelToResponse(lotacaoUseStory
                 .buscarPorId(lotId));
     }
 
+    @Operation(summary = "Listar lotações de forma paginado")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Listar todas lotacoes - paginado"),
+            @ApiResponse(responseCode  = "200", description  = "Lotações listadas de forma paginado"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
     @GetMapping("/paginado/all")
     public PageResponse<LotacaoResponse> listaUnidadesPaginado(@RequestParam(defaultValue = "0") int page,
@@ -56,24 +91,5 @@ public class LotacaoController {
         PageResponse<LotacaoModel> unidadePage = lotacaoUseStory.listaLotacoesPaginado(pageQuery);
 
         return unidadePage.map(lotacaoMapper::lotacaoModelToResponse);
-    }
-
-    @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Atualizar uma lotacao"),
-    })
-    @PutMapping("/{lotId}")
-    public LotacaoResponse atualizarUnidade(@PathVariable Long lotId,
-                                          @RequestBody LotacaoRequest lotacaoRequest) {
-        return lotacaoMapper.lotacaoModelToResponse(lotacaoUseStory
-                .atualizar(lotId,lotacaoMapper.lotacaoRequestToModel(lotacaoRequest)));
-    }
-
-    @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Excluir uma lotacao"),
-    })
-    @DeleteMapping("/{lotId}")
-    public ResponseEntity<String> excluir(@PathVariable Long lotId) {
-        lotacaoUseStory.excluir(lotId);
-        return ResponseEntity.ok("Lotacao excluida com sucesso");
     }
 }

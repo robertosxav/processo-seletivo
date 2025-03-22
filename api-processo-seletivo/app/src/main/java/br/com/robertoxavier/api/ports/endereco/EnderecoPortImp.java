@@ -2,6 +2,7 @@ package br.com.robertoxavier.api.ports.endereco;
 
 import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
+import br.com.robertoxavier.api.config.NotFoundException;
 import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.data.entities.EnderecoEntity;
 import br.com.robertoxavier.data.repositories.EnderecoRepository;
@@ -93,7 +94,7 @@ public class EnderecoPortImp implements EnderecoPort {
     public EnderecoModel buscarPorId(Long cidId) {
         return enderecoMapper
                 .enderecoEntityToModel( enderecoRepository.findById(cidId)
-                        .orElseThrow(() -> new RuntimeException("Endereco não encontrado")));
+                        .orElseThrow(() -> new NotFoundException("Endereco não encontrado")));
     }
 
     @Override

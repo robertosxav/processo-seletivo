@@ -2,6 +2,7 @@ package br.com.robertoxavier.api.ports.lotacao;
 
 import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
+import br.com.robertoxavier.api.config.NotFoundException;
 import br.com.robertoxavier.api.mappers.lotacao.LotacaoMapper;
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
 import br.com.robertoxavier.data.entities.LotacaoEntity;
@@ -10,9 +11,7 @@ import br.com.robertoxavier.data.repositories.PessoaRepository;
 import br.com.robertoxavier.model.LotacaoModel;
 import br.com.robertoxavier.model.PessoaModel;
 import br.com.robertoxavier.model.UnidadeModel;
-import br.com.robertoxavier.ports.cidade.CidadePort;
 import br.com.robertoxavier.ports.lotacao.LotacaoPort;
-import br.com.robertoxavier.stories.servidor.ServidorEfetivoUseStory;
 import br.com.robertoxavier.stories.unidade.UnidadeUseStory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,13 +44,13 @@ public class LotacaoPortImp implements LotacaoPort {
 
         return lotacaoMapper
                 .lotacaoEntityToModel( lotacaoRepository.findById(cidId)
-                        .orElseThrow(() -> new RuntimeException("Lotacao não encontrada")));
+                        .orElseThrow(() -> new NotFoundException("Lotacao não encontrada")));
     }
 
     @Override
     public LotacaoModel criar(LotacaoModel lotacaoModel) {
         PessoaModel pessoaModelBd = pessoaMapper.pessoaEntityToModel(pessoaRepository.findById(lotacaoModel.getPesId())
-                .orElseThrow(() -> new RuntimeException("pessoa não encontrada")));
+                .orElseThrow(() -> new NotFoundException("Pessoa não encontrada")));
 
         UnidadeModel unidadeModel = unidadeUseStory
                 .buscarPorId(lotacaoModel.getUnidId());
@@ -84,7 +83,7 @@ public class LotacaoPortImp implements LotacaoPort {
         lotacaoModelBanco.setLotPortaria(lotacaoModel.getLotPortaria());
 
         PessoaModel pessoaModelBanco = pessoaMapper.pessoaEntityToModel(pessoaRepository.findById(lotacaoModel.getPesId())
-                .orElseThrow(() -> new RuntimeException("pessoa não encontrada")));
+                .orElseThrow(() -> new NotFoundException("pessoa não encontrada")));
 
         UnidadeModel unidadeModelBanco = unidadeUseStory
                 .buscarPorId(lotacaoModel.getUnidId());

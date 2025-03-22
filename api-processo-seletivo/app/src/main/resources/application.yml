@@ -44,3 +44,7 @@ application:
   autor: Roberto de Souza Xavier Junior
   minio: Console minio - http://localhost:9001
   swagger: Endereco do Swagger - http://localhost:8083/apiseletivo/swagger-ui/index.html#/
+springdoc:
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: method
