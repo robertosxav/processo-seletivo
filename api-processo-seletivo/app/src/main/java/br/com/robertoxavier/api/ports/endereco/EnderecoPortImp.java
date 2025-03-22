@@ -39,6 +39,8 @@ public class EnderecoPortImp implements EnderecoPort {
     @Override
     public EnderecoModel criar(EnderecoModel enderecoModel) {
 
+        validarRegrasEndereco(enderecoModel);
+
         if (enderecoModel.getCidade().getCidId() == null) {
             enderecoModel.setCidade(cidadeUseStory.criar(enderecoModel.getCidade()));
         } else {
@@ -52,6 +54,41 @@ public class EnderecoPortImp implements EnderecoPort {
         );
     }
 
+    private void validarRegrasEndereco(EnderecoModel enderecoModel) {
+
+        if (enderecoModel.getEndTipoLogradouro().isBlank()){
+            throw new RuntimeException("É obrigatório informar o tipo de logradouro");
+        }
+
+        if (enderecoModel.getEndTipoLogradouro().length()>50){
+            throw new RuntimeException("Tamanho máximo para tipo de logradouro: 50 caracteres");
+        }
+
+        if (enderecoModel.getEndLogradouro().isBlank()){
+            throw new RuntimeException("É obrigatório informar o logradouro");
+        }
+
+
+        if (enderecoModel.getEndLogradouro().length()>220){
+            throw new RuntimeException("Tamanho máximo para logradouro: 200 caracteres");
+        }
+
+        if (enderecoModel.getEndBairro().isBlank()){
+            throw new RuntimeException("É obrigatório informar o bairro");
+        }
+
+        if (enderecoModel.getEndBairro().length()>220){
+            throw new RuntimeException("Tamanho máximo para bairro: 100 caracteres");
+        }
+
+        if (enderecoModel.getEndNumero() == null){
+            throw new RuntimeException("É obrigatório informar o numero");
+        }
+        if (enderecoModel.getCidade() == null){
+            throw new RuntimeException("É obrigatório informar a cidade");
+        }
+    }
+
     @Override
     public EnderecoModel buscarPorId(Long cidId) {
         return enderecoMapper
@@ -61,7 +98,11 @@ public class EnderecoPortImp implements EnderecoPort {
 
     @Override
     public EnderecoModel atualizar(Long cidId, EnderecoModel enderecoModel) {
+
+        validarRegrasEndereco(enderecoModel);
+
         EnderecoModel enderecoModelBanco = buscarPorId(cidId);
+
 
         CidadeModel cidadeModelBanco = null;
 
