@@ -2,6 +2,7 @@ package br.com.robertoxavier.api.ports.cidade;
 
 import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
+import br.com.robertoxavier.api.config.NotFoundException;
 import br.com.robertoxavier.api.mappers.cidade.CidadeMapper;
 import br.com.robertoxavier.data.entities.CidadeEntity;
 import br.com.robertoxavier.data.entities.EnderecoEntity;
@@ -10,6 +11,7 @@ import br.com.robertoxavier.data.repositories.EnderecoRepository;
 import br.com.robertoxavier.model.CidadeModel;
 import br.com.robertoxavier.ports.cidade.CidadePort;
 import jakarta.transaction.Transactional;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -36,7 +38,7 @@ public class CidadePortImp implements CidadePort {
 
         return cidadeMapper
                 .cidadeEntityToModel( cidadeRepository.findById(cidId)
-                        .orElseThrow(() -> new RuntimeException("Cidade não encontrada")));
+                        .orElseThrow(() -> new NotFoundException("Cidade não encontrada")));
     }
 
     @Transactional

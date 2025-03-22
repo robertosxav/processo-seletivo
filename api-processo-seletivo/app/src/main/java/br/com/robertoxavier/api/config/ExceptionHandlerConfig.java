@@ -32,7 +32,7 @@ public class ExceptionHandlerConfig extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
-    /*@ExceptionHandler({ NotFoundException.class })
+    @ExceptionHandler({ NotFoundException.class })
     protected ResponseEntity<Object> handleExceptionNotFound(RuntimeException ex, WebRequest request) {
         // Carrega os dados do erro
         String mensagemUsuario = ex.getMessage();
@@ -46,7 +46,7 @@ public class ExceptionHandlerConfig extends ResponseEntityExceptionHandler {
         // Retorna o erro tratado a aplicação cliente
 
         return super.handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-    }*/
+    }
 
     private String getPath(WebRequest request) {
 

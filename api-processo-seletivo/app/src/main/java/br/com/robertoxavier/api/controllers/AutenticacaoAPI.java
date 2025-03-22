@@ -22,11 +22,11 @@ public interface AutenticacaoAPI {
             produces = MediaType.APPLICATION_JSON_VALUE,
             value = "login"
     )
-    @Operation(summary = "No body 'accessToken' é retornado o token JWT e 'refreshToken' o refresh token")
+    @Operation(summary = "Serviço para gerar token e o refresh token")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully"),
-            @ApiResponse(responseCode = "422", description = "A validation error was thrown"),
-            @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
+            @ApiResponse(responseCode = "200", description = "Successo"),
+            @ApiResponse(responseCode = "422", description = "Erro de validação encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro 500"),
     })
     ResponseEntity<?> login(@RequestBody LoginRequest input);
 
@@ -35,10 +35,11 @@ public interface AutenticacaoAPI {
             produces = MediaType.APPLICATION_JSON_VALUE,
             value = "refresh-token"
     )
+    @Operation(summary = "Serviço para refresh token")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully"),
-            @ApiResponse(responseCode = "422", description = "A validation error was thrown"),
-            @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
+            @ApiResponse(responseCode = "200", description = "Successo"),
+            @ApiResponse(responseCode = "422", description = "Erro de validação encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro 500"),
     })
     ResponseEntity<?> refreshToken(@RequestHeader("Authorization") String authorizationHeader,  @RequestBody(required = false) Object body);
 }

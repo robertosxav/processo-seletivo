@@ -9,6 +9,7 @@ import br.com.robertoxavier.dto.cidade.CidadeRequest;
 import br.com.robertoxavier.dto.cidade.CidadeResponse;
 import br.com.robertoxavier.model.CidadeModel;
 import br.com.robertoxavier.stories.cidade.CidadeUseStory;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,10 @@ public class CidadeController {
         this.cidadeUseStory = cidadeUseStory;
     }
 
+    @Operation(summary = "Criar uma nova cidade")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Criar uma nova cidade"),
+            @ApiResponse(responseCode  = "200", description  = "Cidade criada com sucesso"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
     @PostMapping()
     public CidadeResponse criarCidade(@RequestBody CidadeRequest cidadeRequest) {
@@ -36,8 +39,11 @@ public class CidadeController {
                 .criar(cidadeMapper.cidadeRequestToModel(cidadeRequest)));
     }
 
+    @Operation(summary = "Buscar uma cidade pelo Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Buscar uma cidade"),
+            @ApiResponse(responseCode  = "200", description  = "Cidade buscada pelo Id com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
     @GetMapping("/{cidId}")
     public CidadeResponse buscarCidadePorId(@PathVariable Long cidId) {
@@ -45,8 +51,11 @@ public class CidadeController {
                 .buscarPorId(cidId));
     }
 
+    @Operation(summary = "Listar cidades de forma paginado")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Listar todas cidades - paginado"),
+            @ApiResponse(responseCode  = "200", description  = "Cidade listadas de forma paginado"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
     @GetMapping("/paginado/all")
     public PageResponse<CidadeResponse> listaCidadesPaginado(@RequestParam(defaultValue = "0") int page,
@@ -57,8 +66,11 @@ public class CidadeController {
         return cidadePage.map(cidadeMapper::cidadeModelToResponse);
     }
 
+    @Operation(summary = "Atualizar uma cidade pelo Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Atualizar uma cidade"),
+            @ApiResponse(responseCode  = "200", description  = "Cidade atualizada com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
     @PutMapping("/{cidId}")
     public CidadeResponse atualizarCidade(@PathVariable Long cidId,
@@ -67,8 +79,11 @@ public class CidadeController {
                 .atualizar(cidId,cidadeMapper.cidadeRequestToModel(cidadeRequest)));
     }
 
+    @Operation(summary = "Excluir uma cidade pelo Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Excluir uma cidade"),
+            @ApiResponse(responseCode  = "200", description  = "Cidade excluida com sucesso"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })
     @DeleteMapping("/{cidId}")
     public ResponseEntity<String> excluir(@PathVariable Long cidId) {
