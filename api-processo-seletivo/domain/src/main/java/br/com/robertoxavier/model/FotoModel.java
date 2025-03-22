@@ -1,19 +1,14 @@
 package br.com.robertoxavier.model;
 
-import java.time.LocalDate;
+import br.com.robertoxavier.service.Resource;
 
 public class FotoModel {
 
-    private Long fpId;
-
     private Long pesId;
 
-    private LocalDate fpData;
+    private Resource foto;
 
-    private String fpBucket;
-
-    private String fpHash;
-
+    private String linkFoto;
 
     public Long getPesId() {
         return pesId;
@@ -23,53 +18,36 @@ public class FotoModel {
         this.pesId = pesId;
     }
 
-    public LocalDate getFpData() {
-        return fpData;
+    public Resource getFoto() {
+        return foto;
     }
 
-    public void setFpData(LocalDate fpData) {
-        this.fpData = fpData;
+    public void setFoto(Resource foto) {
+        this.foto = foto;
     }
 
-    public String getFpBucket() {
-        return fpBucket;
+    public String getLinkFoto() {
+        return linkFoto;
     }
 
-    public void setFpBucket(String fpBucket) {
-        this.fpBucket = fpBucket;
-    }
-
-    public String getFpHash() {
-        return fpHash;
-    }
-
-    public void setFpHash(String fpHash) {
-        this.fpHash = fpHash;
-    }
-
-    public Long getFpId() {
-        return fpId;
-    }
-
-    public void setFpId(Long fpId) {
-        this.fpId = fpId;
+    public void setLinkFoto(String linkFoto) {
+        this.linkFoto = linkFoto;
     }
 
     public FotoModel() {
     }
 
-    public FotoModel(Long fpId, Long pesId, LocalDate fpData, String fpBucket, String fpHash) {
-        this.fpId = fpId;
+    public FotoModel(Long pesId, Resource foto) {
         this.pesId = pesId;
-        this.fpData = fpData;
-        this.fpBucket = fpBucket;
-        this.fpHash = fpHash;
+        this.foto = foto;
     }
 
-    public FotoModel(Long pesId, LocalDate fpData, String fpBucket, String fpHash) {
+    public FotoModel(Resource foto) {
+        this.foto = foto;
+    }
+
+    public FotoModel(Long pesId, String linkFoto) {
         this.pesId = pesId;
-        this.fpData = fpData;
-        this.fpBucket = fpBucket;
-        this.fpHash = fpHash;
+        this.linkFoto = linkFoto;
     }
 }

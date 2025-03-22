@@ -14,7 +14,7 @@ public class FotoPessoaUseStory {
         this.fotoPort = fotoPort;
     }
 
-    public FotoModel uploadFotos(FotoModel fotoModel){
-        return fotoPort.uploadFotos(fotoModel);
+    public List<FotoModel> uploadFotos(List<FotoModel> fotoModelList){
+        return fotoPort.uploadFotos(fotoModelList);
     }
 }

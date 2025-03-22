@@ -10,6 +10,8 @@ import br.com.robertoxavier.model.FotoModel;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class FotoMapper {
@@ -25,11 +27,8 @@ public class FotoMapper {
         }
 
         return new FotoModel(
-                fotoEntity.getFpId(),
                 fotoEntity.getPessoa().getPesId(),
-                fotoEntity.getFpData(),
-                fotoEntity.getFpBucket(),
-                fotoEntity.getFpHash()
+                fotoEntity.getLinkFoto()
         );
     }
 
@@ -38,13 +37,8 @@ public class FotoMapper {
             return null;
         }
 
-        return new FotoEntity(
-                fotoModel.getFpData(),
-                fotoModel.getFpBucket(),
-                fotoModel.getFpHash(),
-                fotoModel.getPesId()
-        );
-    }
+        return new FotoEntity();
+   }
 
     public FotoResponse fotoModelToResponse(FotoModel fotoModel) {
         if (fotoModel == null) {
@@ -53,7 +47,7 @@ public class FotoMapper {
 
         return new FotoResponse(
                 fotoModel.getPesId(),
-                null
+                fotoModel.getLinkFoto()
         );
     }
 
@@ -64,9 +58,28 @@ public class FotoMapper {
 
         return new FotoModel(
                 fotoRequest.pesId(),
-                LocalDate.now(),
-                fotoRequest.pesId().toString(),
-                fotoRequest.foto().checksum()
+                fotoRequest.foto()
         );
+    }
+
+
+    public List<FotoResponse> fotoModelListToFotoResponseList(List<FotoModel> fotoModelList){
+        if (fotoModelList == null) {
+            return null;
+        }
+
+        return fotoModelList.stream()
+                .map(this::fotoModelToResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<FotoModel> fotoRequestListToFotoModelList(List<FotoRequest> fotoRequestList){
+        if (fotoRequestList == null) {
+            return null;
+        }
+
+        return fotoRequestList.stream()
+                .map(this::fotoRequestToModel)
+                .collect(Collectors.toList());
     }
 }

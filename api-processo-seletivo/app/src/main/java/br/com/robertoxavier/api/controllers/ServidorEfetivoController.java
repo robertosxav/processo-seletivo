@@ -9,6 +9,7 @@ import br.com.robertoxavier.api.ports.minio.MinIOStorageService;
 import br.com.robertoxavier.dto.fotoPessoa.FotoRequest;
 import br.com.robertoxavier.dto.fotoPessoa.FotoResponse;
 import br.com.robertoxavier.dto.pessoa.PessoaRequest;
+import br.com.robertoxavier.dto.pessoa.PessoaResponse;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoResponse;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -39,17 +41,15 @@ public class ServidorEfetivoController {
 
     private final FotoPessoaUseStory fotoPessoaUseStory;
 
-    private final StorageService storageService;
 
     public ServidorEfetivoController(ServidorEfetivoMapper servidorEfetivoMapper,
                                      ServidorEfetivoUseStory servidorEfetivoUseStory,
-                                     FotoMapper fotoMapper, FotoPessoaUseStory fotoPessoaUseStory,
-                                     StorageService storageService) {
+                                     FotoMapper fotoMapper, FotoPessoaUseStory fotoPessoaUseStory
+                                     ) {
         this.servidorEfetivoMapper = servidorEfetivoMapper;
         this.servidorEfetivoUseStory = servidorEfetivoUseStory;
         this.fotoMapper = fotoMapper;
         this.fotoPessoaUseStory = fotoPessoaUseStory;
-        this.storageService = storageService;
     }
 
     @ApiResponses(value = {
@@ -141,19 +141,23 @@ public class ServidorEfetivoController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
 
-    public String uploadFotos(
+    public List<FotoResponse> uploadFotos(
             @PathVariable Long pesId,
             @RequestParam(name = "fotos", required = false) List<MultipartFile> fotos
     ){
         List<Resource> listaResource = fotos.stream().map(this::resourceOf).toList();
+        List<FotoResponse>listaFotoResponse =new ArrayList<FotoResponse>();
+        List<FotoRequest>listaFotoRequest =new ArrayList<FotoRequest>();
 
         listaResource.forEach((f)->{
-            storageService.store(pesId.toString(),f);
             FotoRequest fotoRequest = new FotoRequest(pesId,f);
-             FotoResponse fotoResponse =  fotoMapper.fotoModelToResponse(fotoPessoaUseStory
-                .uploadFotos(fotoMapper.fotoRequestToModel(fotoRequest)));
+            listaFotoRequest.add(fotoRequest);
         });
 
-        return "";
+        listaFotoResponse =  fotoMapper.fotoModelListToFotoResponseList(fotoPessoaUseStory
+                .uploadFotos(fotoMapper.fotoRequestListToFotoModelList(listaFotoRequest)));
+
+
+        return listaFotoResponse;
     }
 }
