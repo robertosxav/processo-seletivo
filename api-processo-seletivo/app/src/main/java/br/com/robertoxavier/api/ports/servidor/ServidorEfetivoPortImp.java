@@ -7,14 +7,8 @@ import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
 import br.com.robertoxavier.data.entities.*;
-import br.com.robertoxavier.data.repositories.EnderecoRepository;
-import br.com.robertoxavier.data.repositories.PessoaEnderecoRepository;
-import br.com.robertoxavier.data.repositories.PessoaRepository;
-import br.com.robertoxavier.data.repositories.ServidorEfetivoRepository;
-import br.com.robertoxavier.model.EnderecoModel;
-import br.com.robertoxavier.model.PessoaModel;
-import br.com.robertoxavier.model.ServidorEfetivoModel;
-import br.com.robertoxavier.model.ServidorTemporarioModel;
+import br.com.robertoxavier.data.repositories.*;
+import br.com.robertoxavier.model.*;
 import br.com.robertoxavier.ports.servidor.ServidorEfetivoPort;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -41,12 +35,16 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
 
     private final EnderecoMapper enderecoMapper;
 
+    private final LotacaoRepository lotacaoRepository;
+
+    private final FotoRepository fotoRepository;
+
     public ServidorEfetivoPortImp(ServidorEfetivoRepository servidorEfetivoRepository,
                                   ServidorEfetivoMapper servidorEfetivoMapper,
                                   PessoaRepository pessoaRepository,
                                   PessoaMapper pessoaMapper,
                                   PessoaEnderecoRepository pessoaEnderecoRepository, EnderecoRepository enderecoRepository,
-                                  EnderecoMapper enderecoMapper) {
+                                  EnderecoMapper enderecoMapper, LotacaoRepository lotacaoRepository, FotoRepository fotoRepository) {
         this.servidorEfetivoRepository = servidorEfetivoRepository;
         this.servidorEfetivoMapper = servidorEfetivoMapper;
         this.pessoaRepository = pessoaRepository;
@@ -54,6 +52,8 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
         this.pessoaEnderecoRepository = pessoaEnderecoRepository;
         this.enderecoRepository = enderecoRepository;
         this.enderecoMapper = enderecoMapper;
+        this.lotacaoRepository = lotacaoRepository;
+        this.fotoRepository = fotoRepository;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
 
        ServidorEfetivoModel servidorEfetivoModelBd =  servidorEfetivoMapper
                 .servidorEfetivoEntityToModel( servidorEfetivoRepository.findById(pesId)
-                        .orElseThrow(() -> new RuntimeException("ServidorEfetivo não encontrado")));
+                        .orElseThrow(() -> new RuntimeException("Servidor Efetivo não encontrado")));
 
         Set<EnderecoEntity> enderecoEntityList = pessoaEnderecoRepository
                 .listaEnderecosPessoa(servidorEfetivoModelBd.getPessoa().getPesId());
@@ -240,10 +240,34 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
         );
     }
 
+    @Transactional
     @Override
     public void excluir(Long pesId) {
         ServidorEfetivoModel servidorEfetivoModelBanco = buscarPorId(pesId);
         servidorEfetivoRepository.delete(servidorEfetivoMapper.servidorEfetivoModelToEntity(servidorEfetivoModelBanco));
+        excluirPessoa(servidorEfetivoModelBanco.getPessoa());
+    }
+
+    private void excluirPessoa(PessoaModel pessoaModel) {
+
+        LotacaoEntity lotacaoEntity = lotacaoRepository.finByPessoaPesId(pessoaModel.getPesId());
+
+        if(lotacaoEntity!= null){
+            throw new RuntimeException("Não é possivel exluir a pessoa pois a mesma possui lotaoes ligadas a ela");
+        }
+        Set<PessoaEnderecoEntity> listaPessoasEnderecos = pessoaEnderecoRepository
+                .findByPessoaId(pessoaModel.getPesId());
+
+        listaPessoasEnderecos.forEach(pessoaEnderecoRepository::delete);
+
+
+        Set<FotoEntity> listaFotosPessoa = fotoRepository
+                .findByPessoaId(pessoaModel.getPesId());
+
+        listaFotosPessoa.forEach(fotoRepository::delete);
+
+        pessoaRepository.delete(pessoaMapper
+                .pessoaModelToEntity(pessoaModel));
     }
 
 }

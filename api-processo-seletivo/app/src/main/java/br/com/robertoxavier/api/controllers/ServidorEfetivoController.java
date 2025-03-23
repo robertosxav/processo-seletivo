@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
@@ -105,6 +106,19 @@ public class ServidorEfetivoController {
                 .uploadFotos(fotoMapper.fotoRequestListToFotoModelList(listaFotoRequest)));
 
         return listaFotoResponse;
+    }
+
+    @Operation(summary = "Excluir uma Servidor pelo Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Servido efetivo excluido com sucesso"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
+    })
+    @DeleteMapping("/{pesId}")
+    public ResponseEntity<String> excluir(@PathVariable Long pesId) {
+        servidorEfetivoUseStory.excluir(pesId);
+        return ResponseEntity.ok("Servidor Efetivo excluido com sucesso");
     }
 
     @Operation(summary = "Buscar um servidor efetivo pelo Id")

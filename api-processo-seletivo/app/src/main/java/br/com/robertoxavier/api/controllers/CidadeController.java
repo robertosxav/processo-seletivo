@@ -56,7 +56,7 @@ public class CidadeController {
 
     @Operation(summary = "Excluir uma cidade pelo Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Cidade atualizada com sucesso"),
+            @ApiResponse(responseCode  = "200", description  = "Cidade excluida com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
             @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
             @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")

@@ -17,9 +17,9 @@ public interface PessoaEnderecoRepository extends JpaRepository<PessoaEnderecoEn
     @Query("select pe from PessoaEnderecoEntity pe " +
             "where pe.pesEndId.pessoa = :pesId " +
             "and pe.pesEndId.endereco = :endId")
-    Optional<UnidadeEnderecoEntity> findByPessoaAndEndereco(Long pesId, Long endId);
+    Optional<PessoaEnderecoEntity> findByPessoaAndEndereco(Long pesId, Long endId);
 
     @Query("select pe from PessoaEnderecoEntity pe " +
             "where pe.pesEndId.pessoa = :pesId")
-    Set<UnidadeEnderecoEntity> findByPessoaId(Long pesId);
+    Set<PessoaEnderecoEntity> findByPessoaId(Long pesId);
 }
