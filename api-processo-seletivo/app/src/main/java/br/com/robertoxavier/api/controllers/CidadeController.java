@@ -78,7 +78,7 @@ public class CidadeController {
 
     @Operation(summary = "Listar cidades de forma paginado")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Cidade listadas de forma paginado"),
+            @ApiResponse(responseCode  = "200", description  = "Cidades listadas de forma paginado"),
             @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
             @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
     })

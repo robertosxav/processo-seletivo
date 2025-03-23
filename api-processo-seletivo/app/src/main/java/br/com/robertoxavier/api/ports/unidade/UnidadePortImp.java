@@ -2,6 +2,7 @@ package br.com.robertoxavier.api.ports.unidade;
 
 import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
+import br.com.robertoxavier.api.config.NotFoundException;
 import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.unidade.UnidadeMapper;
 import br.com.robertoxavier.data.entities.*;
@@ -54,7 +55,7 @@ public class UnidadePortImp implements UnidadePort {
     public UnidadeModel buscarPorId(Long endId) {
         UnidadeModel unidadeModel = unidadeMapper
                 .unidadeEntityToModel( unidadeRepository.findById(endId)
-                        .orElseThrow(() -> new RuntimeException("Unidade não encontrada")));
+                        .orElseThrow(() -> new NotFoundException("Unidade não encontrada")));
         Set<EnderecoEntity> enderecoEntityList = unidadeEnderecoRepository
                 .listaENderecosUnidade(unidadeModel.getUnidId());
         unidadeModel.setEnderecoList(enderecoMapper.enderecoEntityListToEnderecoModelList(
@@ -86,7 +87,7 @@ public class UnidadePortImp implements UnidadePort {
         unidadeModel.getEnderecoIdList().forEach(e->{
             EnderecoModel enderecoModelBanco= enderecoMapper
                     .enderecoEntityToModel(enderecoRepository.findById(e)
-                    .orElseThrow(() -> new RuntimeException("Endereco não encontrado")));
+                    .orElseThrow(() -> new NotFoundException("Endereco não encontrado")));
 
             UnidadeEnderecoId unidadeEnderecoId = new UnidadeEnderecoId();
             unidadeEnderecoId.setUnidade(unidadeModelBanco.getUnidId());
@@ -119,7 +120,7 @@ public class UnidadePortImp implements UnidadePort {
 
         UnidadeModel unidadeModelBanco = unidadeRepository.findById(unidId)
                 .map(unidadeEntity -> unidadeMapper.unidadeEntityToModel(unidadeEntity))
-                .orElseThrow(() -> new RuntimeException("Unidade não encontrada"));
+                .orElseThrow(() -> new NotFoundException("Unidade não encontrada"));
 
         unidadeModelBanco.setUnidSigla(unidadeModel.getUnidSigla());
         unidadeModelBanco.setUnidNome(unidadeModel.getUnidNome());
@@ -145,7 +146,7 @@ public class UnidadePortImp implements UnidadePort {
 
             EnderecoModel enderecoModelBanco = enderecoRepository.findById(e)
                     .map(enderecoEntity -> enderecoMapper.enderecoEntityToModel(enderecoEntity))
-                    .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+                    .orElseThrow(() -> new NotFoundException("Endereço não encontrado"));
 
             Optional<UnidadeEnderecoEntity> unidadeEnderecoExistente = unidadeEnderecoRepository.findByUnidadeAndEndereco(
                     unidadeModelBanco.getUnidId(), enderecoModelBanco.getEndId());
