@@ -108,7 +108,7 @@ public class ServidorEfetivoController {
         return listaFotoResponse;
     }
 
-    @Operation(summary = "Excluir uma Servidor pelo Id")
+    @Operation(summary = "Excluir uma Servidor eeftivo pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servido efetivo excluido com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
@@ -130,7 +130,7 @@ public class ServidorEfetivoController {
     })
 
     @GetMapping("/{pesId}")
-    public ServidorEfetivoResponse buscarCidadePorId(@PathVariable Long pesId) {
+    public ServidorEfetivoResponse buscarServidorEfetivoPorId(@PathVariable Long pesId) {
         return servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
                 .buscarPorId(pesId));
     }

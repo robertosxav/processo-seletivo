@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -115,6 +116,20 @@ public class ServidorTemporarioController {
         return listaFotoResponse;
     }
 
+    @Operation(summary = "Excluir uma Servidor temporário pelo Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Servido efetivo excluido com sucesso"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
+    })
+    @DeleteMapping("/{pesId}")
+    public ResponseEntity<String> excluir(@PathVariable Long pesId) {
+        servidorTemporarioUseStory.excluir(pesId);
+        servidorTemporarioUseStory.excluir(pesId);
+        return ResponseEntity.ok("Servidor temporario excluido com sucesso");
+    }
+
     @Operation(summary = "Buscar um servidor temporário pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor temporário buscado pelo Id com sucesso"),
@@ -123,7 +138,7 @@ public class ServidorTemporarioController {
             @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/{pesId}")
-    public ServidorTemporarioResponse buscarCidadePorId(@PathVariable Long pesId) {
+    public ServidorTemporarioResponse buscarServidorTemporarioPorId(@PathVariable Long pesId) {
         return servidorTemporarioMapper.servidorTemporarioModelToResponse(servidorTemporarioUseStory
                 .buscarPorId(pesId));
     }

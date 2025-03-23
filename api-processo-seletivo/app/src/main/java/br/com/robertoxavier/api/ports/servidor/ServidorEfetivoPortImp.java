@@ -253,7 +253,7 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
         LotacaoEntity lotacaoEntity = lotacaoRepository.finByPessoaPesId(pessoaModel.getPesId());
 
         if(lotacaoEntity!= null){
-            throw new RuntimeException("Não é possivel exluir a pessoa pois a mesma possui lotaoes ligadas a ela");
+            throw new RuntimeException("Não é possivel exluir a pessoa pois a mesma possui lotacoes ligadas a ela");
         }
         Set<PessoaEnderecoEntity> listaPessoasEnderecos = pessoaEnderecoRepository
                 .findByPessoaId(pessoaModel.getPesId());

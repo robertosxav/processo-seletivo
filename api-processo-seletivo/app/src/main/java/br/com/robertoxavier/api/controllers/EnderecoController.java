@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Tag(name = "Enderecos")
+@Tag(name = "Endereços")
 @RequestMapping("/endereco")
 public class EnderecoController {
 

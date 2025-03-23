@@ -7,10 +7,7 @@ import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorTemporarioMapper;
 import br.com.robertoxavier.data.entities.*;
-import br.com.robertoxavier.data.repositories.EnderecoRepository;
-import br.com.robertoxavier.data.repositories.PessoaEnderecoRepository;
-import br.com.robertoxavier.data.repositories.PessoaRepository;
-import br.com.robertoxavier.data.repositories.ServidorTemporarioRepository;
+import br.com.robertoxavier.data.repositories.*;
 import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.model.PessoaModel;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
@@ -42,12 +39,16 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
 
     private final EnderecoMapper enderecoMapper;
 
+    private final LotacaoRepository lotacaoRepository;
+
+    private final FotoRepository fotoRepository;
+
     public ServidorTemporarioPortImp(ServidorTemporarioRepository servidorTemporarioRepository,
                                      ServidorTemporarioMapper servidorTemporarioMapper,
                                      PessoaRepository pessoaRepository,
                                      PessoaMapper pessoaMapper,
                                      PessoaEnderecoRepository pessoaEnderecoRepository, EnderecoRepository enderecoRepository,
-                                     EnderecoMapper enderecoMapper) {
+                                     EnderecoMapper enderecoMapper, LotacaoRepository lotacaoRepository, FotoRepository fotoRepository) {
         this.servidorTemporarioRepository = servidorTemporarioRepository;
         this.servidorTemporarioMapper = servidorTemporarioMapper;
         this.pessoaRepository = pessoaRepository;
@@ -55,6 +56,8 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
         this.pessoaEnderecoRepository = pessoaEnderecoRepository;
         this.enderecoRepository = enderecoRepository;
         this.enderecoMapper = enderecoMapper;
+        this.lotacaoRepository = lotacaoRepository;
+        this.fotoRepository = fotoRepository;
     }
 
     @Override
@@ -203,6 +206,7 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
     public void excluir(Long pesId) {
         ServidorTemporarioModel servidorTemporarioModelBanco = buscarPorId(pesId);
         servidorTemporarioRepository.delete(servidorTemporarioMapper.servidorTemporarioModelToEntity(servidorTemporarioModelBanco));
+        excluirPessoa(servidorTemporarioModelBanco.getPessoa());
     }
 
 
@@ -248,5 +252,27 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
             throw new RuntimeException("Data de Nascimento é obrigatorio");
         }
 
+    }
+
+    private void excluirPessoa(PessoaModel pessoaModel) {
+
+        LotacaoEntity lotacaoEntity = lotacaoRepository.finByPessoaPesId(pessoaModel.getPesId());
+
+        if(lotacaoEntity!= null){
+            throw new RuntimeException("Não é possivel exluir a pessoa pois a mesma possui lotacoes ligadas a ela");
+        }
+        Set<PessoaEnderecoEntity> listaPessoasEnderecos = pessoaEnderecoRepository
+                .findByPessoaId(pessoaModel.getPesId());
+
+        listaPessoasEnderecos.forEach(pessoaEnderecoRepository::delete);
+
+
+        Set<FotoEntity> listaFotosPessoa = fotoRepository
+                .findByPessoaId(pessoaModel.getPesId());
+
+        listaFotosPessoa.forEach(fotoRepository::delete);
+
+        pessoaRepository.delete(pessoaMapper
+                .pessoaModelToEntity(pessoaModel));
     }
 }
