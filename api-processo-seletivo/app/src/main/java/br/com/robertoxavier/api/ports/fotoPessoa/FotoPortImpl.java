@@ -1,5 +1,6 @@
 package br.com.robertoxavier.api.ports.fotoPessoa;
 
+import br.com.robertoxavier.api.config.NotFoundException;
 import br.com.robertoxavier.api.mappers.fotoPessoa.FotoMapper;
 import br.com.robertoxavier.data.entities.FotoEntity;
 import br.com.robertoxavier.data.entities.PessoaEntity;
@@ -41,7 +42,7 @@ public class FotoPortImpl implements FotoPort {
 
             PessoaEntity pessoaEntityBD = pessoaRepository
                     .findById(fotoModelList.get(0)
-                            .getPesId()).orElseThrow(()->new RuntimeException("Pessoa não encontrada"));
+                            .getPesId()).orElseThrow(()->new NotFoundException("Pessoa não encontrada"));
 
             fotoModelList.forEach((f)->{
                 FotoEntity fotoEntity =  new FotoEntity(LocalDate.now(),f.getPesId()+"/"+f.getFoto().name(),f.getFoto().checksum());

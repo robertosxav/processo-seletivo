@@ -2,6 +2,7 @@ package br.com.robertoxavier.api.ports.servidor;
 
 import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
+import br.com.robertoxavier.api.config.NotFoundException;
 import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorTemporarioMapper;
@@ -148,7 +149,7 @@ public class ServidorTemporarioPortImp implements ServidorTemporarioPort {
         enderecoIdsNovos.forEach(enderecoId -> {
             EnderecoModel enderecoModelBanco = enderecoMapper.enderecoEntityToModel(
                     enderecoRepository.findById(enderecoId)
-                            .orElseThrow(() -> new RuntimeException("Endereco não encontrado"))
+                            .orElseThrow(() -> new NotFoundException("Endereco não encontrado"))
             );
 
             PessoaEnderecoId pessoaEnderecoId = new PessoaEnderecoId();

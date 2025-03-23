@@ -53,23 +53,17 @@ public class MinIOStorageService implements StorageService {
     public Optional<Resource> get(String id) {
         GetObjectArgs objArgs = GetObjectArgs.builder()
                 .bucket(bucket)
-                .object(id) // ID do arquivo (nome do arquivo no MinIO)
+                .object(id)
                 .build();
 
         try {
-            // Recuperando o objeto do MinIO
             var object = minioClient.getObject(objArgs);
-
-            // Convertendo o InputStream em byte[] (conteúdo)
             byte[] content = object.readAllBytes();
 
-            // Recuperando o checksum (ETag)
             String checksum = object.headers().get("ETag");
 
-            // Recuperando o content type
             String contentType = object.headers().get("Content-Type");
 
-            // O nome do objeto é o ID que você passa
             String name = id;
 
             return Optional.of(Resource.with(content, checksum, contentType, name));
@@ -77,7 +71,6 @@ public class MinIOStorageService implements StorageService {
         } catch (ErrorResponseException | InsufficientDataException | InternalException
                  | InvalidKeyException | InvalidResponseException | IOException
                  | NoSuchAlgorithmException | ServerException | XmlParserException e) {
-            // Lançando a exceção com a mensagem de erro apropriada
             throw new RuntimeException("Erro ao recuperar o objeto do MinIO: " + e.getMessage(), e);
         }
     }

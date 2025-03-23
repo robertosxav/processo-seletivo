@@ -44,7 +44,7 @@ public class LotacaoPortImp implements LotacaoPort {
 
         return lotacaoMapper
                 .lotacaoEntityToModel( lotacaoRepository.findById(cidId)
-                        .orElseThrow(() -> new NotFoundException("Lotacao não encontrada")));
+                        .orElseThrow(() -> new NotFoundException("Lotação não encontrada")));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class LotacaoPortImp implements LotacaoPort {
         lotacaoModelBanco.setLotPortaria(lotacaoModel.getLotPortaria());
 
         PessoaModel pessoaModelBanco = pessoaMapper.pessoaEntityToModel(pessoaRepository.findById(lotacaoModel.getPesId())
-                .orElseThrow(() -> new NotFoundException("pessoa não encontrada")));
+                .orElseThrow(() -> new NotFoundException("Pessoa não encontrada")));
 
         UnidadeModel unidadeModelBanco = unidadeUseStory
                 .buscarPorId(lotacaoModel.getUnidId());

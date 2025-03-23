@@ -2,6 +2,7 @@ package br.com.robertoxavier.api.ports.servidor;
 
 import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
+import br.com.robertoxavier.api.config.NotFoundException;
 import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
@@ -87,7 +88,7 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
        servidorEfetivoModel1.getPessoa().getEnderecoIdList().forEach(e -> {
             EnderecoModel enderecoModelBanco = enderecoMapper
                     .enderecoEntityToModel(enderecoRepository.findById(e)
-                            .orElseThrow(() -> new RuntimeException("Endereco não encontrado")));
+                            .orElseThrow(() -> new NotFoundException("Endereco não encontrado")));
 
             PessoaEnderecoId pessoaEnderecoId = new PessoaEnderecoId();
             pessoaEnderecoId.setPessoa(servidorEfetivoModel1.getPessoa().getPesId());
