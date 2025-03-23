@@ -31,7 +31,8 @@ public class EnderecoController {
     @Operation(summary = "Criar uma novo endereco")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Endereco criado com sucesso"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada")
     })
     @PostMapping()
     public EnderecoResponse criarEndereco(@RequestBody EnderecoRequest enderecoRequest) {
@@ -43,8 +44,9 @@ public class EnderecoController {
     @Operation(summary = "Atualizar um endereco pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Endereco atualizado com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @PutMapping("/{endId}")
     public EnderecoResponse atualizarEndereco(@PathVariable Long endId,
@@ -56,8 +58,9 @@ public class EnderecoController {
     @Operation(summary = "Excluir um endereco pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Endereco excluido com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @DeleteMapping("/{endId}")
     public ResponseEntity<String> excluir(@PathVariable Long endId) {
@@ -68,8 +71,9 @@ public class EnderecoController {
     @Operation(summary = "Buscar um endereco pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Endereco buscado pelo Id com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/{endId}")
     public EnderecoResponse buscarEnderecpPorId(@PathVariable Long endId) {
@@ -80,8 +84,9 @@ public class EnderecoController {
     @Operation(summary = "Listar enderecos de forma paginado")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Enderecos listados de forma paginado"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/paginado/all")
     public PageResponse<EnderecoResponse> listaEnderecosPaginado(@RequestParam(defaultValue = "0") int page,

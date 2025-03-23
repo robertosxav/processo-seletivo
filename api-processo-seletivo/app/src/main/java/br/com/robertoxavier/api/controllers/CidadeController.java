@@ -31,7 +31,8 @@ public class CidadeController {
     @Operation(summary = "Criar uma nova cidade")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Cidade criada com sucesso"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada")
     })
     @PostMapping()
     public CidadeResponse criarCidade(@RequestBody CidadeRequest cidadeRequest) {
@@ -42,8 +43,9 @@ public class CidadeController {
     @Operation(summary = "Atualizar uma cidade pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Cidade atualizada com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @PutMapping("/{cidId}")
     public CidadeResponse atualizarCidade(@PathVariable Long cidId,
@@ -54,9 +56,10 @@ public class CidadeController {
 
     @Operation(summary = "Excluir uma cidade pelo Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Cidade excluida com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "200", description  = "Cidade atualizada com sucesso"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @DeleteMapping("/{cidId}")
     public ResponseEntity<String> excluir(@PathVariable Long cidId) {
@@ -67,8 +70,9 @@ public class CidadeController {
     @Operation(summary = "Buscar uma cidade pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Cidade buscada pelo Id com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/{cidId}")
     public CidadeResponse buscarCidadePorId(@PathVariable Long cidId) {
@@ -79,8 +83,9 @@ public class CidadeController {
     @Operation(summary = "Listar cidades de forma paginado")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Cidades listadas de forma paginado"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/paginado/all")
     public PageResponse<CidadeResponse> listaCidadesPaginado(@RequestParam(defaultValue = "0") int page,

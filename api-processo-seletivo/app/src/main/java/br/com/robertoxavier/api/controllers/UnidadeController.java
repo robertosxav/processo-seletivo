@@ -30,8 +30,9 @@ public class UnidadeController {
 
     @Operation(summary = "Criar uma nova unidade")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description  = "Unidade criada com sucesso"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "200", description  = "Lotação criada com sucesso"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada")
     })
     @PostMapping()
     public UnidadeResponse criarUnidade(@RequestBody UnidadeRequest unidadeRequest) {
@@ -43,8 +44,9 @@ public class UnidadeController {
     @Operation(summary = "Atualizar uma unidade pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Unidade atualizada com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @PutMapping("/{unidId}")
     public UnidadeResponse atualizarUnidade(@PathVariable Long unidId,
@@ -56,8 +58,9 @@ public class UnidadeController {
     @Operation(summary = "Excluir uma unidade pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Unidade excluida com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @DeleteMapping("/{unidId}")
     public ResponseEntity<String> excluir(@PathVariable Long unidId) {
@@ -68,8 +71,9 @@ public class UnidadeController {
     @Operation(summary = "Buscar uma unidade pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Unidade buscada pelo Id com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/{unidId}")
     public UnidadeResponse buscarUnidadePorId(@PathVariable Long unidId) {
@@ -80,8 +84,9 @@ public class UnidadeController {
     @Operation(summary = "Listar unidaes de forma paginado")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Unidades listadas de forma paginado"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/paginado/all")
     public PageResponse<UnidadeResponse> listaUnidadesPaginado( @RequestParam(defaultValue = "0") int page,

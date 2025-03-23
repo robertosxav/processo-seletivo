@@ -50,21 +50,23 @@ public class ServidorEfetivoController {
     @Operation(summary = "Criar um novo servidor efetivo")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor efetivo criado com sucesso"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada")
     })
     @PostMapping()
     public ServidorEfetivoResponse criarServidorEfetivo(
             @RequestBody ServidorEfetivoRequest servidorEfetivoRequest) {
-        ServidorEfetivoResponse servidorEfetivoResponse =  servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
+        return servidorEfetivoMapper.servidorEfetivoModelToResponse(servidorEfetivoUseStory
                 .criar(servidorEfetivoMapper.servidorEfetivoRequestToModel(servidorEfetivoRequest)));
-        return servidorEfetivoResponse;
+
     }
 
     @Operation(summary = "Atualizar um servidor efetivo pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor efetivo atualizado com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @PutMapping("/{pesId}")
     public ServidorEfetivoResponse atualizarServidorEfetivo(@PathVariable Long pesId,
@@ -77,8 +79,9 @@ public class ServidorEfetivoController {
     @Operation(summary = "Fazer upload de fotos de um servidor efetivo")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Upload de fotos doServidor efetivo enviado com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @PostMapping(value = "/upload-fotos/{pesId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -107,8 +110,9 @@ public class ServidorEfetivoController {
     @Operation(summary = "Buscar um servidor efetivo pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor efetivo buscado pelo Id com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
 
     @GetMapping("/{pesId}")
@@ -120,8 +124,9 @@ public class ServidorEfetivoController {
     @Operation(summary = "Listar servidores efetivos de forma paginado")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidores efetivos listadas de forma paginado"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/paginado/all")
     public PageResponse<ServidorEfetivoResponse>servidorEfetivoUseStory(@RequestParam(defaultValue = "0") int page,

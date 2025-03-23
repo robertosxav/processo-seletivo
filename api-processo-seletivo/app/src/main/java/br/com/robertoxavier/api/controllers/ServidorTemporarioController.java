@@ -52,12 +52,12 @@ public class ServidorTemporarioController {
     @Operation(summary = "Criar um novo servidor temporário")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor temporário criado com sucesso"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada")
     })
 
     @PostMapping()
     public ServidorTemporarioResponse criarServidorTemporario(
-            @RequestParam(name = "dataAdmissao", required = false) LocalDate dataAdmissao,
             @RequestBody ServidorTemporarioRequest servidorTemporarioRequest
     ) {
 
@@ -69,8 +69,9 @@ public class ServidorTemporarioController {
     @Operation(summary = "Atualizar um servidor temporário pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor temporário atualizado com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @PutMapping("/{pesId}")
     public ServidorTemporarioResponse atualizarServidorTemporario(@PathVariable Long pesId,
@@ -84,8 +85,9 @@ public class ServidorTemporarioController {
     @Operation(summary = "Fazer upload de fotos de um servidor temporário")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Upload de fotos doServidor temporário enviado com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
 
     @PostMapping(value = "/upload-fotos/{pesId}",
@@ -116,8 +118,9 @@ public class ServidorTemporarioController {
     @Operation(summary = "Buscar um servidor temporário pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor temporário buscado pelo Id com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/{pesId}")
     public ServidorTemporarioResponse buscarCidadePorId(@PathVariable Long pesId) {
@@ -129,8 +132,9 @@ public class ServidorTemporarioController {
     @Operation(summary = "Listar servidores temporários de forma paginado")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidores temporários listadas de forma paginado"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/paginado/all")
     public PageResponse<ServidorTemporarioResponse> servidorTemporarioUseStory(@RequestParam(defaultValue = "0") int page,

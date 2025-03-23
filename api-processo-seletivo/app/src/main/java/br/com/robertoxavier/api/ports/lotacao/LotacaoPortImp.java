@@ -49,6 +49,9 @@ public class LotacaoPortImp implements LotacaoPort {
 
     @Override
     public LotacaoModel criar(LotacaoModel lotacaoModel) {
+
+        regrasNegocio(lotacaoModel);
+
         PessoaModel pessoaModelBd = pessoaMapper.pessoaEntityToModel(pessoaRepository.findById(lotacaoModel.getPesId())
                 .orElseThrow(() -> new NotFoundException("Pessoa não encontrada")));
 
@@ -68,14 +71,8 @@ public class LotacaoPortImp implements LotacaoPort {
     @Override
     public LotacaoModel atualizar(Long lotId, LotacaoModel lotacaoModel) {
 
-      /*  if(lotacaoModel.getCidUf().length() !=2){
-            throw new RuntimeException("UF deve ter dois caracteres");
-        }
+        regrasNegocio(lotacaoModel);
 
-        if(lotacaoModel.getCidNome().isBlank() || lotacaoModel.getCidNome().length() >200){
-            throw new RuntimeException("Nome da cidade não pode ser vazio e deve ter no máximo 200 caracteres");
-        }
-*/
         LotacaoModel lotacaoModelBanco = buscarPorId(lotId);
 
         lotacaoModelBanco.setLotDataLotacao(lotacaoModel.getLotDataLotacao());
@@ -95,6 +92,29 @@ public class LotacaoPortImp implements LotacaoPort {
                         lotacaoMapper.lotacaoModelToEntity(lotacaoModelBanco)
                 )
         );
+    }
+
+    private void regrasNegocio(LotacaoModel lotacaoModel) {
+        if(lotacaoModel.getLotDataLotacao() == null){
+            throw new RuntimeException("É obrigatório informar a data de Lotação");
+        }
+
+        if(lotacaoModel.getLotPortaria().isBlank()){
+            throw new RuntimeException("É obrigatório informar a Portaria");
+        }
+
+        if(lotacaoModel.getLotPortaria().length() > 100){
+            throw new RuntimeException("Portaria deve ter no maximo 100 caracteres");
+        }
+
+        if(lotacaoModel.getPesId() == null){
+            throw new RuntimeException("É obrigatório informar o id da pessoa");
+        }
+
+        if(lotacaoModel.getUnidId() == null){
+            throw new RuntimeException("É obrigatório informar o id da unidade");
+        }
+
     }
 
     @Override

@@ -32,7 +32,8 @@ public class LotacaoController {
     @Operation(summary = "Criar uma nova lotação")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Lotação criada com sucesso"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada")
     })
     @PostMapping()
     public LotacaoResponse criarLotacao(@RequestBody LotacaoRequest lotacaoRequest) {
@@ -43,8 +44,9 @@ public class LotacaoController {
     @Operation(summary = "Atualizar uma lotação pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Lotação atualizada com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @PutMapping("/{lotId}")
     public LotacaoResponse atualizarLotacao(@PathVariable Long lotId,
@@ -56,8 +58,9 @@ public class LotacaoController {
     @Operation(summary = "Excluir uma lotação pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Lotação excluida com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @DeleteMapping("/{lotId}")
     public ResponseEntity<String> excluir(@PathVariable Long lotId) {
@@ -68,8 +71,9 @@ public class LotacaoController {
     @Operation(summary = "Buscar uma lotação pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Lotação buscada pelo Id com sucesso"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     public LotacaoResponse buscarLotacaoPorId(@PathVariable Long lotId) {
         return lotacaoMapper.lotacaoModelToResponse(lotacaoUseStory
@@ -79,8 +83,9 @@ public class LotacaoController {
     @Operation(summary = "Listar lotações de forma paginado")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Lotações listadas de forma paginado"),
-            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-            @ApiResponse(responseCode  = "500", description  = "Erro no servidor"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
     })
     @GetMapping("/paginado/all")
     public PageResponse<LotacaoResponse> listaUnidadesPaginado(@RequestParam(defaultValue = "0") int page,
