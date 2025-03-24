@@ -1,13 +1,18 @@
+init_minio:
 #!/bin/sh
 
-# Gerar Access Key e Secret Key com tamanho correto
-ACCESS_KEY=${ACCESS_KEY:-"buceta$(openssl rand -hex 3 | cut -c1-10)"}  # 10 caracteres
-SECRET_KEY=${SECRET_KEY:-$(openssl rand -hex 16)} 
-
 echo "Aguardando MinIO iniciar..."
+COUNTER=0
+MAX_RETRIES=20
+
 while ! mc alias set myminio http://minio:9000 admin123 strongpassword123; do
   echo "MinIO ainda não está pronto... aguardando..."
   sleep 2
+  COUNTER=$((COUNTER + 1))
+  if [ "$COUNTER" -ge "$MAX_RETRIES" ]; then
+    echo "Erro: MinIO não iniciou após várias tentativas."
+    exit 1
+  fi
 done
 
 echo "MinIO iniciado! Configurando MinIO Client..."
@@ -27,3 +32,4 @@ else
 fi
 
 echo "Configuração do MinIO concluída com sucesso!"
+exit 0  # Finaliza o script normalmente

@@ -6,7 +6,7 @@ services:
     volumes:
       - ./Docker-Compose/PostgreSQL:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=postgres
@@ -37,23 +37,25 @@ services:
       - mynetwork
 
   minio-init:
-    image: minio/mc
+    image: alpine:latest
     container_name: minio-init
     depends_on:
       - minio
     volumes:
       - ./init_minio.sh:/app/init_minio.sh
-      - .:/app
-    entrypoint: ["/bin/sh", "-c", "sleep 5 && /app/init_minio.sh"]
+    entrypoint: >
+      /bin/sh -c "
+      apk add --no-cache bash curl grep jq sed &&
+      curl -O https://dl.min.io/client/mc/release/linux-amd64/mc &&
+      chmod +x mc &&
+      mv mc /usr/local/bin/mc &&
+      sleep 5 &&
+      /app/init_minio.sh"
     networks:
       - mynetwork
-#    restart: always
 
   api:
     build: ../app
-#      context: "C:/projetos/seletivoSEPLAG2025/apiProcessoSeletivo/app"
-#      context: ../apiProcessoSeletivo/app
-#      dockerfile: Dockerfile
     container_name: api-processo-seletivo
     restart: always
     ports:
@@ -70,8 +72,6 @@ services:
         condition: service_healthy
       minio:
         condition: service_started
-      minio-init:
-        condition: service_completed_successfully
     networks:
       - mynetwork
 
