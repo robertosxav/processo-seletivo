@@ -1,7 +1,7 @@
 package br.com.robertoxavier.api.ports;
 
-
 import br.com.robertoxavier.api.service.JwtService;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -10,17 +10,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Jwts;
-
+import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
+import java.security.Key;
 
 import java.util.Date;
 
 @Component
 public class JwtServiceImpl implements JwtService {
 
-    private final long jwtExpirationInMs = 300000L;
-    private final long refreshTokenExpirationInMs = 86400000L;
+    private final long jwtExpirationInMs = 300000L; // tempo de expiração do token em milissegundos (5 min)
+    private final long refreshTokenExpirationInMs = 86400000L; // 1 dias de expiração para o refresh token
     private final SecretKey key = Jwts.SIG.HS256.key().build();
     private final SecretKey keyRefresh = Jwts.SIG.HS256.key().build();
 
@@ -74,7 +75,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public boolean validateToken(String token) {
         try {
-           var jws = Jwts.parser().verifyWith(key).build().parse(token);
+            var jws = Jwts.parser().verifyWith(key).build().parse(token);
             return true;
         } catch (MalformedJwtException | UnsupportedJwtException | ExpiredJwtException | IllegalArgumentException e) {
             return false;
@@ -94,8 +95,13 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String getUsernameFromToken(String token) {
         var jws = Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
-         return jws.getPayload().getSubject();
+        return jws.getPayload().getSubject();
     }
 
+    @Override
+    public String getUsernameFromRefreshToken(String token) {
+        var jws = Jwts.parser().verifyWith(keyRefresh).build().parseSignedClaims(token);
+        return jws.getPayload().getSubject();
+    }
 
 }

@@ -1,5 +1,6 @@
 package br.com.robertoxavier.api.controllers;
 
+
 import br.com.robertoxavier.api.service.JwtService;
 import br.com.robertoxavier.dto.login.LoginRequest;
 import br.com.robertoxavier.dto.login.LoginResponse;
@@ -8,10 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AuthController implements AutenticacaoAPI{
+public class AuthController implements AutenticacaoAPI {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService tokenProvider;
@@ -37,7 +40,7 @@ public class AuthController implements AutenticacaoAPI{
     }
 
     @Override
-    public ResponseEntity<?> refreshToken(@RequestHeader("Authorization") String authorizationHeader, @RequestBody(required = false) Object body) {
+    public ResponseEntity<?> refreshToken(@RequestHeader("refresh-token") String authorizationHeader, @RequestBody(required = false) Object body) {
 
 
         if (!tokenProvider.validateRefreshToken(authorizationHeader)) {
@@ -45,7 +48,7 @@ public class AuthController implements AutenticacaoAPI{
         }
 
         // Extrair o nome do usuário do refresh token
-        String username = tokenProvider.getUsernameFromToken(authorizationHeader);
+        String username = tokenProvider.getUsernameFromRefreshToken(authorizationHeader);
 
         // Gerar novos tokens
         String newAccessToken = tokenProvider.generateTokenFromUsername(username);
