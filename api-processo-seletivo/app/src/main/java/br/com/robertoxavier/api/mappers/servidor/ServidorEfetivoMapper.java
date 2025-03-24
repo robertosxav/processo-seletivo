@@ -2,6 +2,7 @@ package br.com.robertoxavier.api.mappers.servidor;
 
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
 import br.com.robertoxavier.data.entities.ServidorEfetivoEntity;
+import br.com.robertoxavier.dto.servidor.ServidorEfetivoLotacaoResponse;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoResponse;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
@@ -86,6 +87,18 @@ public class ServidorEfetivoMapper {
         return servidorModelList.stream()
                 .map(this::servidorEfetivoModelToResponse)
                 .collect(Collectors.toList());
+    }
+
+
+    public ServidorEfetivoLotacaoResponse servidorEfetivLotacaoModelToResponse(ServidorEfetivoModel servidorEfetivoModel){
+
+
+        if (servidorEfetivoModel == null) {
+            return null;
+        }
+
+
+        return null;
     }
 
 }

@@ -6,8 +6,10 @@ import br.com.robertoxavier.api.mappers.fotoPessoa.FotoMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
 import br.com.robertoxavier.dto.fotoPessoa.FotoRequest;
 import br.com.robertoxavier.dto.fotoPessoa.FotoResponse;
+import br.com.robertoxavier.dto.servidor.ServidorEfetivoLotacaoResponse;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoResponse;
+import br.com.robertoxavier.dto.unidade.UnidadeResponse;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
 import br.com.robertoxavier.service.Resource;
 import br.com.robertoxavier.stories.fotoPessoa.FotoPessoaUseStory;
@@ -166,5 +168,11 @@ public class ServidorEfetivoController {
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
+    }
+
+    @GetMapping("/{unidId}")
+    public ServidorEfetivoLotacaoResponse servidoreLotadosUnidade(@PathVariable Long unidId) {
+        return servidorEfetivoMapper.servidorEfetivLotacaoModelToResponse(servidorEfetivoUseStory
+                .buscarServidoreLotadosUnidade(unidId));
     }
 }

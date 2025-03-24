@@ -14,4 +14,6 @@ public interface ServidorEfetivoPort {
     PageResponse<ServidorEfetivoModel> listaServidoresEfetivosPaginado(PageQuery pageQuery);
 
     void excluir(Long pesId);
+
+    void buscarServidoreLotadosUnidade(Long unidId);
 }

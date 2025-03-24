@@ -13,8 +13,8 @@ public class ServidorEfetivoUseStory {
         this.servidorEfetivoPort = servidorEfetivoPort;
     }
 
-    public ServidorEfetivoModel buscarPorId(Long cidId){
-        return servidorEfetivoPort.buscarPorId(cidId);
+    public ServidorEfetivoModel buscarPorId(Long pesId){
+        return servidorEfetivoPort.buscarPorId(pesId);
     }
 
    public PageResponse<ServidorEfetivoModel> listaServidoresEfetivosPaginado(PageQuery pageQuery){
@@ -25,11 +25,16 @@ public class ServidorEfetivoUseStory {
         return servidorEfetivoPort.criar(servidorEfetivoModel);
     }
 
-    public ServidorEfetivoModel atualizar(Long cidId,ServidorEfetivoModel servidorEfetivoModel){
-        return servidorEfetivoPort.atualizar(cidId,servidorEfetivoModel);
+    public ServidorEfetivoModel atualizar(Long pesId,ServidorEfetivoModel servidorEfetivoModel){
+        return servidorEfetivoPort.atualizar(pesId,servidorEfetivoModel);
     }
 
-    public void excluir(Long cidId){
-         servidorEfetivoPort.excluir(cidId);
+    public void excluir(Long pesId){
+         servidorEfetivoPort.excluir(pesId);
+    }
+
+    public ServidorEfetivoModel buscarServidoreLotadosUnidade(Long unidId) {
+        servidorEfetivoPort.buscarServidoreLotadosUnidade(unidId);
+        return null;
     }
 }

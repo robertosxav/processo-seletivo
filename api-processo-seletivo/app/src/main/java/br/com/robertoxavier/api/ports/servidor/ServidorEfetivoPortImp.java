@@ -7,6 +7,7 @@ import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
 import br.com.robertoxavier.data.entities.*;
+import br.com.robertoxavier.data.entities.vo.ServidoresUnidadeVo;
 import br.com.robertoxavier.data.repositories.*;
 import br.com.robertoxavier.model.*;
 import br.com.robertoxavier.ports.servidor.ServidorEfetivoPort;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -269,5 +271,12 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
         pessoaRepository.delete(pessoaMapper
                 .pessoaModelToEntity(pessoaModel));
     }
+
+    @Override
+    public void buscarServidoreLotadosUnidade(Long unidId) {
+         servidorEfetivoRepository
+                .buscarServidoreLotadosUnidade(unidId);
+    }
+
 
 }
