@@ -170,7 +170,7 @@ public class ServidorEfetivoController {
         }
     }
 
-    @GetMapping("/{unidId}")
+    @GetMapping("/lotados-unidade/{unidId}")
     public ServidorEfetivoLotacaoResponse servidoreLotadosUnidade(@PathVariable Long unidId) {
         return servidorEfetivoMapper.servidorEfetivLotacaoModelToResponse(servidorEfetivoUseStory
                 .buscarServidoreLotadosUnidade(unidId));

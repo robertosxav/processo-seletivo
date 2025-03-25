@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ServidorEfetivoRepository extends JpaRepository<ServidorEfetivoEntity,Long> {
-    @Query("select new br.com.robertoxavier.data.entities.vo.ServidoresUnidadeVo(se.pessoa.pesNome, u.unidNome) " +
+    @Query("select new br.com.robertoxavier.data.entities.vo.ServidoresUnidadeVo(se.pessoa.pesNome, u.unidNome,  se.pessoa.pesDataNascimento) " +
             "from ServidorEfetivoEntity se " +
             "inner join LotacaoEntity l on l.pessoa.pesId = se.pessoa.pesId " +
             "inner join l.unidade u " +

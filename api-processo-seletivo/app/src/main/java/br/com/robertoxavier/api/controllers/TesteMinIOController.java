@@ -16,9 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
-@Hidden
+//@Hidden
 @RequestMapping("/minio")
 public class TesteMinIOController {
 
@@ -74,5 +75,12 @@ public class TesteMinIOController {
     @GetMapping("/link-temporario/{id}")
     public String generateTemporaryLink(@PathVariable String id) {
         return storage.generateTemporaryLink(id);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<String> excluir(@RequestParam List<String> ids){
+       storage.deleteAll(ids);
+        return ResponseEntity.ok()
+                .body("Arquivos excluidos");
     }
 }

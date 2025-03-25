@@ -274,8 +274,13 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
 
     @Override
     public void buscarServidoreLotadosUnidade(Long unidId) {
-         servidorEfetivoRepository
+        List<ServidoresUnidadeVo> listServidoresUnidadeVo= servidorEfetivoRepository
                 .buscarServidoreLotadosUnidade(unidId);
+        listServidoresUnidadeVo.forEach((s) ->{
+            System.out.println(s.getNome());
+            System.out.println(s.getIdade());
+            System.out.println(s.getNomeUnidade());
+        });
     }
 
 

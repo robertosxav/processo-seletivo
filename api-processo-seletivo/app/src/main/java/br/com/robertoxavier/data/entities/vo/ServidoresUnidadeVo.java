@@ -1,10 +1,13 @@
 package br.com.robertoxavier.data.entities.vo;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 public class ServidoresUnidadeVo {
 
     private String nome;
 
-    private Long idade;
+    private LocalDate dataNascimento;
 
     private String nomeUnidade;
 
@@ -13,9 +16,9 @@ public class ServidoresUnidadeVo {
     public ServidoresUnidadeVo() {
     }
 
-    public ServidoresUnidadeVo(String nome, Long idade, String nomeUnidade, String listaLinkFotos) {
+    public ServidoresUnidadeVo(String nome, LocalDate dataNascimento, String nomeUnidade, String listaLinkFotos) {
         this.nome = nome;
-        this.idade = idade;
+        this.dataNascimento = dataNascimento;
         this.nomeUnidade = nomeUnidade;
         this.listaLinkFotos = listaLinkFotos;
     }
@@ -25,20 +28,18 @@ public class ServidoresUnidadeVo {
         this.nomeUnidade = nomeUnidade;
     }
 
+    public ServidoresUnidadeVo(String nome, String nomeUnidade,LocalDate dataNascimento) {
+        this.nome = nome;
+        this.nomeUnidade = nomeUnidade;
+        this.dataNascimento = dataNascimento;
+    }
+
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public Long getIdade() {
-        return idade;
-    }
-
-    public void setIdade(Long idade) {
-        this.idade = idade;
     }
 
     public String getNomeUnidade() {
@@ -55,5 +56,20 @@ public class ServidoresUnidadeVo {
 
     public void setListaLinkFotos(String listaLinkFotos) {
         this.listaLinkFotos = listaLinkFotos;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public int getIdade() {
+        if (this.dataNascimento == null) {
+            return 0;
+        }
+        return Period.between(this.dataNascimento, LocalDate.now()).getYears();
     }
 }
