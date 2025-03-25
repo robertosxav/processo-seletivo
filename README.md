@@ -1,21 +1,21 @@
     - [Download](#download)
     - [Execução](#execução)
-- [api](#swagger)
+    - [api](#swagger)
 ### Download
 
 1. Clone o projeto
 
 ```shellscript
 $ git clone https://github.com/robertosxav/processo-seletivo.git
-$ cd esocial
+$ cd processo-seletivo/api-processo-seletivo/sandbox/
 ```
 
 ### Execução
 
-2. Inicialize a aplicação com `docker-compose`
+2. Inicialize a aplicação com `docker-compose up --build`
 
 ```shellscript
-docker-compose up
+docker-compose up --build
 ```
 
 ### Api
@@ -23,5 +23,5 @@ docker-compose up
 3. Acesse  `Swagger `
 
 ```shellscript
-`http://localhost:8080/swagger-ui/index.html
+`http://localhost:8083/apiprocessoseletivo/swagger-ui/index.html
 ```
