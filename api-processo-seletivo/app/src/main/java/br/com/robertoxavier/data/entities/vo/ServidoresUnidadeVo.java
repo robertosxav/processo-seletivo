@@ -2,6 +2,7 @@ package br.com.robertoxavier.data.entities.vo;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Set;
 
 public class ServidoresUnidadeVo {
 
@@ -11,16 +12,18 @@ public class ServidoresUnidadeVo {
 
     private String nomeUnidade;
 
-    private String listaLinkFotos;
+    private Long pesId;
+
+    private Set<String> listLinkFotos;
 
     public ServidoresUnidadeVo() {
     }
 
-    public ServidoresUnidadeVo(String nome, LocalDate dataNascimento, String nomeUnidade, String listaLinkFotos) {
+    public ServidoresUnidadeVo(String nome, String nomeUnidade,LocalDate dataNascimento,  Long pesId) {
         this.nome = nome;
-        this.dataNascimento = dataNascimento;
         this.nomeUnidade = nomeUnidade;
-        this.listaLinkFotos = listaLinkFotos;
+        this.dataNascimento = dataNascimento;
+        this.pesId = pesId;
     }
 
     public ServidoresUnidadeVo(String nome, String nomeUnidade) {
@@ -50,12 +53,16 @@ public class ServidoresUnidadeVo {
         this.nomeUnidade = nomeUnidade;
     }
 
-    public String getListaLinkFotos() {
-        return listaLinkFotos;
+    public Set<String> getlistLinkFotos() {
+        return listLinkFotos;
     }
 
-    public void setListaLinkFotos(String listaLinkFotos) {
-        this.listaLinkFotos = listaLinkFotos;
+    public void setlistLinkFotos(Set<String> listLinkFotos) {
+        this.listLinkFotos = listLinkFotos;
+    }
+
+    public void setPesId(Long pesId) {
+        this.pesId = pesId;
     }
 
     public LocalDate getDataNascimento() {
@@ -64,6 +71,10 @@ public class ServidoresUnidadeVo {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public Long getPesId() {
+        return pesId;
     }
 
     public int getIdade() {

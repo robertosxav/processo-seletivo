@@ -114,6 +114,7 @@ public class EnderecoPortImp implements EnderecoPort {
         }
     }
 
+
     private void validarRegrasEndereco(EnderecoModel enderecoModel) {
 
         if (enderecoModel.getEndTipoLogradouro().isBlank()){
@@ -154,5 +155,24 @@ public class EnderecoPortImp implements EnderecoPort {
         return enderecoMapper
                 .enderecoEntityToModel( enderecoRepository.findById(cidId)
                         .orElseThrow(() -> new NotFoundException("Endereco não encontrado")));
+    }
+
+
+    @Override
+    public PageResponse<EnderecoModel> buscarEnderecoFuncional(String nome, PageQuery pageQuery) {
+        Page<EnderecoEntity> page = enderecoRepository
+                .listaEnderecosFuncPorParteNome(
+                    nome,PageRequest.of(pageQuery.getPage(), pageQuery.getSizePage())
+                );
+
+        Page<EnderecoModel> enderecoModelPage = page.map(enderecoMapper::enderecoEntityToModel);
+
+        return new PageResponse<>(
+                enderecoModelPage.getNumber(),
+                enderecoModelPage.getTotalPages(),
+                enderecoModelPage.getTotalElements(),
+                enderecoModelPage.getSize(),
+                enderecoModelPage.getContent()
+        );
     }
 }

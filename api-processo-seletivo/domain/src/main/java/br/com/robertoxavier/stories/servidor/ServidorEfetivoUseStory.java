@@ -5,6 +5,8 @@ import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
 import br.com.robertoxavier.ports.servidor.ServidorEfetivoPort;
 
+import java.util.List;
+
 public class ServidorEfetivoUseStory {
 
     private final ServidorEfetivoPort servidorEfetivoPort;
@@ -33,8 +35,7 @@ public class ServidorEfetivoUseStory {
          servidorEfetivoPort.excluir(pesId);
     }
 
-    public ServidorEfetivoModel buscarServidoreLotadosUnidade(Long unidId) {
-        servidorEfetivoPort.buscarServidoreLotadosUnidade(unidId);
-        return null;
+    public PageResponse<ServidorEfetivoModel> buscarServidoreLotadosUnidade(Long unidId, PageQuery pageQuery) {
+        return servidorEfetivoPort.buscarServidoresLotadosUnidade(unidId,pageQuery);
     }
 }

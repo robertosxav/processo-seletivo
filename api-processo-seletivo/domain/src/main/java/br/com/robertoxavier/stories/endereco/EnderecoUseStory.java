@@ -34,4 +34,8 @@ public class EnderecoUseStory {
     public void excluir(Long endId){
         enderecoPort.excluir(endId);
     }
+
+    public PageResponse<EnderecoModel> buscarEnderecoFuncional(String nome, PageQuery pageQuery) {
+        return enderecoPort.buscarEnderecoFuncional(nome,pageQuery);
+    }
 }

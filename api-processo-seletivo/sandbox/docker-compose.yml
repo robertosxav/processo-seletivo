@@ -21,6 +21,9 @@ services:
       start_period: 10s
 
   minio:
+    build:
+      context: ./minio
+      dockerfile: Dockerfile
     image: minio/minio:latest
     container_name: minio
     environment:
@@ -36,25 +39,7 @@ services:
     networks:
       - mynetwork
 
-  minio-init:
-    image: alpine:latest
-    container_name: minio-init
-    depends_on:
-      - minio
-    volumes:
-      - ./init_minio.sh:/app/init_minio.sh
-    entrypoint: >
-      /bin/sh -c "
-      apk add --no-cache bash curl grep jq sed &&
-      curl -O https://dl.min.io/client/mc/release/linux-amd64/mc &&
-      chmod +x mc &&
-      mv mc /usr/local/bin/mc &&
-      sleep 5 &&
-      /app/init_minio.sh"
-    networks:
-      - mynetwork
-
-  api:
+  api:  # Corrigido a indentação aqui
     build: ../app
     container_name: api-processo-seletivo
     restart: always

@@ -15,4 +15,8 @@ public interface FotoRepository extends JpaRepository<FotoEntity,Long> {
     @Query("select f from FotoEntity f " +
             "where f.pessoa.pesId = :pesId")
     Set<FotoEntity> findByPessoaId(Long pesId);
+
+    @Query("select f.fpBucket from FotoEntity f " +
+            "where f.pessoa.pesId = :pesId")
+    Set<String> listaBuckets(Long pesId);
 }

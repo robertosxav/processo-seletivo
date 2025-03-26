@@ -4,6 +4,7 @@ import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.fotoPessoa.FotoMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
+import br.com.robertoxavier.dto.endereco.EnderecoResponse;
 import br.com.robertoxavier.dto.fotoPessoa.FotoRequest;
 import br.com.robertoxavier.dto.fotoPessoa.FotoResponse;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoLotacaoResponse;
@@ -110,7 +111,7 @@ public class ServidorEfetivoController {
         return listaFotoResponse;
     }
 
-    @Operation(summary = "Excluir uma Servidor eeftivo pelo Id")
+    @Operation(summary = "Excluir uma Servidor efetivo pelo Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servido efetivo excluido com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
@@ -148,7 +149,8 @@ public class ServidorEfetivoController {
     public PageResponse<ServidorEfetivoResponse>servidorEfetivoUseStory(@RequestParam(defaultValue = "0") int page,
                                                                         @RequestParam(defaultValue = "10") int sizePage) {
         PageQuery pageQuery = new PageQuery(page, sizePage);
-        PageResponse<ServidorEfetivoModel> servidorEfetivoPage = servidorEfetivoUseStory.listaServidoresEfetivosPaginado(pageQuery);
+        PageResponse<ServidorEfetivoModel> servidorEfetivoPage = servidorEfetivoUseStory
+                .listaServidoresEfetivosPaginado(pageQuery);
 
         return servidorEfetivoPage.map(servidorEfetivoMapper::servidorEfetivoModelToResponse);
     }
@@ -170,9 +172,22 @@ public class ServidorEfetivoController {
         }
     }
 
+    @Operation(summary = "Consultar os servidores efetivos lotados em determinada unidade parametrizando a consulta pelo atributo unid_id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Servidores efetivos listadas de forma paginado"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
+    })
     @GetMapping("/lotados-unidade/{unidId}")
-    public ServidorEfetivoLotacaoResponse servidoreLotadosUnidade(@PathVariable Long unidId) {
-        return servidorEfetivoMapper.servidorEfetivLotacaoModelToResponse(servidorEfetivoUseStory
-                .buscarServidoreLotadosUnidade(unidId));
+    public PageResponse<ServidorEfetivoLotacaoResponse> servidoresLotadosUnidade(@PathVariable Long unidId,
+                                                                                 @RequestParam(defaultValue = "0") int page,
+                                                                                 @RequestParam(defaultValue = "10") int sizePage) {
+        PageQuery pageQuery = new PageQuery(page, sizePage);
+        PageResponse<ServidorEfetivoModel> paginado = servidorEfetivoUseStory
+                .buscarServidoreLotadosUnidade(unidId,pageQuery);
+
+        return paginado.map(servidorEfetivoMapper::servidorEfetivLotacaoModelToResponse);
     }
+
 }

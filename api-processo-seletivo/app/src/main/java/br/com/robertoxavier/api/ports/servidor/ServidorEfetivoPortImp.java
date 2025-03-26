@@ -6,11 +6,13 @@ import br.com.robertoxavier.api.config.NotFoundException;
 import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
+import br.com.robertoxavier.api.ports.minio.MinIOStorageService;
 import br.com.robertoxavier.data.entities.*;
 import br.com.robertoxavier.data.entities.vo.ServidoresUnidadeVo;
 import br.com.robertoxavier.data.repositories.*;
 import br.com.robertoxavier.model.*;
 import br.com.robertoxavier.ports.servidor.ServidorEfetivoPort;
+import br.com.robertoxavier.service.StorageService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
@@ -41,12 +44,14 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
 
     private final FotoRepository fotoRepository;
 
+    private final StorageService storageService;
+
     public ServidorEfetivoPortImp(ServidorEfetivoRepository servidorEfetivoRepository,
                                   ServidorEfetivoMapper servidorEfetivoMapper,
                                   PessoaRepository pessoaRepository,
                                   PessoaMapper pessoaMapper,
                                   PessoaEnderecoRepository pessoaEnderecoRepository, EnderecoRepository enderecoRepository,
-                                  EnderecoMapper enderecoMapper, LotacaoRepository lotacaoRepository, FotoRepository fotoRepository) {
+                                  EnderecoMapper enderecoMapper, LotacaoRepository lotacaoRepository, FotoRepository fotoRepository, StorageService storageService) {
         this.servidorEfetivoRepository = servidorEfetivoRepository;
         this.servidorEfetivoMapper = servidorEfetivoMapper;
         this.pessoaRepository = pessoaRepository;
@@ -56,6 +61,7 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
         this.enderecoMapper = enderecoMapper;
         this.lotacaoRepository = lotacaoRepository;
         this.fotoRepository = fotoRepository;
+        this.storageService = storageService;
     }
 
     @Override
@@ -273,15 +279,35 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
     }
 
     @Override
-    public void buscarServidoreLotadosUnidade(Long unidId) {
-        List<ServidoresUnidadeVo> listServidoresUnidadeVo= servidorEfetivoRepository
-                .buscarServidoreLotadosUnidade(unidId);
-        listServidoresUnidadeVo.forEach((s) ->{
-            System.out.println(s.getNome());
-            System.out.println(s.getIdade());
-            System.out.println(s.getNomeUnidade());
+    public PageResponse<ServidorEfetivoModel> buscarServidoresLotadosUnidade(Long unidId, PageQuery pageQuery) {
+        Page<ServidoresUnidadeVo> pageServidoresUnidadeVo = servidorEfetivoRepository.buscarServidoreLotadosUnidade(
+                unidId, PageRequest.of(pageQuery.getPage(), pageQuery.getSizePage())
+        );
+
+        pageServidoresUnidadeVo.forEach(servidor -> {
+            Set<String> listaStringBucket = fotoRepository.listaBuckets(servidor.getPesId());
+
+            /*Set<String> linksTemporarios = listaStringBucket.stream()
+                    .map(storageService::generateTemporaryLink)
+                    .collect(Collectors.toSet());*/
+
+            //servidor.setlistLinkFotos(linksTemporarios);
+            servidor.setlistLinkFotos(listaStringBucket);
         });
+
+
+        Page<ServidorEfetivoModel> pageServidorEfetivoModel = pageServidoresUnidadeVo
+                .map(servidorEfetivoMapper::servidorEfetivoVoToModel);
+
+        return new PageResponse<>(
+                pageServidorEfetivoModel.getNumber(),
+                pageServidorEfetivoModel.getTotalPages(),
+                pageServidorEfetivoModel.getTotalElements(),
+                pageServidorEfetivoModel.getSize(),
+                pageServidorEfetivoModel.getContent()
+        );
     }
+
 
 
 }

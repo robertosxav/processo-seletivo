@@ -1,10 +1,13 @@
 package br.com.robertoxavier.api.mappers.servidor;
 
 import br.com.robertoxavier.api.mappers.pessoa.PessoaMapper;
+import br.com.robertoxavier.data.entities.LotacaoEntity;
 import br.com.robertoxavier.data.entities.ServidorEfetivoEntity;
+import br.com.robertoxavier.data.entities.vo.ServidoresUnidadeVo;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoLotacaoResponse;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoResponse;
+import br.com.robertoxavier.model.LotacaoModel;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
 import org.springframework.stereotype.Component;
 
@@ -92,13 +95,50 @@ public class ServidorEfetivoMapper {
 
     public ServidorEfetivoLotacaoResponse servidorEfetivLotacaoModelToResponse(ServidorEfetivoModel servidorEfetivoModel){
 
-
         if (servidorEfetivoModel == null) {
             return null;
         }
 
+        return new ServidorEfetivoLotacaoResponse(
+                servidorEfetivoModel.getNome(),
+                servidorEfetivoModel.getIdade(),
+                servidorEfetivoModel.getNomeUnidade(),
+                servidorEfetivoModel.getListLinkFotos()
+        );
 
-        return null;
+    }
+
+    public List<ServidorEfetivoLotacaoResponse> servidorEfetivoLotacaoModelListToServidorEfetivoLotacaoResponseList(List<ServidorEfetivoModel>servidorModelList){
+        if (servidorModelList == null) {
+            return null;
+        }
+
+        return servidorModelList.stream()
+                .map(this::servidorEfetivLotacaoModelToResponse)
+                .collect(Collectors.toList());
+    }
+
+    public ServidorEfetivoModel servidorEfetivoVoToModel(ServidoresUnidadeVo servidorUnidadeVo){
+        if (servidorUnidadeVo == null) {
+            return null;
+        }
+
+        return new ServidorEfetivoModel(
+                servidorUnidadeVo.getNome(),
+                Long.valueOf(servidorUnidadeVo.getIdade()),
+                servidorUnidadeVo.getNomeUnidade(),
+                servidorUnidadeVo.getlistLinkFotos()
+        );
+    }
+
+    public List<ServidorEfetivoModel> servidorEfetivoVoListToServidorModelList(List<ServidoresUnidadeVo>servidoresUnidadeVoList){
+        if (servidoresUnidadeVoList == null) {
+            return null;
+        }
+
+        return servidoresUnidadeVoList.stream()
+                .map(this::servidorEfetivoVoToModel)
+                .collect(Collectors.toList());
     }
 
 }

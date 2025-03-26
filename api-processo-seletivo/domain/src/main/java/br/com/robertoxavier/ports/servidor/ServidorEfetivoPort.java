@@ -4,6 +4,8 @@ import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
 
+import java.util.List;
+
 public interface ServidorEfetivoPort {
     ServidorEfetivoModel criar(ServidorEfetivoModel servidorEfetivoModel);
 
@@ -15,5 +17,5 @@ public interface ServidorEfetivoPort {
 
     void excluir(Long pesId);
 
-    void buscarServidoreLotadosUnidade(Long unidId);
+    PageResponse<ServidorEfetivoModel> buscarServidoresLotadosUnidade(Long unidId, PageQuery pageQuery);
 }

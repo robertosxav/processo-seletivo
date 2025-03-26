@@ -6,6 +6,7 @@ import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.dto.endereco.EnderecoRequest;
 import br.com.robertoxavier.dto.endereco.EnderecoResponse;
 import br.com.robertoxavier.model.EnderecoModel;
+import br.com.robertoxavier.model.ServidorEfetivoModel;
 import br.com.robertoxavier.stories.endereco.EnderecoUseStory;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -95,5 +96,16 @@ public class EnderecoController {
         PageResponse<EnderecoModel> enderecoPage = enderecoUseStory.listaEnderecosPaginado(pageQuery);
 
         return enderecoPage.map(enderecoMapper::enderecoModelToResponse);
+    }
+
+    @GetMapping("/endereco-funcional")
+    public PageResponse<EnderecoResponse> enderecoFuncional(@RequestParam String nome,
+                                                            @RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "10") int sizePage) {
+        PageQuery pageQuery = new PageQuery(page, sizePage);
+        PageResponse<EnderecoModel> paginado = enderecoUseStory
+                .buscarEnderecoFuncional(nome,pageQuery);
+
+        return paginado.map(enderecoMapper::enderecoModelToResponse);
     }
 }

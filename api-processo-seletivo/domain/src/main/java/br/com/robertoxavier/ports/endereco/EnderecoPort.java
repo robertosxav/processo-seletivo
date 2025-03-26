@@ -17,4 +17,6 @@ public interface EnderecoPort {
     PageResponse<EnderecoModel> listaEnderecosPaginado(PageQuery pageQuery);
 
     void excluir(Long endId);
+
+    PageResponse<EnderecoModel> buscarEnderecoFuncional(String nome, PageQuery pageQuery);
 }

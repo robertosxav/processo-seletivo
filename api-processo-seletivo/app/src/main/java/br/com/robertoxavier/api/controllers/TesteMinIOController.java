@@ -19,7 +19,6 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-//@Hidden
 @RequestMapping("/minio")
 public class TesteMinIOController {
 
