@@ -65,10 +65,10 @@ http://localhost:8083/apiprocessoseletivo/swagger-ui/index.html
    
 6. CRUD de ENDERECO **(Recurso opcinional)**
    - 6.1 - Utilize o serviço **POST** para criar uma nova endereco. Caso não queira criar endereco, já foram inseridas 05 enderecos no start da aplicação
-         - 6.1.1- Na criação de um endereco, é possível criar e editar cidade. Se for passado um id de cidade juntamente com os outros campos de cidade, a cidade será atualizada, se o id da cidade não passado será criado uma nova cidade.
+        - 6.1.1- Na criação de um endereco, é possível criar e editar cidade. Se for passado um id de cidade juntamente com os outros campos de cidade, a cidade será atualizada, se o id da cidade não passado será criado uma nova cidade.
    - 6.2 - Verifique as enderecos existentes: Utilize o serviço **GET /paginado/all** para verificar as enderecos que já existem de forma paginado e o serviço **GET /{endId}** para buscar uma endereco específico
    - 6.3 - Utilize o serviço **PUT /{endId}** para atualizar uma endereco
-        - 6.3.1- Na atualização de um endereco, é possível criar e editar cidade. Se for passado um id de cidade juntamente com os outros campos de cidade, a cidade será atualizada, se o id da cidade não passado será criado uma nova cidade.
+        - 6.3.1- Na edição de um endereco, é possível criar e editar cidade. Se for passado um id de cidade juntamente com os outros campos de cidade, a cidade será atualizada, se o id da cidade não passado será criado uma nova cidade.
    - 6.4 - Utilize o serviço **DELETE /{endId}** para excluir uma endereco
    
 
@@ -80,22 +80,24 @@ http://localhost:8083/apiprocessoseletivo/swagger-ui/index.html
      
 8. CRUD de Servidor Efetivo
    - 8.1 - Utilize o serviço **POST** para criar um novo servidor efetivo.
-    - 8.1.1- Na criação de um servidor efetivo é necessário informar a pessoa completa.
+        - 8.1.1- Na criação de um servidor efetivo é necessário informar a pessoa completa.
+        - 8.1.2- Na criação de um servidor efetivo não é necessário passar uma lista de endereços completa, somente a lista de ids do endereço
    - 8.2 - Verifique os servidores efetivos existentes: Utilize o serviço **GET /paginado/all** para verificar as servidores efetivos que já existem de forma paginado e o serviço **GET /{unidId}** para buscar uma servidor efetivo específico.
-   - 8.3 - Utilize o serviço **PUT /{lotId}** para atualizar um servidor 
-   - 8.4 - Utilize o serviço **DELETE /{lotId}** para excluir uma lotação
+   - 8.3 - Utilize o serviço **PUT /{pesId}** para atualizar um servidor 
+   - 8.4 - Utilize o serviço **DELETE /{pesId}** para excluir uma lotação
   
 9. CRUD de Servidor Temporário
-   - 9.1 - Utilize o serviço **POST** para criar um novo servidor temporário.
-         - 9.1.1- Na criação de um servidor efetivo é necessário informar a pessoa completa.
+   - 9.1 - Utilize o serviço **POST** para criar um novo servidor temporário
+        - 9.1.1- Na criação de um servidor efetivo é necessário informar a pessoa completa.
+        - 9.1.2- Na criação de um servidor efetivo não é necessário passar uma lista de endereços completa, somente a lista de ids do endereço
    - 9.2 - Verifique os servidores temporários existentes: Utilize o serviço **GET /paginado/all** para verificar as servidores temporários que já existem de forma paginado e o serviço **GET /{unidId}** para buscar uma servidor temporário específico.
-   - 9.3 - Utilize o serviço **PUT /{lotId}** para atualizar uma lotação
-   - 9.4 - Utilize o serviço **DELETE /{lotId}** para excluir uma lotação
+   - 9.3 - Utilize o serviço **PUT /{pesId}** para atualizar uma lotação
+   - 9.4 - Utilize o serviço **DELETE /{pesId}** para excluir uma lotação
      
 10. CRUD de Lotação
    - 10.1 - Utilize o serviço **POST** para criar uma nova lotação.
-         - 10.1.1- Na criação de uma lotação não é necessário informar a pessoa completa, somente o id da pessoa.
-         - 10.1.2- Na criação de uma lotação não é necessário informar a unidade completa, somente o id da unidade.
+        - 10.1.1- Na criação de uma lotação não é necessário informar a pessoa completa, somente o id da pessoa.
+        - 10.1.2- Na criação de uma lotação não é necessário informar a unidade completa, somente o id da unidade.
    - 10.2 - Verifique as lotações existentes: Utilize o serviço **GET /paginado/all** para verificar as lotações que já existem de forma paginado e o serviço **GET /{unidId}** para buscar uma lotação específica
    - 10.3 - Utilize o serviço **PUT /{lotId}** para atualizar uma lotação
    - 10.4 - Utilize o serviço **DELETE /{lotId}** para excluir uma lotação
