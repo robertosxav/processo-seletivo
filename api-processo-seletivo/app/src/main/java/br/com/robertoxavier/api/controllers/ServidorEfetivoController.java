@@ -2,6 +2,7 @@ package br.com.robertoxavier.api.controllers;
 
 import br.com.robertoxavier.PageQuery;
 import br.com.robertoxavier.PageResponse;
+import br.com.robertoxavier.api.mappers.endereco.EnderecoMapper;
 import br.com.robertoxavier.api.mappers.fotoPessoa.FotoMapper;
 import br.com.robertoxavier.api.mappers.servidor.ServidorEfetivoMapper;
 import br.com.robertoxavier.dto.endereco.EnderecoResponse;
@@ -11,8 +12,10 @@ import br.com.robertoxavier.dto.servidor.ServidorEfetivoLotacaoResponse;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoRequest;
 import br.com.robertoxavier.dto.servidor.ServidorEfetivoResponse;
 import br.com.robertoxavier.dto.unidade.UnidadeResponse;
+import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
 import br.com.robertoxavier.service.Resource;
+import br.com.robertoxavier.stories.endereco.EnderecoUseStory;
 import br.com.robertoxavier.stories.fotoPessoa.FotoPessoaUseStory;
 import br.com.robertoxavier.stories.servidor.ServidorEfetivoUseStory;
 import br.com.robertoxavier.util.HashingUtils;
@@ -40,15 +43,20 @@ public class ServidorEfetivoController {
 
     private final FotoPessoaUseStory fotoPessoaUseStory;
 
+    private final EnderecoUseStory enderecoUseStory;
+
+    private final EnderecoMapper enderecoMapper;
 
     public ServidorEfetivoController(ServidorEfetivoMapper servidorEfetivoMapper,
                                      ServidorEfetivoUseStory servidorEfetivoUseStory,
-                                     FotoMapper fotoMapper, FotoPessoaUseStory fotoPessoaUseStory
-                                     ) {
+                                     FotoMapper fotoMapper, FotoPessoaUseStory fotoPessoaUseStory, EnderecoUseStory enderecoUseStory, EnderecoMapper enderecoMapper
+    ) {
         this.servidorEfetivoMapper = servidorEfetivoMapper;
         this.servidorEfetivoUseStory = servidorEfetivoUseStory;
         this.fotoMapper = fotoMapper;
         this.fotoPessoaUseStory = fotoPessoaUseStory;
+        this.enderecoUseStory = enderecoUseStory;
+        this.enderecoMapper = enderecoMapper;
     }
 
     @Operation(summary = "Criar um novo servidor efetivo")
@@ -188,6 +196,24 @@ public class ServidorEfetivoController {
                 .buscarServidoreLotadosUnidade(unidId,pageQuery);
 
         return paginado.map(servidorEfetivoMapper::servidorEfetivLotacaoModelToResponse);
+    }
+
+    @Operation(summary = "consultar o endereço funcional (da unidade onde o servidor é lotado) a partir de uma parte do nome do servidor efetivo.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Servidores efetivos listadas de forma paginado"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
+    })
+    @GetMapping("/endereco-funcional")
+    public PageResponse<EnderecoResponse> enderecoFuncional(@RequestParam String nome,
+                                                            @RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "10") int sizePage) {
+        PageQuery pageQuery = new PageQuery(page, sizePage);
+        PageResponse<EnderecoModel> paginado = enderecoUseStory
+                .buscarEnderecoFuncional(nome,pageQuery);
+
+        return paginado.map(enderecoMapper::enderecoModelToResponse);
     }
 
 }

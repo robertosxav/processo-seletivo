@@ -98,14 +98,4 @@ public class EnderecoController {
         return enderecoPage.map(enderecoMapper::enderecoModelToResponse);
     }
 
-    @GetMapping("/endereco-funcional")
-    public PageResponse<EnderecoResponse> enderecoFuncional(@RequestParam String nome,
-                                                            @RequestParam(defaultValue = "0") int page,
-                                                            @RequestParam(defaultValue = "10") int sizePage) {
-        PageQuery pageQuery = new PageQuery(page, sizePage);
-        PageResponse<EnderecoModel> paginado = enderecoUseStory
-                .buscarEnderecoFuncional(nome,pageQuery);
-
-        return paginado.map(enderecoMapper::enderecoModelToResponse);
-    }
 }
