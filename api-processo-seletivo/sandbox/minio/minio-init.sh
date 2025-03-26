@@ -1,11 +1,11 @@
 #!/bin/sh
 
 echo "Aguardando MinIO iniciar..."
-sleep 10
+sleep 30
 COUNTER=0
 MAX_RETRIES=20
 
-while ! mc alias set myminio http://minio:9000 admin sF022A-?=sZT; do
+while ! mc alias set myminio http://minio:9000 admin seletivo123@; do
   echo "MinIO ainda não está pronto... aguardando..."
   sleep 2
   COUNTER=$((COUNTER + 1))
@@ -17,14 +17,14 @@ done
 
 echo "MinIO iniciado! Configurando MinIO Client..."
 
-# Criar bucket se não existir
-if mc ls myminio/seletivo >/dev/null 2>&1; then
-  echo "Bucket 'seletivo' já existe."
+# Criar bucket fotos
+if mc ls myminio/fotos >/dev/null 2>&1; then
+  echo "Bucket 'fotos' já existe."
 else
-  echo "Criando bucket 'seletivo'..."
-  mc mb myminio/seletivo
+  echo "Criando bucket 'fotos'..."
+  mc mb myminio/fotos
   if [ $? -eq 0 ]; then
-    echo "Bucket 'seletivo' criado com sucesso!"
+    echo "Bucket 'fotos' criado com sucesso!"
   else
     echo "Erro ao criar bucket!"
     exit 1

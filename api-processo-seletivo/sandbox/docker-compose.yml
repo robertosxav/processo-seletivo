@@ -27,8 +27,8 @@ services:
     image: minio/minio:latest
     container_name: minio
     environment:
-      MINIO_ROOT_USER: admin123
-      MINIO_ROOT_PASSWORD: strongpassword123
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: seletivo123@
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -39,7 +39,7 @@ services:
     networks:
       - mynetwork
 
-  api:  # Corrigido a indentação aqui
+  api:
     build: ../app
     container_name: api-processo-seletivo
     restart: always
@@ -50,8 +50,8 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       MINIO_URL: http://minio:9000
-      MINIO_ACCESS_KEY: admin123
-      MINIO_SECRET_KEY: strongpassword123
+      MINIO_ACCESS_KEY: admin
+      MINIO_SECRET_KEY: seletivo123@
     depends_on:
       db:
         condition: service_healthy
