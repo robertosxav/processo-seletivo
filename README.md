@@ -8,7 +8,7 @@
 ## Tecnologias Utilizadas
 
 - **Spring Boot**
-- **Java 17
+- **Java 17**
 - **MinIO**:latest
 - **PostgreSQL**:latest
 - **NGINX**:latest
