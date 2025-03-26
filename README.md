@@ -1,4 +1,4 @@
-## Projeto: Sistema do Processo Seletivo 
+## Projeto: Sistema do Processo Seletivo Sênior
 
 ## Nome: Roberto de Souza Xavier Junior
 ## Inscrição: xx
@@ -56,7 +56,7 @@ http://localhost:8083/apiprocessoseletivo/swagger-ui/index.html
 4. Realizar AUTENTICACAO
    - 4.1 - Execute o serviço **POST** /atuth/login que está na **AUTENTICAÇÃO**. Para autenticar utlize o **usuário: admin**, **senha: password**
    - 4.2 - Copie o acessToken e insira na variável autenticação (canto superior direito).
-
+   - 4.3 - Após esta ação você estará autenticado. Tempo token: 5 minutos
 5. CRUD de CIDADE **(Recurso opcinional)**
    - 5.1 - Utilize o serviço **POST** para criar uma nova cidade. Caso não queira criar cidade, já foram inseridas 05 cidades no start da aplicação
    - 5.2 - Verifique as cidades existentes: Utilize o serviço **GET /paginado/all** para verificar as cidades que já existem de forma paginado e o serviço **GET /{cidId}** para buscar uma cidade específica
@@ -82,7 +82,7 @@ http://localhost:8083/apiprocessoseletivo/swagger-ui/index.html
    - 8.1 - Utilize o serviço **POST** para criar um novo servidor efetivo.
         - 8.1.1- Na criação de um servidor efetivo é necessário informar a pessoa completa.
         - 8.1.2- Na criação de um servidor efetivo não é necessário passar uma lista de endereços completa, somente a lista de ids do endereço
-   - 8.2 - Verifique os servidores efetivos existentes: Utilize o serviço **GET /paginado/all** para verificar as servidores efetivos que já existem de forma paginado e o serviço **GET /{unidId}** para buscar uma servidor efetivo específico.
+   - 8.2 - Verifique os servidores efetivos existentes: Utilize o serviço **GET /paginado/all** para verificar as servidores efetivos que já existem de forma paginado e o serviço **GET /{pesId}** para buscar uma servidor efetivo específico.
    - 8.3 - Utilize o serviço **PUT /{pesId}** para atualizar um servidor 
    - 8.4 - Utilize o serviço **DELETE /{pesId}** para excluir uma lotação
   
