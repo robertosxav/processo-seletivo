@@ -40,11 +40,8 @@ A aplicação utiliza **NGINX** como proxy reverso para resolver problemas de ge
 
 ## Arquitetura do Projeto
 
-O projeto segue os princípios de **Clean Architecture** e está dividido em três módulos principais:
+O projeto segue os princípios de arquitetura **Ports And Adapters**
 
-## Licença
-
-Este projeto está licenciado sob a [MIT License](LICENSE).
 
 ---
 
