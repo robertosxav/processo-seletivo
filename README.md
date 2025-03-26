@@ -54,7 +54,7 @@ O projeto segue os princípios de arquitetura **Ports And Adapters**
 http://localhost:8083/apiprocessoseletivo/swagger-ui/index.html
 ```
 4. Realizar AUTENTICACAO
-  4.1 - Execute o serviço POST /atuth/login que está na TAG AATUTENTICAÇÃO. Para autenticar utlize o usuário: admin, senha: password
+  4.1 - Execute o serviço POST /atuth/login que está na TAG AUTENTICAÇÃO. Para autenticar utlize o usuário: admin, senha: password
   4.2 - Copie o acessToken e insira na variável autenticação (canto superior direito).
 
 5. CRUD de CIDADE (recursosopcinional) TAG CIDADES
