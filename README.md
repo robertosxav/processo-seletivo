@@ -1,22 +1,53 @@
-    - [Download](#download)
-    - [Execução](#execução)
-    - [api](#swagger)
-### Download
+# Projeto: Sistema do Processo Seletivo 
 
-1. Clone o projeto
+## Nome: Roberto de Souza Xavier Junior
+## Inscrição: xx
 
-```shellscript
-$ git clone https://github.com/robertosxav/processo-seletivo.git
-$ cd processo-seletivo/api-processo-seletivo/sandbox/
-```
+---
 
-### Execução
+## Tecnologias Utilizadas
 
-2. Inicialize a aplicação com `docker-compose up --build`
+- **Spring Boot**
+- **Java 17
+- **MinIO**:latest
+- **PostgreSQL**:latest
+- **NGINX**:latest
 
-```shellscript
-docker-compose up --build
-```
+---
+
+## Como Executar
+
+1. Navegue até a pasta `sandbox` no projeto.
+2. Execute o seguinte comando no terminal dentro dessa pasta:
+
+   ```bash
+   docker-compose up
+   ```
+
+   Este comando iniciará os seguintes containers:
+   - MinIO
+   - PostgreSQL
+   - NGINX
+   - Aplicação Spring Boot
+
+---
+
+## Arquitetura da Solução
+
+A aplicação utiliza **NGINX** como proxy reverso para resolver problemas de geração de links temporários no **MinIO**. 
+
+---
+
+## Arquitetura do Projeto
+
+O projeto segue os princípios de **Clean Architecture** e está dividido em três módulos principais:
+
+## Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).
+
+---
+
 
 ### Api
 
