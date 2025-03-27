@@ -48,9 +48,9 @@ O projeto segue os princípios de arquitetura **Ports And Adapters**
 
 ### MinIO
 2. Acesse   `MiniIO `
-```shellscript
+```bash
 http://localhost:9001/
-``
+```
       2.1 - Usuário de acesso: admin
       2.2 - Senha de acesso: seletivo123@
       2.3 - Verifique que foi criado um bucket com nome fotos
