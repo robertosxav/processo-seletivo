@@ -9,6 +9,9 @@ import br.com.robertoxavier.model.EnderecoModel;
 import br.com.robertoxavier.model.ServidorEfetivoModel;
 import br.com.robertoxavier.stories.endereco.EnderecoUseStory;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +32,32 @@ public class EnderecoController {
         this.enderecoUseStory = enderecoUseStory;
     }
 
-    @Operation(summary = "Criar uma novo endereco")
+    @Operation(
+            summary = "Criar um novo endereço",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = EnderecoRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo",
+                                    value = """
+                    {
+                      "endTipoLogradouro": "Avenida",
+                      "endLogradouro": "Caninde",
+                      "endNumero": 20,
+                      "endBairro": "Centro",
+                      "cidadeCompletoRequest": {
+                        "cidId": 1,
+                        "cidNome": "São Paulo",
+                        "cidUf": "SP"
+                      }
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Endereco criado com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
@@ -41,8 +69,32 @@ public class EnderecoController {
                 .criar(enderecoMapper.enderecoRequestToModel(enderecoRequest)));
     }
 
-
-    @Operation(summary = "Atualizar um endereco pelo Id")
+    @Operation(
+            summary = "Atualizar um endereco pelo Id",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = EnderecoRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo",
+                                    value = """
+                    {
+                      "endTipoLogradouro": "Rua",
+                      "endLogradouro": "Caninde",
+                      "endNumero": 25,
+                      "endBairro": "Centro",
+                      "cidadeCompletoRequest": {
+                        "cidId": 1,
+                        "cidNome": "São Paulo",
+                        "cidUf": "SP"
+                      }
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Endereco atualizado com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),

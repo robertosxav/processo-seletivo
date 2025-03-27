@@ -5,9 +5,13 @@ import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.cidade.CidadeMapper;
 import br.com.robertoxavier.dto.cidade.CidadeRequest;
 import br.com.robertoxavier.dto.cidade.CidadeResponse;
+import br.com.robertoxavier.dto.lotacao.LotacaoRequest;
 import br.com.robertoxavier.model.CidadeModel;
 import br.com.robertoxavier.stories.cidade.CidadeUseStory;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +32,26 @@ public class CidadeController {
         this.cidadeUseStory = cidadeUseStory;
     }
 
-    @Operation(summary = "Criar uma nova cidade")
+    @Operation(
+            summary = "Criar uma nova cidade",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = LotacaoRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo",
+                                    value = """
+                    {
+                      "cidNome": "Cuiaba",
+                      "cidUf": "MT"
+                    
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Cidade criada com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
@@ -40,7 +63,26 @@ public class CidadeController {
                 .criar(cidadeMapper.cidadeRequestToModel(cidadeRequest)));
     }
 
-    @Operation(summary = "Atualizar uma cidade pelo Id")
+    @Operation(
+            summary = "Atualizar uma cidade pelo Id",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = LotacaoRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo de LotacaoRequest",
+                                    value = """
+                    {
+                      "cidNome": "Cuiaba",
+                      "cidUf": "MT"
+                    
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Cidade atualizada com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),

@@ -287,12 +287,12 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
         pageServidoresUnidadeVo.forEach(servidor -> {
             Set<String> listaStringBucket = fotoRepository.listaBuckets(servidor.getPesId());
 
-            /*Set<String> linksTemporarios = listaStringBucket.stream()
+            Set<String> linksTemporarios = listaStringBucket.stream()
                     .map(storageService::generateTemporaryLink)
-                    .collect(Collectors.toSet());*/
+                    .collect(Collectors.toSet());
 
-            //servidor.setlistLinkFotos(linksTemporarios);
-            servidor.setlistLinkFotos(listaStringBucket);
+            servidor.setlistLinkFotos(linksTemporarios);
+
         });
 
 

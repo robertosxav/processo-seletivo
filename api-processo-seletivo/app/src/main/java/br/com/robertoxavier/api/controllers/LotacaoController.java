@@ -9,6 +9,9 @@ import br.com.robertoxavier.dto.lotacao.LotacaoResponse;
 import br.com.robertoxavier.model.LotacaoModel;
 import br.com.robertoxavier.stories.lotacao.LotacaoUseStory;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +32,30 @@ public class LotacaoController {
         this.lotacaoUseStory = lotacaoUseStory;
     }
 
-    @Operation(summary = "Criar uma nova lotação")
+    @Operation(
+            summary = "Criar uma nova lotação",
+            description = "Este endpoint permite criar uma nova lotação com data formatada.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Exemplo de payload para criar uma nova lotação",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = LotacaoRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo de LotacaoRequest",
+                                    value = """
+                    {
+                      "lotDataLotacao": "26/03/2025",
+                      "lotDataRemocao": "26/03/2025",
+                      "lotPortaria": "123/2025",
+                      "pesId": 1,
+                      "unidId": 1
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Lotação criada com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
