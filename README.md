@@ -55,8 +55,10 @@ http://localhost:8083/apiseletivo/swagger-ui/index.html#/
 ```
 4. Realizar AUTENTICACAO
    - 4.1 - Execute o serviço **POST** /auth/login que está na **AUTENTICAÇÃO**. Para autenticar utlize o **usuário: admin**, **senha: password**
-   - 4.2 - Copie o acessToken e insira na variável autenticação (canto superior direito).
+   - 4.2 - Copie o acessToken e insira na variável authorize (canto superior direito).
    - 4.3 - Após esta ação você estará autenticado. Tempo token: 5 minutos
+   - 4.4 - É possível utilizar o refresh-token, através do serviço auth/refresh-token.Neste serviço cole o refreshToken gerado no auth/login e gere um novo token. Cole este token variável authorize.
+   
 5. CRUD de CIDADE **(Recurso opcinional)**
    - 5.1 - Utilize o serviço **POST cidade/** para criar uma nova cidade. Caso não queira criar cidade, já foram inseridas 05 cidades no start da aplicação
    - 5.2 - Verifique as cidades existentes: Utilize o serviço **GET cidade/paginado/all** para verificar as cidades que já existem de forma paginado e o serviço **GET cidade/{cidId}** para buscar uma cidade específica
@@ -87,7 +89,7 @@ http://localhost:8083/apiseletivo/swagger-ui/index.html#/
    - 8.4 - Utilize o serviço **POST servidor-efetivo/upload-fotos/{pesId}** para inserir uma ou mais fotos em um servidor efetivo
    - 8.5 - Utilize o serviço **DELETE servidor-efetivo/{pesId}** para excluir uma lotação
    - 8.6 - Utilize o serviço **GET servidor-efetivo/endereco-funcional/**,que tem como parâmetro a variável nome, para buscar o endereco funcional a partir de uma parte do nome, apenas para servidores efetivos.
-   - 8.7 - Utilize o serviço **GET servidor-efetivo/lotados-unidade/{unidId}** para buscar os servidores efetivos lotados em determinada unidade.
+   - 8.7 - Utilize o serviço **GET servidor-efetivo/lotados-unidade/{unidId}** para buscar os servidores efetivos lotados em determinada unidade.Para ter resutados neste serviço primeiro é necessário criar alguma lotação **10. CRUD de Lotação**
   
 9. CRUD de Servidor Temporário
    - 9.1 - Utilize o serviço **POST servidor-temporario/** para criar um novo servidor temporário
