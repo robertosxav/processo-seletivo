@@ -18,7 +18,7 @@
 ## Como Executar
 
 1. Navegue até a pasta `sandbox` no projeto.
-2. Execute o seguinte comando no terminal dentro dessa pasta:
+   - 1.1. Execute o seguinte comando no terminal dentro dessa pasta:
 
    ```bash
    docker-compose up
@@ -46,6 +46,14 @@ O projeto segue os princípios de arquitetura **Ports And Adapters**
 ---
 ## Como Testar
 
+### MinIO
+3. Acesse   `MiniIO `
+```shellscript
+http://localhost:9001/
+```
+   3.1 - Usuário de acesso: admin
+   3.2 - Senha de acesso: seletivo123@
+   3.3 - Verifique que foi criado um bucket com nome fotos
 ### Api
 
 3. Acesse  `Swagger `
