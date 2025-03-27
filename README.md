@@ -86,6 +86,8 @@ http://localhost:8083/apiseletivo/swagger-ui/index.html#/
    - 8.3 - Utilize o serviço **PUT servidor-efetivo/{pesId}** para atualizar um servidor
    - 8.4 - Utilize o serviço **POST servidor-efetivo/upload-fotos/{pesId}** para inserir uma ou mais fotos em um servidor efetivo
    - 8.5 - Utilize o serviço **DELETE servidor-efetivo/{pesId}** para excluir uma lotação
+   - 8.6 - Utilize o serviço **GET servidor-efetivo/endereco-funcional/**,que tem como parâmetro a variável nome, para buscar o endereco funcional a partir de uma parte do nome, apenas para servidores efetivos.
+   - 8.7 - Utilize o serviço **GET servidor-efetivo/lotados-unidade/{unidId}** para buscar os servidores efetivos lotados em determinada unidade.
   
 9. CRUD de Servidor Temporário
    - 9.1 - Utilize o serviço **POST servidor-temporario/** para criar um novo servidor temporário
