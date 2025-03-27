@@ -47,13 +47,13 @@ O projeto segue os princípios de arquitetura **Ports And Adapters**
 ## Como Testar
 
 ### MinIO
-3. Acesse   `MiniIO `
+2. Acesse   `MiniIO `
 ```shellscript
 http://localhost:9001/
-```
-   3.1 - Usuário de acesso: admin
-   3.2 - Senha de acesso: seletivo123@
-   3.3 - Verifique que foi criado um bucket com nome fotos
+``
+      2.1 - Usuário de acesso: admin
+      2.2 - Senha de acesso: seletivo123@
+      2.3 - Verifique que foi criado um bucket com nome fotos
 ### Api
 
 3. Acesse  `Swagger `
