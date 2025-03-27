@@ -83,8 +83,9 @@ http://localhost:8083/apiseletivo/swagger-ui/index.html#/
         - 8.1.1- Na criação de um servidor efetivo é necessário informar a pessoa completa.
         - 8.1.2- Na criação de um servidor efetivo não é necessário passar uma lista de endereços completa, somente a lista de ids do endereço
    - 8.2 - Verifique os servidores efetivos existentes: Utilize o serviço **GET servidor-efetivo/paginado/all** para verificar as servidores efetivos que já existem de forma paginado e o serviço **GET servidor-efetivo/{pesId}** para buscar uma servidor efetivo específico.
-   - 8.3 - Utilize o serviço **PUT servidor-efetivo/{pesId}** para atualizar um servidor 
-   - 8.4 - Utilize o serviço **DELETE servidor-efetivo/{pesId}** para excluir uma lotação
+   - 8.3 - Utilize o serviço **PUT servidor-efetivo/{pesId}** para atualizar um servidor
+   - 8.4 - Utilize o serviço **POST servidor-efetivo/upload-fotos/{pesId}** para inserir uma ou mais fotos em um servidor efetivo
+   - 8.5 - Utilize o serviço **DELETE servidor-efetivo/{pesId}** para excluir uma lotação
   
 9. CRUD de Servidor Temporário
    - 9.1 - Utilize o serviço **POST servidor-temporario/** para criar um novo servidor temporário
@@ -92,6 +93,7 @@ http://localhost:8083/apiseletivo/swagger-ui/index.html#/
         - 9.1.2- Na criação de um servidor efetivo não é necessário passar uma lista de endereços completa, somente a lista de ids do endereço
    - 9.2 - Verifique os servidores temporários existentes: Utilize o serviço **GET servidor-temporario/paginado/all** para verificar as servidores temporários que já existem de forma paginado e o serviço **GET servidor-temporario/{unidId}** para buscar uma servidor temporário específico.
    - 9.3 - Utilize o serviço **PUT servidor-temporario/{pesId}** para atualizar uma lotação
+   - 9.4 - Utilize o serviço **POST servidor-efetivo/upload-fotos/{pesId}** para inserir uma ou mais fotos em um servidor efetivo
    - 9.5 -  Utilize o serviço **DELETE servidor-temporario/{pesId}** para excluir uma lotação
      
 10. CRUD de Lotação
