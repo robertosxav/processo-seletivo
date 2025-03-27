@@ -8,6 +8,9 @@ import br.com.robertoxavier.dto.unidade.UnidadeResponse;
 import br.com.robertoxavier.model.UnidadeModel;
 import br.com.robertoxavier.stories.unidade.UnidadeUseStory;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +31,26 @@ public class UnidadeController {
         this.unidadeUseStory = unidadeUseStory;
     }
 
-    @Operation(summary = "Criar uma nova unidade")
+    @Operation(
+            summary = "Criar uma nova unidade",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UnidadeRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo",
+                                    value = """
+                    {
+                      "unidNome": "Departamento de Tecnologia",
+                      "unidSigla": "DTI",
+                      "enderecoIdList": [3,4]
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Lotação criada com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
@@ -40,8 +62,26 @@ public class UnidadeController {
                 .criar(unidadeMapper.unidadeRequestToModel(unidadeRequest)));
     }
 
-
-    @Operation(summary = "Atualizar uma unidade pelo Id")
+    @Operation(
+            summary = "Atualizar uma unidade pelo Id",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UnidadeRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo",
+                                    value = """
+                   {
+                      "unidNome": "Departamento de Tecnologia II",
+                      "unidSigla": "DTI",
+                      "enderecoIdList": [4,5]
+                    }
+                   """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Unidade atualizada com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),

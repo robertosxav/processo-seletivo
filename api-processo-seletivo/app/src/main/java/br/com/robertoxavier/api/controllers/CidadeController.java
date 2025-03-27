@@ -38,14 +38,13 @@ public class CidadeController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = LotacaoRequest.class),
+                            schema = @Schema(implementation = CidadeRequest.class),
                             examples = @ExampleObject(
                                     name = "Exemplo",
                                     value = """
                     {
                       "cidNome": "Cuiaba",
                       "cidUf": "MT"
-                    
                     }
                     """
                             )
@@ -69,9 +68,9 @@ public class CidadeController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = LotacaoRequest.class),
+                            schema = @Schema(implementation = CidadeRequest.class),
                             examples = @ExampleObject(
-                                    name = "Exemplo de LotacaoRequest",
+                                    name = "Exemplo",
                                     value = """
                     {
                       "cidNome": "Cuiaba",
