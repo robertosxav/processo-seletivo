@@ -20,6 +20,9 @@ import br.com.robertoxavier.stories.fotoPessoa.FotoPessoaUseStory;
 import br.com.robertoxavier.stories.servidor.ServidorEfetivoUseStory;
 import br.com.robertoxavier.util.HashingUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -59,7 +62,32 @@ public class ServidorEfetivoController {
         this.enderecoMapper = enderecoMapper;
     }
 
-    @Operation(summary = "Criar um novo servidor efetivo")
+    @Operation(
+            summary = "Criar um novo Servidor Efetivo",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ServidorEfetivoRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo",
+                                    value = """
+                    {
+                      "seMatricula": "123456",
+                      "pessoaRequest": {
+                        "pesNome": "João Silva",
+                        "pesDataNascimento": "15/06/1985",
+                        "pesSexo": "Masculino",
+                        "pesMae": "Maria da Silva",
+                        "pesPai": "José da Silva",
+                        "enderecoIdList": [2,4]
+                      }
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor efetivo criado com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
@@ -73,7 +101,32 @@ public class ServidorEfetivoController {
 
     }
 
-    @Operation(summary = "Atualizar um servidor efetivo pelo Id")
+    @Operation(
+            summary = "Atualizar um servidor efetivo pelo Id",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ServidorEfetivoRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo",
+                                    value = """
+                    {
+                      "seMatricula": "123456",
+                      "pessoaRequest": {
+                        "pesNome": "João Silva Sauro",
+                        "pesDataNascimento": "15/06/1984",
+                        "pesSexo": "Masculino",
+                        "pesMae": "Maria da Silva Sauro",
+                        "pesPai": "José da Silva Sauro",
+                        "enderecoIdList": [2,3]
+                      }
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor efetivo atualizado com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),

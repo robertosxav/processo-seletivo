@@ -9,6 +9,7 @@ import br.com.robertoxavier.api.mappers.servidor.ServidorTemporarioMapper;
 import br.com.robertoxavier.dto.fotoPessoa.FotoRequest;
 import br.com.robertoxavier.dto.fotoPessoa.FotoResponse;
 import br.com.robertoxavier.dto.pessoa.PessoaRequest;
+import br.com.robertoxavier.dto.servidor.ServidorEfetivoRequest;
 import br.com.robertoxavier.dto.servidor.ServidorTemporarioRequest;
 import br.com.robertoxavier.dto.servidor.ServidorTemporarioResponse;
 import br.com.robertoxavier.model.ServidorTemporarioModel;
@@ -17,6 +18,9 @@ import br.com.robertoxavier.stories.fotoPessoa.FotoPessoaUseStory;
 import br.com.robertoxavier.stories.servidor.ServidorTemporarioUseStory;
 import br.com.robertoxavier.util.HashingUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -50,7 +54,33 @@ public class ServidorTemporarioController {
         this.fotoPessoaUseStory = fotoPessoaUseStory;
     }
 
-    @Operation(summary = "Criar um novo servidor temporário")
+    @Operation(
+            summary = "Criar um novo Servidor Temporário",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ServidorTemporarioRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo",
+                                    value = """
+                    {
+                      "stDataAdmissao": "26/03/2022",
+                      "stDataDemissao": "26/03/2025",
+                      "pessoaRequest": {
+                        "pesNome": "Helena Santos",
+                        "pesDataNascimento": "15/06/1985",
+                        "pesSexo": "Feminino",
+                        "pesMae": "Maria Santos",
+                        "pesPai": "Pedro Ferreira",
+                        "enderecoIdList": [2,4]
+                      }
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor temporário criado com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
@@ -67,7 +97,34 @@ public class ServidorTemporarioController {
 
     }
 
-    @Operation(summary = "Atualizar um servidor temporário pelo Id")
+
+    @Operation(
+            summary = "Atualizar um servidor temporário pelo Id",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ServidorTemporarioRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo",
+                                    value = """
+                    {
+                      "stDataAdmissao": "26/03/2022",
+                      "stDataDemissao": "26/03/2025",
+                      "pessoaRequest": {
+                        "pesNome": "Helena Santos Neves",
+                        "pesDataNascimento": "15/06/1985",
+                        "pesSexo": "Feminino",
+                        "pesMae": "Maria Santos Neves",
+                        "pesPai": "Pedro Ferreira",
+                        "enderecoIdList": [1]
+                      }
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Servidor temporário atualizado com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
