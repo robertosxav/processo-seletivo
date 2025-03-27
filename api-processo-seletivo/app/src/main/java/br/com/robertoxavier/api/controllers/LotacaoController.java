@@ -4,6 +4,7 @@ import br.com.robertoxavier.PageQuery;
 
 import br.com.robertoxavier.PageResponse;
 import br.com.robertoxavier.api.mappers.lotacao.LotacaoMapper;
+import br.com.robertoxavier.dto.cidade.CidadeResponse;
 import br.com.robertoxavier.dto.lotacao.LotacaoRequest;
 import br.com.robertoxavier.dto.lotacao.LotacaoResponse;
 import br.com.robertoxavier.model.LotacaoModel;
@@ -34,15 +35,14 @@ public class LotacaoController {
 
     @Operation(
             summary = "Criar uma nova lotação",
-            description = "Este endpoint permite criar uma nova lotação com data formatada.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Exemplo de payload para criar uma nova lotação",
+                    description = "Exemplo",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = LotacaoRequest.class),
                             examples = @ExampleObject(
-                                    name = "Exemplo de LotacaoRequest",
+                                    name = "Exemplo",
                                     value = """
                     {
                       "lotDataLotacao": "26/03/2025",
@@ -67,7 +67,29 @@ public class LotacaoController {
                 .criar(lotacaoMapper.lotacaoRequestToModel(lotacaoRequest)));
     }
 
-    @Operation(summary = "Atualizar uma lotação pelo Id")
+    @Operation(
+            summary = "Atualizar uma lotação pelo Id",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Exemplo",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = LotacaoRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo",
+                                    value = """
+                    {
+                      "lotDataLotacao": "26/03/2025",
+                      "lotDataRemocao": "26/03/2025",
+                      "lotPortaria": "123/2025",
+                      "pesId": 2,
+                      "unidId": 1
+                    }
+                    """
+                            )
+                    )
+            )
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode  = "200", description  = "Lotação atualizada com sucesso"),
             @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
@@ -120,5 +142,18 @@ public class LotacaoController {
         PageResponse<LotacaoModel> unidadePage = lotacaoUseStory.listaLotacoesPaginado(pageQuery);
 
         return unidadePage.map(lotacaoMapper::lotacaoModelToResponse);
+    }
+
+    @Operation(summary = "Buscar uma Lotação pelo Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode  = "200", description  = "Lotação buscada pelo Id com sucesso"),
+            @ApiResponse(responseCode  = "400", description  = "Requisição inválida"),
+            @ApiResponse(responseCode  = "403", description  = "Requisição não autorizada"),
+            @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
+    })
+    @GetMapping("/{lotId}")
+    public LotacaoResponse buscarCidadePorId(@PathVariable Long lotId) {
+        return lotacaoMapper.lotacaoModelToResponse(lotacaoUseStory
+                .buscarPorId(lotId));
     }
 }
