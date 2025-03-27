@@ -51,7 +51,7 @@ O projeto segue os princípios de arquitetura **Ports And Adapters**
 3. Acesse  `Swagger `
 
 ```shellscript
-http://localhost:8083/apiprocessoseletivo/swagger-ui/index.html
+http://localhost:8083/apiseletivo/swagger-ui/index.html#/
 ```
 4. Realizar AUTENTICACAO
    - 4.1 - Execute o serviço **POST** /atuth/login que está na **AUTENTICAÇÃO**. Para autenticar utlize o **usuário: admin**, **senha: password**
