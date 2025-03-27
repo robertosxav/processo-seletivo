@@ -54,7 +54,7 @@ O projeto segue os princípios de arquitetura **Ports And Adapters**
 http://localhost:8083/apiseletivo/swagger-ui/index.html#/
 ```
 4. Realizar AUTENTICACAO
-   - 4.1 - Execute o serviço **POST** /atuth/login que está na **AUTENTICAÇÃO**. Para autenticar utlize o **usuário: admin**, **senha: password**
+   - 4.1 - Execute o serviço **POST** /auth/login que está na **AUTENTICAÇÃO**. Para autenticar utlize o **usuário: admin**, **senha: password**
    - 4.2 - Copie o acessToken e insira na variável autenticação (canto superior direito).
    - 4.3 - Após esta ação você estará autenticado. Tempo token: 5 minutos
 5. CRUD de CIDADE **(Recurso opcinional)**
