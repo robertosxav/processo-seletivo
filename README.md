@@ -1,7 +1,7 @@
-## Projeto: Sistema do Processo Seletivo Sênior
+### Projeto: Sistema do Processo Seletivo Sênior
 
-## Nome: Roberto de Souza Xavier Junior
-## Inscrição: xx
+### Nome: Roberto de Souza Xavier Junior
+### Inscrição: xx
 
 ---
 
