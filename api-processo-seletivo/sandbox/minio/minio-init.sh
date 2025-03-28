@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 echo "Aguardando MinIO iniciar..."
 sleep 30
 COUNTER=0
