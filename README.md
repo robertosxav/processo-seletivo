@@ -67,13 +67,13 @@ http://localhost:8083/apiseletivo/swagger-ui/index.html#/
    - 4.3 - Após esta ação você estará autenticado. Tempo token: 5 minutos
    - 4.4 - É possível utilizar o refresh-token, através do serviço auth/refresh-token.Neste serviço cole o refreshToken gerado no auth/login e gere um novo token. Cole este token variável authorize.
    
-5. CRUD de CIDADE **(Recurso opcinional)**
+5. CRUD de CIDADE **(Recurso opcional)**
    - 5.1 - Utilize o serviço **POST cidade/** para criar uma nova cidade. Caso não queira criar cidade, já foram inseridas 05 cidades no start da aplicação
    - 5.2 - Verifique as cidades existentes: Utilize o serviço **GET cidade/paginado/all** para verificar as cidades que já existem de forma paginado e o serviço **GET cidade/{cidId}** para buscar uma cidade específica
    - 5.3 - Utilize o serviço **PUT cidade/{cidId}** para atualizar uma cidade
    - 5.4 - Utilize o serviço **DELETE cidade/{cidId}** para excluir uma cidade
    
-6. CRUD de ENDERECO **(Recurso opcinional)**
+6. CRUD de ENDERECO **(Recurso opcional)**
    - 6.1 - Utilize o serviço **POST endereco/** para criar uma nova endereco. Caso não queira criar endereco, já foram inseridas 05 enderecos no start da aplicação
         - 6.1.1- Na criação de um endereco, é possível criar e editar cidade. Se for passado um id de cidade juntamente com os outros campos de cidade, a cidade será atualizada, se o id da cidade não passado será criado uma nova cidade.
    - 6.2 - Verifique as enderecos existentes: Utilize o serviço **GET endereco/paginado/all** para verificar as enderecos que já existem de forma paginado e o serviço **GET endereco/{endId}** para buscar uma endereco específico
