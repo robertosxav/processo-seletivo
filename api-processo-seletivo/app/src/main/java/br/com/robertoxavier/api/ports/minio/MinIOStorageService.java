@@ -17,12 +17,14 @@ import java.util.Optional;
 public class MinIOStorageService implements StorageService {
     private final String bucket;
     private final MinioClient minioClient;
-    private final String ip_public;
+    private final String ip_public_s3;
+    private final String ip_s3;
 
-    public MinIOStorageService(String bucket, MinioClient minioClient, String ipPublic) {
+    public MinIOStorageService(String bucket, MinioClient minioClient,  String ipPublicS3, String ipS3) {
         this.bucket = bucket;
         this.minioClient = minioClient;
-        ip_public = ipPublic;
+        ip_public_s3 = ipPublicS3;
+        ip_s3 = ipS3;
     }
 
     @Override
@@ -108,9 +110,9 @@ public class MinIOStorageService implements StorageService {
         try{
             String url = minioClient.getPresignedObjectUrl(args);
             System.out.println(url);
-            System.out.println( url.replace("http://minio:9000",ip_public));
+            System.out.println( url.replace(ip_s3,ip_public_s3));
 
-            return url.replace("http://minio:9000",ip_public);
+            return url.replace(ip_s3,ip_public_s3);
         }catch(ErrorResponseException | InsufficientDataException | InternalException
                | InvalidKeyException | InvalidResponseException | IOException
                | NoSuchAlgorithmException | ServerException | XmlParserException e){

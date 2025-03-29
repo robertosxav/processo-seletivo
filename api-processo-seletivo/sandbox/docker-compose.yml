@@ -1,8 +1,9 @@
 services:
-  db:
+  db-roberto:
     image: postgres:latest
     restart: always
     tty: true
+    container_name: db-roberto
     volumes:
       - ./Docker-Compose/PostgreSQL:/var/lib/postgresql/data
     ports:
@@ -20,11 +21,11 @@ services:
       retries: 5
       start_period: 10s
 
-  minio:
+  minio-roberto:
     build:
       context: ./minio
       dockerfile: Dockerfile
-    container_name: minio
+    container_name: minio-roberto
     environment:
       MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: seletivo123@
@@ -38,36 +39,37 @@ services:
     networks:
       - mynetwork
 
-  api:
+  api-processo-seletivo:
     build: ../app
     container_name: api-processo-seletivo
     restart: always
     ports:
       - "8083:8083"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/seletivo
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-roberto:5432/seletivo
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-      S3_URL: http://minio:9000
+      S3_URL: http://minio-roberto:9000
       S3_URL_PUBLIC: http://localhost:9003/minio
       S3_ACCESS_KEY: admin
       S3_ACCESS_SECRET: seletivo123@
     depends_on:
-      db:
+      db-roberto:
         condition: service_healthy
-      minio:
+      minio-roberto:
         condition: service_started
     networks:
       - mynetwork
-  nginx:
+
+  nginx-roberto:
     image: nginx:latest
-    container_name: nginx
+    container_name: nginx-roberto
     ports:
       - "9003:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - minio
+      - minio-roberto
     restart: always
     networks:
       - mynetwork
