@@ -272,10 +272,17 @@ public class ServidorEfetivoPortImp implements ServidorEfetivoPort {
         Set<FotoEntity> listaFotosPessoa = fotoRepository
                 .findByPessoaId(pessoaModel.getPesId());
 
+        List<String> listaFpBucket = listaFotosPessoa.stream()
+                .map(FotoEntity::getFpBucket)
+                .collect(Collectors.toList());
+
+
         listaFotosPessoa.forEach(fotoRepository::delete);
 
         pessoaRepository.delete(pessoaMapper
                 .pessoaModelToEntity(pessoaModel));
+
+        storageService.deleteAll(listaFpBucket);
     }
 
     @Override
