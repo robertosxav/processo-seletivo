@@ -20,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/minio")
+@Hidden
 public class TesteMinIOController {
 
     private final StorageService storage;
