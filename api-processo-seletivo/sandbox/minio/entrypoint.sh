@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 echo "Setting permissions for MinIO initialization script..."
 chmod +x /minio/minio-init.sh
 
