@@ -112,9 +112,9 @@ http://localhost:8083/apiseletivo/swagger-ui/index.html#/
    - 10.1 - Utilize o serviço **POST /lotacao/** para criar uma nova lotação.
         - 10.1.1- Na criação de uma lotação não é necessário informar a pessoa completa, somente o id da pessoa.
         - 10.1.2- Na criação de uma lotação não é necessário informar a unidade completa, somente o id da unidade.
-   - 10.2 - Verifique as lotações existentes: Utilize o serviço **GET /lotacao/paginado/all** para verificar as lotações que já existem de forma paginado e o serviço **GET /lotacao/{lotId}** para buscar uma lotação específica
-   - 10.3 - Utilize o serviço **PUT /lotacao/{lotId}** para atualizar uma lotação
-   - 10.4 - Utilize o serviço **DELETE /lotacao/{lotId}** para excluir uma lotação
+   - 10.2 - Verifique as lotações existentes: Utilize o serviço **GET /lotacao/paginado/all** para verificar as lotações que já existem de forma paginado e o serviço **GET /lotacao/{lotId}** para buscar uma lotação específica.
+   - 10.3 - Utilize o serviço **PUT /lotacao/{lotId}** para atualizar uma lotação.
+   - 10.4 - Utilize o serviço **DELETE /lotacao/{lotId}** para excluir uma lotação.
 
 
 
